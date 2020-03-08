@@ -21,9 +21,24 @@
            text="Velkommen til Naturappen"></Label>
 </ActionBar>
 
-<GridLayout class="page__content">
-    <Label class="page__content-icon fas"
-           text="&#xf18c;"></Label>
-    <Label class="page__content-placeholder"
-           text="<!-- Page content goes here -->"></Label>
-</GridLayout>
+<FlexboxLayout flexDirection="column"
+               width="100%"
+               height="100%"
+               backgroundColor="lightgray"
+               class="page__content">
+    <div width="100%"
+         height="100%">
+        <button text="Naturfortællinger"
+                (tap)="onTapNavigate('/tales')"></button>
+    </div>
+    <div width="100%"
+         height="100%">
+        <button text="På opdagelse"
+                (tap)="onTapNavigate('/adventure')"></button>
+    </div>
+    <div width="100%"
+         height="100%">
+        <button text="Om Naturappen"
+                (tap)="onTapNavigate('/about')"></button>
+    </div>
+</FlexboxLayout>
