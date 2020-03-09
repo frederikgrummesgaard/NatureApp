@@ -1,4 +1,4 @@
-export class tale {
+export class Tale {
     id: number;
     name: string;
     description: string;
