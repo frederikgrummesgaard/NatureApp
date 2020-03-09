@@ -1,15 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
-import { AdventureList } from "~/models/adventureList.model";
+import { AdventureEntry } from "~/models/adventureEntry.model";
 
 @Component({
     selector: "Adventures",
-    templateUrl: "./adventureLists.component.html"
+    templateUrl: "./adventureEntry.component.html"
 })
-export class AdventureListsComponent implements OnInit {
+export class AdventureEntryComponent implements OnInit {
 
-    public adventureList: AdventureList;
+    public adventureEntry: AdventureEntry;
 
     constructor() {
         // Use the component constructor to inject providers.
