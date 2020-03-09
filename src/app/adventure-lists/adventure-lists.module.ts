@@ -1,19 +1,19 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
-import { AdventureRoutingModule } from "./adventure-routing.module";
-import { AdventureComponent } from "./adventure.component";
+import { AdventureListsRoutingModule } from "./adventure-lists-routing.module";
+import { AdventureListsComponent } from "./adventure-lists.component";
 
 @NgModule({
     imports: [
         NativeScriptCommonModule,
-        AdventureRoutingModule
+        AdventureListsRoutingModule
     ],
     declarations: [
-        AdventureComponent
+        AdventureListsComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
     ]
 })
-export class AdventureModule { }
+export class AdventureListsModule { }
