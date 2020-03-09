@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
-import { AdventureList } from "~/models/adventureList.model";
+import { AdventureList } from "~/app/models/adventureList.model";
 
 @Component({
     selector: "Adventures",
