@@ -5,7 +5,7 @@ import { AdventureList } from "~/app/models/adventureList.model";
 
 @Component({
     selector: "Adventures",
-    templateUrl: "./adventureLists.component.html"
+    templateUrl: "./adventure-lists.component.html"
 })
 export class AdventureListsComponent implements OnInit {
 
