@@ -22,4 +22,30 @@
 </ActionBar>
 
 <GridLayout class="page__content">
+    <RadListView [items]="adventureLists"
+                 (itemTap)="onAdventureListItemTap($event)">
+        <!--
+                RadListView is a UI component part of the Progress NativeScript UI set of components.
+                Learn more about the RadListView UI component and how it can be customized in this documentation article:
+                https://docs.nativescript.org/angular/ui/professional-ui-components/ng-ListView/getting-started
+                This component is used to display the master list in the master-detail structure.
+                -->
+        <ng-template tkListItemTemplate
+                     let-adventureList="item">
+            <StackLayout style="padding: 0 0 8 0;">
+                <GridLayout rows="*, *, *"
+                            columns="*, *"
+                            style="padding: 8 15 4 15;">
+                    <Image [src]="adventureList.pictureURL"
+                           stretch="aspectFill"
+                           height="120"
+                           class="m-r-20"></Image>
+                    <Label [text]="adventureList.name"
+                           class="font-weight-bold"></Label>
+                </GridLayout>
+            </StackLayout>
+        </ng-template>
+    </RadListView>
+
+    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 </GridLayout>
