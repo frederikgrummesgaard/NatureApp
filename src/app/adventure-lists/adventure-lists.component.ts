@@ -12,52 +12,39 @@ import { AdventureListService } from "../shared/services/adventure-list.service"
 
 @Component({
     selector: "AdventureLists",
-    templateUrl: "./adventure-lists.component.html"
+    templateUrl: "./adventure-lists.component.html",
+    styleUrls: ["./adventure-lists.component.scss"]
 })
-export class AdventureListsComponent implements OnInit, OnDestroy {
-    private _isLoading: boolean = false;
+export class AdventureListsComponent implements OnInit {
+    isLoading: boolean = false;
     private _adventureLists: ObservableArray<AdventureList> = new ObservableArray<AdventureList>([]);
-    private _dataSubscription: Subscription;
 
     constructor(
-        private _adventureListService: AdventureListService,
-        private _routerExtensions: RouterExtensions
+        private adventureListService: AdventureListService,
+        private routerExtensions: RouterExtensions
     ) { }
 
     ngOnInit(): void {
-
-        if (!this._dataSubscription) {
-            this._isLoading = true;
-
-            this._dataSubscription = this._adventureListService.load()
-                .pipe(finalize(() => this._isLoading = false))
-                .subscribe((adventureLists: Array<AdventureList>) => {
-                    this._adventureLists = new ObservableArray(adventureLists);
-                    this._isLoading = false;
-                });
-        }
-
+        this.loadAdventureLists();
     }
 
-    ngOnDestroy(): void {
-        if (this._dataSubscription) {
-            this._dataSubscription.unsubscribe();
-            this._dataSubscription = null;
-        }
-    }
-
-    get adventureLists(): ObservableArray<AdventureList> {
-        return this._adventureLists;
-    }
-
-    get isLoading(): boolean {
-        return this._isLoading;
+    loadAdventureLists() {
+        this.isLoading = true;
+        this.adventureListService.getAdventureLists().then(adventureListsDB => {
+            const myList = <any>adventureListsDB;
+            myList.forEach((adventureListEntry: AdventureList) => {
+                console.log('entry', adventureListEntry);
+                this._adventureLists.push(adventureListEntry);
+            });
+            this.isLoading = false;
+            console.log('Adventurelist', this._adventureLists);
+        });
     }
 
     onAdventureListItemTap(args: ListViewEventData): void {
         const tappedAdventureItem = args.view.bindingContext;
 
-        this._routerExtensions.navigate(["/adventure-lists/adventure-list", tappedAdventureItem.id],
+        this.routerExtensions.navigate(["/adventure-lists/adventure-list", tappedAdventureItem.id],
             {
                 animated: true,
                 transition: {
@@ -70,5 +57,9 @@ export class AdventureListsComponent implements OnInit, OnDestroy {
     onDrawerButtonTap(): void {
         const sideDrawer = <RadSideDrawer>app.getRootView();
         sideDrawer.showDrawer();
+    }
+
+    get adventureLists(): ObservableArray<AdventureList> {
+        return this._adventureLists;
     }
 }

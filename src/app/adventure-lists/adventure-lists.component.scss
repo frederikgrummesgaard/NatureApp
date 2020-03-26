@@ -1,0 +1,17 @@
+@import '~@nativescript/theme/scss/variables/forest';
+
+// Custom styles
+.adventure-lists,
+:host-context(.ns-dark) .adventure-lists {
+     &__item {
+        padding: 0 0 2 0;
+        
+        @include colorize($background-color: background-alt-10);
+
+        &-content {
+            padding: 0 0 0 0;
+            @include colorize($background-color: background);
+        }
+
+    }
+}
