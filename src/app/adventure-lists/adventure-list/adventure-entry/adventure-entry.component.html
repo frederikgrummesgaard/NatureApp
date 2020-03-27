@@ -4,21 +4,21 @@
     because ActionItems are shown on the right side of the ActionBar
     -->
     <NavigationButton ios:visibility="collapsed"
-                      icon="res://menu"
-                      (tap)="onDrawerButtonTap()"></NavigationButton>
+                      android.systemIcon="ic_menu_back"
+                      (tap)="onBackButtonTap()"></NavigationButton>
     <!-- 
     Use the ActionItem for IOS with position set to left. Using the
     NavigationButton as a side-drawer button in iOS is not possible,
     because its function is to always navigate back in the application.
     -->
-    <ActionItem icon="res://menu"
+    <ActionItem icon=""
                 android:visibility="collapsed"
-                (tap)="onDrawerButtonTap()"
+                (tap)="onBackButtonTap()"
                 ios.position="left">
     </ActionItem>
     <Label class="h2"
            style="color: white;"
-           text="{{adventureEntry.name}}"></Label>
+           text=""></Label>
 </ActionBar>
 
 <GridLayout class="page__content">

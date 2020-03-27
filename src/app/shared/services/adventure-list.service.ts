@@ -23,7 +23,9 @@ export class AdventureListService {
     constructor(private _ngZone: NgZone) {
         this.adventureLists = firebase.firestore.collection('adventurelists');
     }
-
+    getAdventureList(id: any): AdventureList {
+        return this.adventureLists.get(id);
+    }
     getAdventureLists() {
         return new Promise((resolve, reject) => {
             this.adventureLists.get()

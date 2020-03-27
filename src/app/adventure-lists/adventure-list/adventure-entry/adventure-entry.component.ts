@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { RadSideDrawer } from "nativescript-ui-sidedrawer";
-import * as app from "tns-core-modules/application";
 import { AdventureEntry } from "~/app/shared/models/adventureEntry.model";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
     selector: "Adventures",
@@ -11,7 +10,7 @@ export class AdventureEntryComponent implements OnInit {
 
     public adventureEntry: AdventureEntry;
 
-    constructor() {
+    constructor(private routerExtensions: RouterExtensions) {
         // Use the component constructor to inject providers.
     }
 
@@ -19,8 +18,7 @@ export class AdventureEntryComponent implements OnInit {
         // Init your component properties here.
     }
 
-    onDrawerButtonTap(): void {
-        const sideDrawer = <RadSideDrawer>app.getRootView();
-        sideDrawer.showDrawer();
+    onBackButtonTap(): void {
+        this.routerExtensions.backToPreviousPage();
     }
 }

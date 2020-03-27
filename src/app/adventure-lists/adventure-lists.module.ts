@@ -4,6 +4,7 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 
 import { AdventureListsRoutingModule } from "./adventure-lists-routing.module";
 import { AdventureListsComponent } from "./adventure-lists.component";
+import { AdventureListComponent } from "./adventure-list/adventure-list.component";
 
 @NgModule({
     imports: [
@@ -12,7 +13,8 @@ import { AdventureListsComponent } from "./adventure-lists.component";
         NativeScriptUIListViewModule
     ],
     declarations: [
-        AdventureListsComponent
+        AdventureListsComponent,
+        AdventureListComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

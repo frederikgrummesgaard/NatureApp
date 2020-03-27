@@ -5,7 +5,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { AdventureListComponent } from "./adventure-list.component";
 
 const routes: Routes = [
-    { path: "", component: AdventureListComponent }
+    { path: "", component: AdventureListComponent },
 ];
 
 @NgModule({
