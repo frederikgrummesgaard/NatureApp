@@ -1,0 +1,16 @@
+@import '~@nativescript/theme/scss/variables/forest';
+
+// Custom styles
+.adventure-entry,
+:host-context(.ns-dark) .adventure-entry {
+     &__item {
+        padding: 0 0 10 0;
+    
+        &-content {
+            padding: 0 0 0 0;
+            height: 20%;
+            @include colorize($background-color: background);
+        }
+
+    }
+}

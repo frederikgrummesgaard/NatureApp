@@ -4,6 +4,7 @@ import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 import { AdventureList } from "../models/adventureList.model";
+import { AdventureEntry } from "../models/adventureEntry.model";
 
 const editableProperties = [
     "name",
@@ -18,7 +19,8 @@ const editableProperties = [
 })
 export class AdventureListService {
 
-    adventureLists;
+    adventureLists; //Field to the database
+    adventureList: AdventureList;
 
     constructor(private _ngZone: NgZone) {
         this.adventureLists = firebase.firestore.collection('adventurelists');
@@ -27,26 +29,28 @@ export class AdventureListService {
         return new Promise((resolve, reject) => {
             this.adventureLists.doc(id).get()
                 .then((adventureList) => {
+                    this.adventureList = adventureList;
                     resolve(adventureList.data());
                 })
                 .catch(err => {
                     console.log(err);
                     reject(err);
                 });
+
         });
     }
+
     getAdventureLists() {
         return new Promise((resolve, reject) => {
             this.adventureLists.get()
                 .then(querySnapshot => {
-                    const list = [];
-                    querySnapshot.forEach(document => {
-                        let dataToSave = document.data();
-                        dataToSave.id = document.id;
-                        list.push(dataToSave);
+                    const adventureLists = [];
+                    querySnapshot.forEach(adventureList => {
+                        let dataToSave = adventureList.data();
+                        dataToSave.id = adventureList.id;
+                        adventureLists.push(dataToSave);
                     });
-                    console.log('list', list);
-                    resolve(list);
+                    resolve(adventureLists);
                 })
                 .catch(err => {
                     console.log(err);
@@ -54,4 +58,39 @@ export class AdventureListService {
                 })
         })
     }
+
+    getAdventureListEntry(entryId: any) {
+        return new Promise((resolve, reject) => {
+            this.adventureLists.doc(this.adventureList.id).collection('entries').doc(entryId).get()
+                .then((adventureEntry: any) => {
+                    resolve(adventureEntry.data());
+                })
+                .catch(err => {
+                    console.log(err);
+                    reject(err);
+                });
+
+        });
+    }
+
+    getAdventureListEntries(id: any) {
+        return new Promise((resolve, reject) => {
+            this.adventureLists.doc(id).collection('entries').get()
+                .then((entries) => {
+                    let entriesToSend: AdventureEntry[] = [];
+                    entries.forEach(entry => {
+                        let dataToSave = entry.data();
+                        dataToSave.id = entry.id;
+                        entriesToSend.push(dataToSave);
+                    });
+                    resolve(entriesToSend);
+                })
+                .catch(err => {
+                    console.log(err);
+                    reject(err);
+                });
+
+        });
+    }
+
 }
