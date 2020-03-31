@@ -4,12 +4,17 @@
 .adventure-entry,
 :host-context(.ns-dark) .adventure-entry {
      &__item {
-        padding: 0 0 10 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 1px;
+        padding-bottom: 1px;
     
         &-content {
             padding: 0 0 0 0;
-            height: 20%;
-            @include colorize($background-color: background);
+            margin-bottom: 5px;
+            height: 210px;
+            width: 100%;
+            background-color: white;
         }
 
     }
