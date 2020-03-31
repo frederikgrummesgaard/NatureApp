@@ -28,16 +28,16 @@
                          let-adventureEntry="item">
                 <StackLayout class="adventure-entry__item">
                     <GridLayout rows="*"
-                                columns="*, *, *, *"
+                                columns="*, *, *, *, *"
                                 class="adventure-entry__item-content p-l-10">
                         <Image col='0'
                                [src]="adventureEntry.pictureURL"
                                borderRadius="100"></Image>
                         <Label col='1'
-                               colSpan="2"
+                               colSpan="3"
                                [text]="adventureEntry.name"
                                class="p-l-10"
-                               style="font-size: 20; color: black;"></Label>
+                               style="font-size: 18; color: black;"></Label>
                     </GridLayout>
                 </StackLayout>
             </ng-template>

@@ -25,19 +25,21 @@
     <StackLayout class="">
         <Image [src]="adventureEntry?.pictureURL"
                stretch="aspectFill"
-               height="215"></Image>
+               height="200"></Image>
         <label text="{{adventureEntry?.description}}"
                textWrap=true
                lineHeight=5
-               textAlignment="center"
-               class="p-15"
+               class="p-y-5 p-x-15"
                style="font-size: 18px;"></label>
-        <label class="p-15 p-t-30"
-               style="border-radius: 50%; color: green;">
-            <FormattedString>
-                <Span text="&#xf00c;"
-                      class="fas fa-2x">
-                </Span>
+        <label (tap)="toggleDiscoveredButton()"
+               textAlignment="center"
+               [class.check-button-true]=adventureEntry?.isDiscovered
+               [class.check-button-false]=!adventureEntry?.isDiscovered>
+            <FormattedString class="check">
+                <span text="&#xf00c;"
+                      class="fas"
+                      style="font-size: 40px !important;">
+                </span>
             </FormattedString>
         </label>
     </StackLayout>

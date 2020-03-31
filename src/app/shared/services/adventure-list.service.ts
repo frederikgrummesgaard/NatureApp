@@ -93,4 +93,9 @@ export class AdventureListService {
         });
     }
 
+    updateAdventureListEntry(entryId, content) {
+        this.adventureLists.doc(this.adventureList.id).collection('entries').doc(entryId)
+            .update(content);
+    }
+
 }

@@ -1,0 +1,28 @@
+@import '~@nativescript/theme/scss/variables/forest';
+
+.check-button-false {
+    padding: 50px;
+    margin-top: 20px;
+    border-radius: 50%; 
+    color: #d3d3d3; 
+    border-color: #d3d3d3; 
+    border-width: 15px;
+    margin-left: 38.5%;
+    margin-right: 38.5%;
+    align-content: center;
+}
+.check-button-true {
+    padding: 50px;
+     margin-top: 20px;
+    border-radius: 50%;
+    align-content: center; 
+    color: green; 
+    border-color: green; 
+    border-width: 15px;
+    margin-left: 38.5%;
+    margin-right: 38.5%;
+}
+
+.check {
+    margin-left: 20px !important;
+}
