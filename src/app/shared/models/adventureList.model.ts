@@ -6,4 +6,5 @@ export class AdventureList {
     description: string;
     adventureEntries: AdventureEntry[];
     isCompleted: boolean;
+    pictureURL: string;
 }

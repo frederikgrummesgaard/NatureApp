@@ -9,12 +9,10 @@ import * as app from "tns-core-modules/application";
 })
 export class HomeComponent implements OnInit {
 
-    constructor(private routerExtensions: RouterExtensions) {
-        // Use the component constructor to inject providers.
-    }
+    constructor(private routerExtensions: RouterExtensions) { }
 
     ngOnInit(): void {
-        // Init your component properties here.
+
     }
 
     onDrawerButtonTap(): void {

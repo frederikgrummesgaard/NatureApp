@@ -11,12 +11,10 @@ export class TalesComponent implements OnInit {
 
     public tale: Tale;
 
-    constructor() {
-        // Use the component constructor to inject providers.
-    }
+    constructor() { }
 
     ngOnInit(): void {
-        // Init your component properties here.
+
     }
 
     onDrawerButtonTap(): void {

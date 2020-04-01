@@ -8,12 +8,9 @@ import * as app from "tns-core-modules/application";
 })
 export class SettingsComponent implements OnInit {
 
-    constructor() {
-        // Use the component constructor to inject providers.
-    }
+    constructor() { }
 
     ngOnInit(): void {
-        // Init your component properties here.
     }
 
     onDrawerButtonTap(): void {
