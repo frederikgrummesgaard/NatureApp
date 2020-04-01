@@ -1,0 +1,21 @@
+@import '~@nativescript/theme/scss/variables/forest';
+
+// Custom styles
+.adventure-entry,
+:host-context(.ns-dark) .adventure-entry {
+     &__item {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 1px;
+        padding-bottom: 0;
+    
+        &-content {
+            padding: 0 0 0 0;
+            margin-bottom: 3px;
+            height: 210px;
+            width: 100%;
+            background-color: white;
+        }
+
+    }
+}

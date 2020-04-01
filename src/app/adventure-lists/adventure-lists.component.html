@@ -1,16 +1,9 @@
 <ActionBar class="page-header">
-    <!-- 
-    Use the NavigationButton as a side-drawer button in Android
-    because ActionItems are shown on the right side of the ActionBar
-    -->
+
     <NavigationButton ios:visibility="collapsed"
                       icon="res://menu"
                       (tap)="onDrawerButtonTap()"></NavigationButton>
-    <!-- 
-    Use the ActionItem for IOS with position set to left. Using the
-    NavigationButton as a side-drawer button in iOS is not possible,
-    because its function is to always navigate back in the application.
-    -->
+
     <ActionItem icon="res://menu"
                 android:visibility="collapsed"
                 (tap)="onDrawerButtonTap()"
@@ -22,4 +15,30 @@
 </ActionBar>
 
 <GridLayout class="page__content">
+    <RadListView [items]="adventureLists"
+                 (itemTap)="onAdventureListItemTap($event)"
+                 style="background-color: #f2f2f2;">
+        <StackLayout>
+            <ng-template tkListItemTemplate
+                         let-adventureList="item">
+                <StackLayout class="adventure-lists__item">
+                    <GridLayout class="adventure-lists__item-content">
+                        <Image [src]="adventureList.pictureURL"
+                               stretch="aspectFill"
+                               height="160"></Image>
+                        <StackLayout style="padding: 80 0 6 0;">
+                            <Label [text]="adventureList.name"
+                                   class="p-l-10"
+                                   style="font-size: 20; color: white; font-weight: 700;"></Label>
+                            <Label [text]="adventureList.description"
+                                   class="p-l-10"
+                                   style="font-size: 16; color: white; font-weight: 500;"></Label>
+                        </StackLayout>
+
+                    </GridLayout>
+                </StackLayout>
+            </ng-template>
+        </StackLayout>
+    </RadListView>
+    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 </GridLayout>

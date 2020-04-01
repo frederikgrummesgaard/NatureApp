@@ -9,8 +9,13 @@
 // e.g. project.ext.googlePlayServicesVersion = "15.0.1"
 // create a file named before-plugins.gradle in the current directory and place it there
 
+dependencies {
+  compile 'com.android.support:multidex:1.0.3'
+}
+
 android {
   defaultConfig {
+    multiDexEnabled true
     minSdkVersion 17
     generatedDensities = []
   }

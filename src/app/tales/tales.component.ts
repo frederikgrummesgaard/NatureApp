@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
-import { Tale } from "~/app/models/tale.model";
+import { Tale } from "~/app/shared/models/tale.model";
 
 @Component({
     selector: "Tales",
@@ -11,12 +11,10 @@ export class TalesComponent implements OnInit {
 
     public tale: Tale;
 
-    constructor() {
-        // Use the component constructor to inject providers.
-    }
+    constructor() { }
 
     ngOnInit(): void {
-        // Init your component properties here.
+
     }
 
     onDrawerButtonTap(): void {
