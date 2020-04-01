@@ -1,11 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AdventureList } from "~/app/shared/models/adventureList.model";
 import { RouterExtensions, PageRoute } from "nativescript-angular/router";
 import { AdventureListService } from "~/app/shared/services/adventure-list.service";
 import { switchMap } from "rxjs/operators";
 import { AdventureEntry } from "~/app/shared/models/adventureEntry.model";
 import { ListViewEventData } from "nativescript-ui-listview";
-import { ActivatedRoute } from "@angular/router";
+import { Location } from '@angular/common';
+import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
+import { SnackBar } from "@nstudio/nativescript-snackbar";
 
 @Component({
     selector: "AdventuresList",
@@ -13,20 +15,38 @@ import { ActivatedRoute } from "@angular/router";
     styleUrls: ["./adventure-list.component.scss"]
 
 })
-export class AdventureListComponent implements OnInit {
+export class AdventureListComponent implements OnInit, OnDestroy {
     public isLoading: boolean = false;
     public adventureList: AdventureList;
-    public adventureEntries: AdventureEntry[];
+    public adventureEntries$: ObservableArray<AdventureEntry[]>;
     public adventureListId: string;
+    public locationSubscription: any;
 
     constructor(private routerExtensions: RouterExtensions,
-        private route: ActivatedRoute,
         private adventureListService: AdventureListService,
-        private pageRoute: PageRoute) {
+        private pageRoute: PageRoute,
+        private location: Location) {
     }
 
     ngOnInit(): void {
         this.loadingAdventureList();
+
+        const snackbar = new SnackBar();
+
+        // This subscription updates the AdventureEntries, when the back button 
+        // is pressed in the adventure-entry-component 
+        this.locationSubscription = this.location.subscribe(() => {
+            this.adventureListService.getAdventureListEntries(this.adventureListId).then(
+                (adventureListEntries: any) => {
+                    this.adventureEntries$ = adventureListEntries;
+                    this.isAdventureListCompleted(adventureListEntries, snackbar);
+                }
+            )
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.locationSubscription.unsubscribe();
     }
 
     loadingAdventureList() {
@@ -40,8 +60,8 @@ export class AdventureListComponent implements OnInit {
                         this.adventureList = adventureList;
                     });
                 this.adventureListService.getAdventureListEntries(this.adventureListId).then(
-                    (adventureList: any) => {
-                        this.adventureEntries = adventureList;
+                    (adventureListEntries: any) => {
+                        this.adventureEntries$ = adventureListEntries;
                         this.isLoading = false;
                     }
                 )
@@ -64,5 +84,26 @@ export class AdventureListComponent implements OnInit {
 
     onBackButtonTap(): void {
         this.routerExtensions.backToPreviousPage();
+    }
+
+    /**
+     * This method checks the entries and if all are completed, it updates the adventureList
+     * and displays a snackbar congratulating the user
+     */
+    private isAdventureListCompleted(adventureListEntries: any, snackbar: SnackBar) {
+        this.adventureList.isCompleted = true;
+        adventureListEntries.forEach((entry: AdventureEntry) => {
+            if (!entry.isDiscovered) {
+                this.adventureList.isCompleted = false;
+            }
+        });
+        if (this.adventureList.isCompleted) {
+            this.adventureListService.updateAdventureList({ isCompleted: true });
+            snackbar.simple('Tillykke! Du har fået banko!', '#fff', '#008000', 2, true);
+            this.locationSubscription.unsubscribe();
+        }
+        else if (!this.adventureList.isCompleted) {
+            this.adventureListService.updateAdventureList({ isCompleted: false });
+        }
     }
 }

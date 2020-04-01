@@ -59,6 +59,10 @@ export class AdventureListService {
         })
     }
 
+    updateAdventureList(content) {
+        this.adventureLists.doc(this.adventureList.id).update(content);
+    }
+
     getAdventureListEntry(entryId: any) {
         return new Promise((resolve, reject) => {
             this.adventureLists.doc(this.adventureList.id).collection('entries').doc(entryId).get()
