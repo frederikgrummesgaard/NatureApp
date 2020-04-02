@@ -5,6 +5,7 @@ import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nat
 import { filter } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
 import * as firebase from "nativescript-plugin-firebase";
+import { UserService } from "./shared/services/user.service";
 
 
 @Component({
@@ -15,11 +16,22 @@ export class AppComponent implements OnInit {
     private _activatedUrl: string;
     private _sideDrawerTransition: DrawerTransitionBase;
 
-    constructor(private router: Router, private routerExtensions: RouterExtensions) {
+    constructor(private router: Router, private routerExtensions: RouterExtensions,
+        private userService: UserService) {
     }
 
     ngOnInit(): void {
         firebase.init({
+            storageBucket: 'gs://naturappen-b056a.appspot.com/',
+            onAuthStateChanged: (data: any) => {
+                console.log(JSON.stringify(data))
+                if (data.loggedIn) {
+                    this.userService.token = data.user.uid;
+                }
+                else {
+                    this.userService.token = "";
+                }
+            }
         }).then(
             () => {
                 console.log("firebase.init done");

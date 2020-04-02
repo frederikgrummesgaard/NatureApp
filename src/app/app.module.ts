@@ -6,6 +6,7 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AdventureListService } from "./shared/services/adventure-list.service";
+import { UserService } from "./shared/services/user.service";
 require("nativescript-plugin-firebase");
 
 @NgModule({
@@ -22,7 +23,8 @@ require("nativescript-plugin-firebase");
         AppComponent
     ],
     providers: [
-        AdventureListService
+        AdventureListService,
+        UserService,
     ],
     schemas: [
         NO_ERRORS_SCHEMA

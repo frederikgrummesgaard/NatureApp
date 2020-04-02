@@ -6,14 +6,6 @@ import { catchError } from "rxjs/operators";
 import { AdventureList } from "../models/adventureList.model";
 import { AdventureEntry } from "../models/adventureEntry.model";
 
-const editableProperties = [
-    "name",
-    "description",
-    "pictureUrl",
-    "adventureEntries",
-    "isCompleted"
-];
-
 @Injectable({
     providedIn: "root"
 })
