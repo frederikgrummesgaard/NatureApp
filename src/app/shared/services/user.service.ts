@@ -30,7 +30,10 @@ export class UserService {
             email: user.email,
             password: user.password
         }).then((result: any) => {
-            return JSON.stringify(result);
+            return firebase.firestore.collection('users').doc(result.uid)
+                .set({
+                    email: result.email,
+                });
         }, () => {
             alert("Sørg for at det er en gyldig email og at adgangskoden stemmer overens. Adgangskoden skal mindst indeholde 6 tegn");
         }
@@ -46,6 +49,13 @@ export class UserService {
             }
         }).then((result: any) => {
             userToken = result.uid;
+            const user = {
+                id: result.uid,
+                email: result.email,
+                password: result.password,
+                isAdmin: null
+            }
+            this.user = user;
             return JSON.stringify(result);
         }, () => {
             alert("Email eller adgangskode er forkert, prøv igen");
