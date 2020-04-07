@@ -6,6 +6,7 @@ import { screen } from "tns-core-modules/platform";
 import { Label } from 'tns-core-modules/ui/label';
 import { isAndroid } from 'tns-core-modules/platform';
 import { EventData } from "tns-core-modules/ui/page/page";
+import { UserService } from "../shared/services/user.service";
 
 
 
@@ -15,9 +16,9 @@ import { EventData } from "tns-core-modules/ui/page/page";
     styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-    public buttonHeight: string = screen.mainScreen.heightDIPs / 3 + "px";
 
-    constructor(private routerExtensions: RouterExtensions) { }
+    constructor(private routerExtensions: RouterExtensions,
+        private userService: UserService) { }
 
     ngOnInit(): void {
     }
@@ -33,6 +34,15 @@ export class HomeComponent implements OnInit {
                 name: "fade"
             }
         });
+    }
+
+    logout() {
+        this.routerExtensions.navigate(["/login"], {
+            transition: {
+                name: "fade"
+            }
+        });
+        this.userService.logout();
     }
 
     onLabelLoaded(args: EventData) {

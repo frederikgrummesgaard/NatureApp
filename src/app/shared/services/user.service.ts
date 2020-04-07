@@ -1,8 +1,9 @@
 import * as firebase from "nativescript-plugin-firebase";
 import { Injectable } from "@angular/core";
-import { getString } from "tns-core-modules/application-settings";
+import { getString, setString } from "tns-core-modules/application-settings";
 import { User } from "../models/user.model";
 
+let userToken = 'token'
 
 @Injectable({
     providedIn: "root"
@@ -10,49 +11,49 @@ import { User } from "../models/user.model";
 
 export class UserService {
 
-    public token = "token";
+    public user: User;
 
     static isLoggedIn(): boolean {
         return !!getString("token");
     }
 
-    static get token(): string {
-        return this.token;
+    static get userToken(): string {
+        return getString("token");
     }
 
-    static set token(token: string) {
-        this.token = token
+    static set userToken(theToken: string) {
+        setString("token", theToken);
     }
 
     register(user: User) {
         return firebase.createUser({
             email: user.email,
             password: user.password
-        }).then(
-            function (result: any) {
-                return JSON.stringify(result);
-            },
-            function (errorMessage: any) {
-                alert(errorMessage);
-            }
+        }).then((result: any) => {
+            return JSON.stringify(result);
+        }, () => {
+            alert("Sørg for at det er en gyldig email og at adgangskoden stemmer overens. Adgangskoden skal mindst indeholde 6 tegn");
+        }
         )
     }
 
     login(user: User) {
         return firebase.login({
             type: firebase.LoginType.PASSWORD,
-            email: user.email,
-            password: user.password
+            passwordOptions: {
+                email: user.email,
+                password: user.password
+            }
         }).then((result: any) => {
-            this.token = result.uid;
+            userToken = result.uid;
             return JSON.stringify(result);
-        }, (errorMessage: any) => {
-            alert(errorMessage);
+        }, () => {
+            alert("Email eller adgangskode er forkert, prøv igen");
         });
     }
 
     logout() {
-        this.token = "";
+        userToken = "";
         firebase.logout();
     }
 

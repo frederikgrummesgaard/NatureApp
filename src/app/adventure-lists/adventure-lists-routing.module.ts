@@ -8,8 +8,8 @@ import { AdventureEntryComponent } from "./adventure-list/adventure-entry/advent
 
 const routes: Routes = [
     { path: "", component: AdventureListsComponent },
-    { path: "adventure-list/:id", component: AdventureListComponent, canActivate: [AuthGuard] },
-    { path: "adventure-list/:id/adventure-entry/:id", component: AdventureEntryComponent, canActivate: [AuthGuard] },
+    { path: "adventure-list/:id", component: AdventureListComponent, },
+    { path: "adventure-list/:id/adventure-entry/:id", component: AdventureEntryComponent, },
 ];
 
 @NgModule({

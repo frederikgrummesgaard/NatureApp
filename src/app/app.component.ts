@@ -26,10 +26,17 @@ export class AppComponent implements OnInit {
             onAuthStateChanged: (data: any) => {
                 console.log(JSON.stringify(data))
                 if (data.loggedIn) {
-                    this.userService.token = data.user.uid;
+                    const user = {
+                        id: data.user.uid,
+                        email: data.user.email,
+                        password: data.user.password,
+                        isAdmin: null
+                    }
+                    UserService.userToken = data.user.uid;
+                    this.userService.user = user;
                 }
                 else {
-                    this.userService.token = "";
+                    UserService.userToken = "";
                 }
             }
         }).then(

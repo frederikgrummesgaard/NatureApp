@@ -7,6 +7,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AdventureListService } from "./shared/services/adventure-list.service";
 import { UserService } from "./shared/services/user.service";
+import { AuthGuard } from "~/auth-guard.service";
+
 require("nativescript-plugin-firebase");
 
 @NgModule({
@@ -25,6 +27,7 @@ require("nativescript-plugin-firebase");
     providers: [
         AdventureListService,
         UserService,
+        AuthGuard,
     ],
     schemas: [
         NO_ERRORS_SCHEMA
