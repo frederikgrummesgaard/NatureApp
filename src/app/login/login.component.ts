@@ -1,8 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { UserService } from "../shared/services/user.service";
 import { User } from "../shared/models/user.model";
 import { RouterExtensions } from "nativescript-angular/router";
 import { FormBuilder, Validators } from '@angular/forms'
+import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/common";
+import { ForgotPasswordModalComponent } from "./forgot-password-modal/forgot-password-modal.component";
 
 @Component({
     selector: "Login",
@@ -21,6 +23,8 @@ export class LoginComponent implements OnInit {
 
     constructor(private userService: UserService,
         private routerExtensions: RouterExtensions,
+        private modalService: ModalDialogService,
+        private viewContainerRef: ViewContainerRef,
         private fb: FormBuilder) { }
 
     ngOnInit(): void {
@@ -60,7 +64,12 @@ export class LoginComponent implements OnInit {
             }
         }
     }
-    forgotPassword() {
-        // this.userService.resetPassword();
+    openForgotPasswordModal() {
+        const options: ModalDialogOptions = {
+            viewContainerRef: this.viewContainerRef,
+            fullscreen: false,
+            stretched: true,
+        }
+        this.modalService.showModal(ForgotPasswordModalComponent, options);
     }
 }

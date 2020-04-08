@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NativeScriptFormsModule } from 'nativescript-angular/forms'
 import { LoginRoutingModule } from "./login-routing.module";
 import { LoginComponent } from "./login.component";
+import { ModalDialogService } from "nativescript-angular/modal-dialog";
+import { ForgotPasswordModalComponent } from "./forgot-password-modal/forgot-password-modal.component";
 
 @NgModule({
     imports: [
@@ -13,10 +15,15 @@ import { LoginComponent } from "./login.component";
         NativeScriptFormsModule
     ],
     declarations: [
-        LoginComponent
+        LoginComponent,
+        ForgotPasswordModalComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
+    ],
+    entryComponents: [ForgotPasswordModalComponent],
+    providers: [
+        ModalDialogService
     ]
 })
 export class LoginModule { }

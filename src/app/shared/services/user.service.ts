@@ -68,12 +68,12 @@ export class UserService {
     }
 
     resetPassword(email) {
-        return firebase.sendPasswordResetEmail(email).then((result: any) => {
-            alert(JSON.stringify(result));
-        },
-            function (errorMessage: any) {
-                alert(errorMessage);
-            }
+        console.log(email);
+        return firebase.sendPasswordResetEmail(email).then(() => {
+            alert('En nulstillings mail er sendt til din email adresse. Bemærk at den kan befinde sig i spam mappen');
+        }, () => {
+            alert('Der er sket en fejl. Sikre at du har indtastet en gyldig email');
+        }
         ).catch((error) => {
             console.log(JSON.stringify(error));
             return Promise.reject(error.message);
