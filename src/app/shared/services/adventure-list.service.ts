@@ -1,4 +1,4 @@
-import { Injectable, NgZone, OnInit } from "@angular/core";
+import { Injectable } from "@angular/core";
 import * as firebase from "nativescript-plugin-firebase";
 
 import { AdventureList } from "../models/adventureList.model";
@@ -8,20 +8,16 @@ import { UserService } from "./user.service";
 @Injectable({
     providedIn: "root"
 })
-export class AdventureListService implements OnInit {
+export class AdventureListService {
 
     adventureLists; //Field to the database
-    userData;
+    users;
     adventureList: AdventureList;
 
-    constructor(private _ngZone: NgZone,
-        private userService: UserService) {
+    constructor(private userService: UserService) {
         this.adventureLists = firebase.firestore.collection('adventurelists');
-        this.userData = firebase.firestore.collection('users').doc(this.userService.user.id).collection('adventurelist-entries');
+        this.users = firebase.firestore.collection('users');
     }
-    ngOnInit(): void {
-    }
-
 
     getAdventureList(id: any) {
         return new Promise((resolve, reject) => {
@@ -65,9 +61,10 @@ export class AdventureListService implements OnInit {
         return new Promise((resolve, reject) => {
             this.adventureLists.doc(this.adventureList.id).collection('entries').doc(entryId).get()
                 .then((adventureEntry: any) => {
-                    this.userData.doc(adventureEntry.id).get().then((entry) => {
-                        adventureEntry.data().isDiscovered = entry.data().isDiscovered;
-                    })
+                    this.users.doc(this.userService.user.id).collection('adventurelist-entries')
+                        .doc(adventureEntry.id).get().then((entry) => {
+                            adventureEntry.data().isDiscovered = entry.data().isDiscovered;
+                        })
                     resolve(adventureEntry.data());
                 })
                 .catch(err => {
@@ -86,9 +83,10 @@ export class AdventureListService implements OnInit {
                     entries.forEach(entry => {
                         let dataToSave: AdventureEntry = entry.data();
                         dataToSave.id = entry.id;
-                        this.userData.doc(dataToSave.id).get().then((entry) => {
-                            dataToSave.isDiscovered = entry.data().isDiscovered;
-                        })
+                        this.users.doc(this.userService.user.id).collection('adventurelist-entries')
+                            .doc(dataToSave.id).get().then((entry) => {
+                                dataToSave.isDiscovered = entry.data().isDiscovered;
+                            })
                         entriesToSend.push(dataToSave);
                     });
                     resolve(entriesToSend);
@@ -101,7 +99,7 @@ export class AdventureListService implements OnInit {
     }
 
     updateAdventureListEntry(entryId, content) {
-        this.userData.doc(entryId).update(content);
+        this.users.doc(this.userService.user.id).collection('adventurelist-entries').doc(entryId).update(content);
     }
 
 }
