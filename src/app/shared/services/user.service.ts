@@ -79,5 +79,11 @@ export class UserService {
             return Promise.reject(error.message);
         });
     }
-
+    createAdmin(email) {
+        const addAdmin = firebase.functions.httpsCallable("addAdminRole");
+        console.log(email);
+        addAdmin({ email: email }).then((result) => {
+            console.log(result);
+        });
+    }
 }

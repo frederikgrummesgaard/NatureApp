@@ -51,8 +51,23 @@
                        style="font-size: 30; color: white; font-weight: 500; padding-top: 100;"></Label>
             </StackLayout>
         </GridLayout>
+
+
         <button class="btn -rounded-lg"
                 text="Log ud"
                 (tap)="logout()"></button>
+
+        <TextField class="input form-control"
+                   [formControl]="email"
+                   hint="Email"
+                   keyboardType="email"
+                   autocorrect="false"
+                   autocapitalizationType="none"></TextField>
+
+        <Button class="btn -rounded-lg m-y-20 form-control"
+                style="background-color: green; color: white; font-size: 16px; width: 80%;"
+                text="Skab admin"
+                (tap)="makeAdmin()"></Button>
+
     </StackLayout>
 </ScrollView>

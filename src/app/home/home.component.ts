@@ -7,6 +7,7 @@ import { Label } from 'tns-core-modules/ui/label';
 import { isAndroid } from 'tns-core-modules/platform';
 import { EventData } from "tns-core-modules/ui/page/page";
 import { UserService } from "../shared/services/user.service";
+import { FormControl } from "@angular/forms";
 
 
 
@@ -16,6 +17,8 @@ import { UserService } from "../shared/services/user.service";
     styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
+
+    email = new FormControl('frederikgrummesgaard@gmail.com');
 
     constructor(private routerExtensions: RouterExtensions,
         private userService: UserService) { }
@@ -43,6 +46,11 @@ export class HomeComponent implements OnInit {
             }
         });
         this.userService.logout();
+    }
+
+    makeAdmin() {
+        console.log('hej: ' + this.email.value);
+        this.userService.createAdmin(this.email.value);
     }
 
     onLabelLoaded(args: EventData) {

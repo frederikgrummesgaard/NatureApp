@@ -12,7 +12,7 @@
     "in_app_messaging": false,
     "crashlytics": false,
     "storage": true,
-    "functions": false,
+    "functions": true,
     "facebook_auth": false,
     "google_auth": false,
     "admob": false,
