@@ -30,14 +30,12 @@ export class UserService {
             email: user.email,
             password: user.password
         }).then((result: any) => {
-            return firebase.firestore.collection('users').doc(result.uid)
+            firebase.firestore.collection('users').doc(result.uid)
                 .set({
+                    name: user.name,
                     email: result.email,
                 });
-        }, () => {
-            alert("Sørg for at det er en gyldig email og at adgangskoden stemmer overens. Adgangskoden skal mindst indeholde 6 tegn");
-        }
-        )
+        });
     }
 
     login(user: User) {
@@ -48,14 +46,6 @@ export class UserService {
                 password: user.password
             }
         }).then((result: any) => {
-            userToken = result.uid;
-            const user = {
-                id: result.uid,
-                email: result.email,
-                password: result.password,
-                isAdmin: null
-            }
-            this.user = user;
             return JSON.stringify(result);
         }, () => {
             alert("Email eller adgangskode er forkert, prøv igen");
@@ -81,9 +71,9 @@ export class UserService {
     }
     createAdmin(email) {
         const addAdmin = firebase.functions.httpsCallable("addAdminRole");
-        console.log(email);
         addAdmin({ email: email }).then((result) => {
             console.log(result);
+            alert(email + ' er nu en administrator')
         });
     }
 }

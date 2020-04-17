@@ -9,7 +9,14 @@
            height="325"></Image>
     <StackLayout class="layout"
                  [formGroup]="userForm">
-        <StackLayout class="input-field m-t-30">
+        <StackLayout class="input-field m-t-5"
+                     *ngIf="!isLoggingIn">
+            <TextField class="input form-control"
+                       [formControl]="userForm.controls['name']"
+                       hint="Fulde navn"></TextField>
+        </StackLayout>
+
+        <StackLayout class="input-field m-t-5">
             <TextField class="input form-control"
                        [formControl]="userForm.controls['email']"
                        hint="Email"
@@ -43,6 +50,7 @@
                 [text]="isLoggingIn ? 'Log ind' : 'Opret konto'"
                 (tap)="submit()"></Button>
         <Label *ngIf="isLoggingIn"
+               class="m-t-5"
                textAlignment="center"
                style="font-size: 14px;"
                (tap)="openForgotPasswordModal()"
@@ -50,7 +58,7 @@
     </StackLayout>
 
     <Label (tap)="toggleForm()"
-           class="m-t-20"
+           class="m-t-15"
            style="font-size: 14px;">
         <FormattedString>
             <Span [text]="isLoggingIn ? 'Har du ikke en konto? ' : 'Tilbage til Login'"></Span>

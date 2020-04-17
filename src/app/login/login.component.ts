@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
     user: User = new User;
 
     userForm = this.fb.group({
+        name: ['', [Validators.required]],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: [''],
@@ -41,8 +42,8 @@ export class LoginComponent implements OnInit {
 
     submit() {
         if (this.isLoggingIn) {
-            this.user.email = this.userForm.get('email').value
-            this.user.password = this.userForm.get('password').value
+            this.user.email = this.userForm.get('email').value;
+            this.user.password = this.userForm.get('password').value;
             this.userService.login(this.user).then(() => {
                 this.routerExtensions.navigate(["/home"],
                     {
@@ -53,6 +54,7 @@ export class LoginComponent implements OnInit {
                     });
             });
         } else {
+            this.user.name = this.userForm.get('name').value;
             this.user.email = this.userForm.get('email').value
             this.user.password = this.userForm.get('password').value
             if (this.userForm.get('password').value === this.userForm.get('confirmPassword').value) {

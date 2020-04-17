@@ -6,6 +6,7 @@ import { filter } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
 import * as firebase from "nativescript-plugin-firebase";
 import { UserService } from "./shared/services/user.service";
+import { User } from "./shared/models/user.model";
 
 
 @Component({
@@ -15,6 +16,7 @@ import { UserService } from "./shared/services/user.service";
 export class AppComponent implements OnInit {
     private _activatedUrl: string;
     private _sideDrawerTransition: DrawerTransitionBase;
+    public user: User;
 
     constructor(private router: Router, private routerExtensions: RouterExtensions,
         private userService: UserService) {
@@ -24,16 +26,34 @@ export class AppComponent implements OnInit {
         firebase.init({
             storageBucket: 'gs://naturappen-b056a.appspot.com/',
             onAuthStateChanged: (data: any) => {
-                console.log(JSON.stringify(data))
                 if (data.loggedIn) {
-                    const user = {
-                        id: data.user.uid,
-                        email: data.user.email,
-                        password: data.user.password,
-                        isAdmin: null
-                    }
+
+                    //Checks whether or not the user is an admin
+                    let isAdmin = false;
+                    firebase.getCurrentUser().then((user) => {
+                        user.getIdTokenResult().then((idTokenResult) => {
+                            if (idTokenResult.claims.admin) {
+                                isAdmin = true;
+                            }
+                        })
+                    })
+
+                    //Retrieves the name of the user and creates a user object
+                    let name;
+                    firebase.firestore.collection('users').doc(data.user.uid).get().then((user) => {
+                        name = user.data().name;
+
+                        this.user = {
+                            id: data.user.uid,
+                            name: name,
+                            email: data.user.email,
+                            password: data.user.password,
+                            isAdmin: isAdmin
+                        }
+                        this.userService.user = this.user
+
+                    })
                     UserService.userToken = data.user.uid;
-                    this.userService.user = user;
                 }
                 else {
                     UserService.userToken = "";

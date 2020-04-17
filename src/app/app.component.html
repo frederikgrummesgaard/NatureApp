@@ -4,6 +4,17 @@
                 class="nt-drawer__content">
         <StackLayout row="0"
                      class="nt-drawer__header">
+            <Label class="nt-drawer__header-brand"
+                   style="font-size: 18px !important;"
+                   textWrap="true"
+                   (tap)="onNavItemTap('/profile')"
+                   text="{{user?.name}}"></Label>
+            <Label class="nt-drawer__header-brand"
+                   style="font-size: 14px !important;"
+                   textWrap="true"
+                   textDecoration="underline"
+                   (tap)="onNavItemTap('/profile')"
+                   text="{{user?.email}}"></Label>
         </StackLayout>
 
         <ScrollView row="1"
