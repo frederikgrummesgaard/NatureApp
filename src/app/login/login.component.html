@@ -1,0 +1,69 @@
+<ActionBar class="page-header">
+    <Label class="h2"
+           textAlignment="center"
+           text=""></Label>
+</ActionBar>
+
+<FlexboxLayout class="page-login m-y-10">
+    <Image src="~/assets/naturappen-logo.png"
+           height="325"></Image>
+    <StackLayout class="layout"
+                 [formGroup]="userForm">
+        <StackLayout class="input-field m-t-5"
+                     *ngIf="!isLoggingIn">
+            <TextField class="input form-control"
+                       [formControl]="userForm.controls['name']"
+                       hint="Fulde navn"></TextField>
+        </StackLayout>
+
+        <StackLayout class="input-field m-t-5">
+            <TextField class="input form-control"
+                       [formControl]="userForm.controls['email']"
+                       hint="Email"
+                       keyboardType="email"
+                       autocorrect="false"
+                       autocapitalizationType="none"></TextField>
+        </StackLayout>
+
+        <StackLayout class="input-field m-t-10">
+            <TextField class="input form-control"
+                       [formControl]="userForm.controls['password']"
+                       hint="Adgangskode"
+                       secure="true"
+                       autocorrect="false"
+                       autocapitalizationType="none"></TextField>
+        </StackLayout>
+
+        <StackLayout *ngIf="!isLoggingIn"
+                     class="input-field m-t-10">
+            <TextField class="input form-control"
+                       [formControl]="userForm.controls['confirmPassword']"
+                       hint="Bekræft adgangskode"
+                       secure="true"
+                       autocorrect="false"
+                       autocapitalizationType="none"></TextField>
+        </StackLayout>
+
+        <Button class="btn -rounded-lg m-t-20 form-control"
+                type="submit"
+                style="background-color: green; color: white; font-size: 16px; width: 80%;"
+                [text]="isLoggingIn ? 'Log ind' : 'Opret konto'"
+                (tap)="submit()"></Button>
+        <Label *ngIf="isLoggingIn"
+               class="m-t-5"
+               textAlignment="center"
+               style="font-size: 14px;"
+               (tap)="openForgotPasswordModal()"
+               text="Glemt din adgangskode?"></Label>
+    </StackLayout>
+
+    <Label (tap)="toggleForm()"
+           class="m-t-15"
+           style="font-size: 14px;">
+        <FormattedString>
+            <Span [text]="isLoggingIn ? 'Har du ikke en konto? ' : 'Tilbage til Login'"></Span>
+            <Span [text]="isLoggingIn ? 'Opret Konto' : ''"
+                  class="font-weight-bold"></Span>
+        </FormattedString>
+    </Label>
+</FlexboxLayout>

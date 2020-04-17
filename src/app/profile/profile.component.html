@@ -1,0 +1,69 @@
+<ActionBar class="page-header">
+
+    <NavigationButton ios:visibility="collapsed"
+                      icon="res://menu"
+                      (tap)="onDrawerButtonTap()"></NavigationButton>
+
+    <ActionItem icon="res://menu"
+                android:visibility="collapsed"
+                (tap)="onDrawerButtonTap()"
+                ios.position="left">
+    </ActionItem>
+    <Label class="h2"
+           style="color: white;"
+           text="Profil"></Label>
+    <ActionItem ios.position="right">
+        <Label text="Gem"
+               verticalAlignment="center"
+               (tap)="onSaveButtonTap()"
+               [isEnabled]="userForm.valid"></Label>
+    </ActionItem>
+</ActionBar>
+
+<FlexboxLayout class="page-profile m-y-10">
+    <StackLayout class="layout">
+        <StackLayout *ngIf="isAdmin"
+                     [formGroup]="adminForm">
+            <label style="font-size: 18px; font-weight: 400; color: green;"
+                   text="Tilføj administrator"></label>
+            <TextField class="input form-control"
+                       [formControl]="adminForm.controls['email']"
+                       keyboardType="email"
+                       hint="Email"
+                       autocorrect="false"
+                       autocapitalizationType="none"></TextField>
+        </StackLayout>
+        <StackLayout *ngIf="isAdmin">
+            <Button class="btn -rounded-lg m-y-20 form-control"
+                    [isEnabled]="adminForm.valid"
+                    style="background-color: green; color: white; font-size: 16px; width: 80%;"
+                    text="Tilføj"
+                    (tap)="makeAdmin()"></Button>
+        </StackLayout>
+        <StackLayout class="input-field m-t-10"
+                     [formGroup]="userForm">
+            <label style="font-size: 18px; font-weight: 400; color: green;"
+                   text="Navn"></label>
+            <TextField class="input form-control"
+                       [formControl]="userForm.controls['name']"
+                       ngDefaultControl></TextField>
+
+            <label class="m-t-10"
+                   style="font-size: 18px; font-weight: 400; color: green;"
+                   text="Email"></label>
+            <TextField class="input form-control"
+                       [formControl]="userForm.controls['email']"
+                       ngDefaultControl
+                       keyboardType="email"
+                       autocorrect="false"
+                       autocapitalizationType="none"></TextField>
+
+        </StackLayout>
+        <StackLayout>
+            <button class="btn -rounded-lg m-y-20"
+                    text="Log ud"
+                    style="background-color: green; color: white; font-size: 16px; width: 80%;"
+                    (tap)="logout()"></button>
+        </StackLayout>
+    </StackLayout>
+</FlexboxLayout>
