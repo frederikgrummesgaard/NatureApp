@@ -7,6 +7,7 @@ import { ObservableArray } from "tns-core-modules/data/observable-array";
 import * as app from "tns-core-modules/application";
 import { AdventureList } from "~/app/shared/models/adventureList.model";
 import { AdventureListService } from "../shared/services/adventure-list.service";
+import { UserService } from "../shared/services/user.service";
 
 
 @Component({
@@ -15,13 +16,19 @@ import { AdventureListService } from "../shared/services/adventure-list.service"
     styleUrls: ["./adventure-lists.component.scss"]
 })
 export class AdventureListsComponent implements OnInit {
-    isLoading: boolean = false;
+    public isLoading: boolean = false;
+    public isAdmin: boolean = false
     private _adventureLists: ObservableArray<AdventureList> = new ObservableArray<AdventureList>([]);
 
     constructor(
         private adventureListService: AdventureListService,
-        private routerExtensions: RouterExtensions
-    ) { }
+        private routerExtensions: RouterExtensions,
+        private userService: UserService
+    ) {
+        if (this.userService.user.isAdmin) {
+            this.isAdmin = true;
+        }
+    }
 
     ngOnInit(): void {
         this.loadAdventureLists();
@@ -54,6 +61,20 @@ export class AdventureListsComponent implements OnInit {
     onDrawerButtonTap(): void {
         const sideDrawer = <RadSideDrawer>app.getRootView();
         sideDrawer.showDrawer();
+    }
+
+    onCreateButtonTap(): void {
+        if (this.isAdmin) {
+            this.routerExtensions.navigate(["/adventure/adventure-list-crud"],
+                {
+                    animated: true,
+                    transition: {
+                        name: "slide",
+                        duration: 200,
+                        curve: "ease"
+                    }
+                });
+        }
     }
 
     get adventureLists(): ObservableArray<AdventureList> {

@@ -12,6 +12,12 @@
     <Label class="h2"
            style="color: white;"
            text="På opdagelse"></Label>
+    <ActionItem ios.position="right">
+        <Label text="Opret bankoplade"
+               *ngIf="isAdmin"
+               verticalAlignment="center"
+               (tap)="onCreateButtonTap()"></Label>
+    </ActionItem>
 </ActionBar>
 
 <GridLayout class="page__content">
