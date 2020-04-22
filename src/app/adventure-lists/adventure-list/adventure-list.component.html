@@ -11,6 +11,13 @@
     <Label class="h2"
            style="color: white;"
            text="{{adventureList?.name}}"></Label>
+    <ActionItem>
+        <Label text="Rediger"
+               *ngIf="isAdmin"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onEditButtonTap()"></Label>
+    </ActionItem>
 </ActionBar>
 
 <GridLayout class="page__content">

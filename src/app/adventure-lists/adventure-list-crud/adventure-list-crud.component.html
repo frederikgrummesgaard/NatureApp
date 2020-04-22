@@ -9,12 +9,12 @@
     </ActionItem>
     <Label class="h2"
            style="color: white;"
-           text="Opret bankoplade"></Label>
+           text="{{title}}"></Label>
     <ActionItem ios.position="right">
         <Label text="Gem"
                verticalAlignment="center"
                [isEnabled]="adventureListForm.valid"
-               (tap)="onCreateButtonTap()"></Label>
+               (tap)="onSaveButtonTap()"></Label>
     </ActionItem>
 </ActionBar>
 
@@ -55,9 +55,16 @@
         <StackLayout>
             <Label text="Beskrivelse"
                    class="title"></Label>
-            <TextView class="input form-control"
-                      ngDefaultControl
-                      [formControl]="adventureListForm.controls['description']"></TextView>
+            <TextField class="input form-control"
+                       ngDefaultControl
+                       [formControl]="adventureListForm.controls['description']"></TextField>
+        </StackLayout>
+        <StackLayout>
+            <button class="btn -rounded-lg m-t-20"
+                    *ngIf="isEditing"
+                    text="Slet bankoplade"
+                    style="background-color: red; color: white; font-size: 16px; width: 80%;"
+                    (tap)="onDeleteButtonTap()"></button>
         </StackLayout>
     </StackLayout>
 </FlexboxLayout>

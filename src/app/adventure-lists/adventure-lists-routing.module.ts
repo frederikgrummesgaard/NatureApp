@@ -8,9 +8,10 @@ import { AdventureListCrudComponent } from "./adventure-list-crud/adventure-list
 
 const routes: Routes = [
     { path: "", component: AdventureListsComponent },
-    { path: "adventure-list/:id", component: AdventureListComponent, },
-    { path: "adventure-list/:id/adventure-entry/:id", component: AdventureEntryComponent, },
-    { path: "adventure-list-crud", component: AdventureListCrudComponent, }
+    { path: "adventure-list/:id", component: AdventureListComponent },
+    { path: "adventure-list/:id/adventure-entry/:id", component: AdventureEntryComponent },
+    { path: "adventure-list-crud", component: AdventureListCrudComponent },
+    { path: "adventure-list-crud/:id", component: AdventureListCrudComponent }
 ];
 
 @NgModule({

@@ -1,5 +1,8 @@
 @import '~@nativescript/theme/scss/variables/forest';
 
+.page-adventure-lists {
+    flex-direction: column;
+}
 // Custom styles
 .adventure-lists,
 :host-context(.ns-dark) .adventure-lists {

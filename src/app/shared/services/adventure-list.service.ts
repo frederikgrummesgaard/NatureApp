@@ -53,8 +53,12 @@ export class AdventureListService {
         })
     }
 
-    updateAdventureList(content) {
-        this.adventureLists.doc(this.adventureList.id).update(content);
+    updateAdventureList(id: string, content) {
+        this.adventureLists.doc(id).update(content);
+    }
+
+    deleteAdventureList(id: string) {
+        this.adventureLists.doc(id).delete();
     }
 
     getAdventureListEntry(entryId: any) {

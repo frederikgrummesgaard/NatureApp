@@ -8,6 +8,7 @@ import { ListViewEventData } from "nativescript-ui-listview";
 import { Location } from '@angular/common';
 import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
 import { SnackBar } from "@nstudio/nativescript-snackbar";
+import { UserService } from "~/app/shared/services/user.service";
 
 @Component({
     selector: "AdventuresList",
@@ -21,11 +22,16 @@ export class AdventureListComponent implements OnInit, OnDestroy {
     public adventureEntries$: ObservableArray<AdventureEntry[]>;
     public adventureListId: string;
     public locationSubscription: any;
+    public isAdmin: boolean = false;
 
     constructor(private routerExtensions: RouterExtensions,
         private adventureListService: AdventureListService,
         private pageRoute: PageRoute,
+        private userService: UserService,
         private location: Location) {
+        if (this.userService.user.isAdmin) {
+            this.isAdmin = true;
+        }
     }
 
     ngOnInit(): void {
@@ -86,6 +92,20 @@ export class AdventureListComponent implements OnInit, OnDestroy {
         this.routerExtensions.backToPreviousPage();
     }
 
+    onEditButtonTap(): void {
+        if (this.isAdmin) {
+            this.routerExtensions.navigate(["/adventure/adventure-list-crud", this.adventureListId],
+                {
+                    animated: true,
+                    transition: {
+                        name: "slide",
+                        duration: 200,
+                        curve: "ease"
+                    }
+                });
+        }
+    }
+
     /**
      * This method checks the entries and if all are completed, it updates the adventureList
      * and displays a snackbar congratulating the user
@@ -98,12 +118,12 @@ export class AdventureListComponent implements OnInit, OnDestroy {
             }
         });
         if (this.adventureList.isCompleted) {
-            this.adventureListService.updateAdventureList({ isCompleted: true });
+            this.adventureListService.updateAdventureList(this.adventureListId, { isCompleted: true });
             snackbar.simple('Tillykke! Du har fået banko!', '#fff', '#008000', 2, true);
             this.locationSubscription.unsubscribe();
         }
         else if (!this.adventureList.isCompleted) {
-            this.adventureListService.updateAdventureList({ isCompleted: false });
+            this.adventureListService.updateAdventureList(this.adventureListId, { isCompleted: false });
         }
     }
 }
