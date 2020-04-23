@@ -12,9 +12,10 @@
     <Label class="h2"
            style="color: white;"
            text="På opdagelse"></Label>
-    <ActionItem>
-        <Label text="Ny"
-               *ngIf="isAdmin"
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf0fe;"
+               class="nt-icon far"
+               style="font-size: 20;"
                verticalAlignment="center"
                ios.position="right"
                (tap)="onCreateButtonTap()"></Label>
