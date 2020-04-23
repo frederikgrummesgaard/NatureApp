@@ -106,6 +106,21 @@ export class AdventureListComponent implements OnInit, OnDestroy {
         }
     }
 
+    onCreateAdventureEntry(): void {
+        if (this.isAdmin) {
+            this.routerExtensions.navigate(["/adventure/adventure-list/" + this.adventureListId
+                + "/adventure-list-entry-crud"],
+                {
+                    animated: true,
+                    transition: {
+                        name: "slide",
+                        duration: 200,
+                        curve: "ease"
+                    }
+                });
+        }
+    }
+
     /**
      * This method checks the entries and if all are completed, it updates the adventureList
      * and displays a snackbar congratulating the user

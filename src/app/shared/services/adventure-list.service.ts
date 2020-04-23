@@ -102,8 +102,30 @@ export class AdventureListService {
         });
     }
 
-    updateAdventureListEntry(entryId, content) {
-        this.users.doc(this.userService.user.id).collection('adventurelist-entries').doc(entryId).update(content);
+    /**
+     * This method creates a field on each User that stores whether or not the user has found 
+     * the animal, plant, etc. in question, based on the entryId 
+     */
+    public createEntryDiscoveredState(entryId): void {
+        this.users.get().then((users) => {
+            users.forEach(user => {
+                this.users.doc(user.id).collection('adventurelist-entries').doc(entryId).set({
+                    isDiscovered: false,
+                });
+            });
+        })
+    }
+
+    /**
+     * This method changes the state of the isDiscovered field in firestore
+     */
+    public changeEntryDiscoveredState(entryId: string, content: Object): void {
+        this.users.doc(this.userService.user.id).collection('adventurelist-entries')
+            .doc(entryId).update(content);
+    }
+
+    public deleteEntry(listId: string, entryId: string) {
+        this.adventureLists.doc(listId).collection('entries').doc(entryId).delete();
     }
 
     public uploadFile(localPath: string): Promise<any> {

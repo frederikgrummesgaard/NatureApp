@@ -9,6 +9,7 @@ import { AdventureEntryComponent } from "./adventure-list/adventure-entry/advent
 import { AdventureListCrudComponent } from "./adventure-list-crud/adventure-list-crud.component";
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
+import { AdventureListEntryCrudComponent } from "./adventure-list/adventure-list-entry-crud/adventure-list-entry-crud.component";
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
     declarations: [
         AdventureListsComponent,
         AdventureListCrudComponent,
+        AdventureListEntryCrudComponent,
         AdventureListComponent,
         AdventureEntryComponent,
     ],
