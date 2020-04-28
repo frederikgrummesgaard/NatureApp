@@ -31,6 +31,7 @@
         "firebase-functions": "^3.6.0",
         "firebase-tools": "^8.0.3",
         "nativescript-angular": "^8.21.0",
+        "nativescript-imagepicker": "^7.1.0",
         "nativescript-plugin-firebase": "^10.5.0",
         "nativescript-ui-listview": "8.1.0",
         "nativescript-ui-sidedrawer": "~8.0.0",

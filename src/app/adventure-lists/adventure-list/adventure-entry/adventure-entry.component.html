@@ -10,29 +10,41 @@
     <Label class="h2"
            style="color: white;"
            text="{{adventureEntry?.name}}"></Label>
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf044;"
+               class="nt-icon far"
+               style="font-size: 20;"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onEditButtonTap()"></Label>
+    </ActionItem>
 </ActionBar>
 
 <GridLayout class="
            page__content">
-    <StackLayout class="">
-        <Image [src]="adventureEntry?.pictureURL"
-               stretch="aspectFill"
-               height="200"></Image>
-        <label text="{{adventureEntry?.description}}"
-               textWrap=true
-               lineHeight=5
-               class="p-y-5 p-x-15"
-               style="font-size: 18px;"></label>
-        <label (tap)="toggleDiscoveredButton()"
-               textAlignment="center"
-               [class.check-button-true]=adventureEntry?.isDiscovered
-               [class.check-button-false]=!adventureEntry?.isDiscovered>
-            <FormattedString>
-                <span text="&#xf00c;"
-                      class="fas"
-                      style="font-size: 40px !important;">
-                </span>
-            </FormattedString>
-        </label>
-    </StackLayout>
+    <ScrollView>
+        <StackLayout class="">
+            <Image [src]="adventureEntry?.pictureURL"
+                   stretch="aspectFill"
+                   height="200"></Image>
+            <label text="{{adventureEntry?.description}}"
+                   textWrap=true
+                   lineHeight=5
+                   class="p-t-5 p-x-15"
+                   style="font-size: 17px;"></label>
+
+            <label (tap)="toggleDiscoveredButton()"
+                   textAlignment="center"
+                   class="m-b-10"
+                   [class.check-button-true]=adventureEntry?.isDiscovered
+                   [class.check-button-false]=!adventureEntry?.isDiscovered>
+                <FormattedString>
+                    <span text="&#xf00c;"
+                          class="fas"
+                          style="font-size: 40px !important;">
+                    </span>
+                </FormattedString>
+            </label>
+        </StackLayout>
+    </ScrollView>
 </GridLayout>

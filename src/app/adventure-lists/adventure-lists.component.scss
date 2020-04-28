@@ -1,10 +1,13 @@
 @import '~@nativescript/theme/scss/variables/forest';
 
+.page-adventure-lists {
+    flex-direction: column;
+}
 // Custom styles
 .adventure-lists,
 :host-context(.ns-dark) .adventure-lists {
      &__item {
-        padding: 0 0 2 0;
+        padding: 0 0 0 0;
         
         @include colorize($background-color: background-alt-10);
 

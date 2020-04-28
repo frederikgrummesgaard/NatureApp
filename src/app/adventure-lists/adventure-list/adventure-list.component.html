@@ -11,9 +11,25 @@
     <Label class="h2"
            style="color: white;"
            text="{{adventureList?.name}}"></Label>
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf0fe;"
+               class="nt-icon far p-r-20"
+               style="font-size: 20;"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onCreateAdventureEntry()"></Label>
+    </ActionItem>
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf044;"
+               class="nt-icon far p-b-15"
+               style="font-size: 19;"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onEditButtonTap()"></Label>
+    </ActionItem>
 </ActionBar>
 
-<GridLayout class="page__content">
+<FlexboxLayout class="page-adventure-list">
     <RadListView [items]="adventureEntries$"
                  (itemTap)="onAdventureEntryItemTap($event)"
                  style="background-color: #f2f2f2;">
@@ -49,5 +65,4 @@
             </ng-template>
         </StackLayout>
     </RadListView>
-    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-</GridLayout>
+</FlexboxLayout>

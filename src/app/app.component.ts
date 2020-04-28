@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         firebase.init({
             storageBucket: 'gs://naturappen-b056a.appspot.com/',
+            persist: true,
             onAuthStateChanged: (data: any) => {
                 if (data.loggedIn) {
 

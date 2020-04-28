@@ -12,9 +12,17 @@
     <Label class="h2"
            style="color: white;"
            text="På opdagelse"></Label>
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf0fe;"
+               class="nt-icon far"
+               style="font-size: 20;"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onCreateButtonTap()"></Label>
+    </ActionItem>
 </ActionBar>
 
-<GridLayout class="page__content">
+<FlexboxLayout class="page-adventure-lists">
     <RadListView [items]="adventureLists"
                  (itemTap)="onAdventureListItemTap($event)"
                  style="background-color: #f2f2f2;">
@@ -26,7 +34,7 @@
                         <Image [src]="adventureList.pictureURL"
                                stretch="aspectFill"
                                height="160"></Image>
-                        <StackLayout style="padding: 80 0 6 0;">
+                        <StackLayout style="padding: 80 0 0 0;">
                             <Label [text]="adventureList.name"
                                    class="p-l-10"
                                    style="font-size: 20; color: white; font-weight: 700;"></Label>
@@ -34,11 +42,9 @@
                                    class="p-l-10"
                                    style="font-size: 16; color: white; font-weight: 500;"></Label>
                         </StackLayout>
-
                     </GridLayout>
                 </StackLayout>
             </ng-template>
         </StackLayout>
     </RadListView>
-    <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
-</GridLayout>
+</FlexboxLayout>
