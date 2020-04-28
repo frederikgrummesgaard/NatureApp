@@ -7,7 +7,7 @@ import * as app from "tns-core-modules/application";
 import * as firebase from "nativescript-plugin-firebase";
 import { UserService } from "./shared/services/user.service";
 import { User } from "./shared/models/user.model";
-
+import * as utils from "tns-core-modules/utils/utils";
 
 @Component({
     selector: "ns-app",
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     public user: User;
 
     constructor(private router: Router, private routerExtensions: RouterExtensions,
-        private userService: UserService) {
+        private userService: UserService, ) {
     }
 
     ngOnInit(): void {
@@ -94,5 +94,14 @@ export class AppComponent implements OnInit {
 
         const sideDrawer = <RadSideDrawer>app.getRootView();
         sideDrawer.closeDrawer();
+    }
+    onFacebookTap() {
+        utils.openUrl("https://www.facebook.com/naturappen");
+    }
+    onInstagramTap() {
+        utils.openUrl("https://instagram.com/naturappen?igshid=1mgq3s3dkczhx");
+    }
+    onWebsiteTap() {
+        utils.openUrl("https://www.naturappen.dk/");
     }
 }
