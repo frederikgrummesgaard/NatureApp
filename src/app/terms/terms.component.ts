@@ -3,10 +3,10 @@ import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 
 @Component({
-    selector: "Settings",
-    templateUrl: "./settings.component.html"
+    selector: "Terms",
+    templateUrl: "./terms.component.html"
 })
-export class SettingsComponent implements OnInit {
+export class TermsComponent implements OnInit {
 
     constructor() { }
 

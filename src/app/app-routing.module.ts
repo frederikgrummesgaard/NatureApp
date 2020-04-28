@@ -12,7 +12,7 @@ const routes: Routes = [
     { path: "tales", loadChildren: () => import("~/app/tales/tales.module").then((m) => m.TalesModule) },
     { path: "adventure", loadChildren: () => import("~/app/adventure-lists/adventure-lists.module").then((m) => m.AdventureListsModule) },
     { path: "about", loadChildren: () => import("~/app/about/about.module").then((m) => m.AboutModule) },
-    { path: "settings", loadChildren: () => import("~/app/settings/settings.module").then((m) => m.SettingsModule) },
+    { path: "terms", loadChildren: () => import("~/app/terms/terms.module").then((m) => m.TermsModule) },
     { path: "login", loadChildren: () => import("~/app/login/login.module").then((m) => m.LoginModule) },
     { path: "profile", loadChildren: () => import("~/app/profile/profile.module").then((m) => m.ProfileModule) }
 ];

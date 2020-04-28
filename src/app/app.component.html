@@ -26,8 +26,10 @@
                             (tap)="onNavItemTap('/home')">
                     <Label col="0"
                            text="&#xf4d8;"
+                           style="font-size: 18px;"
                            class="nt-icon fas"></Label>
                     <Label col="1"
+                           style="font-size: 16px;"
                            text="Hjem"
                            class="p-r-10"></Label>
                 </GridLayout>
@@ -38,8 +40,10 @@
                             (tap)="onNavItemTap('/tales')">
                     <Label col="0"
                            text="&#xf027;"
+                           style="font-size: 18px;"
                            class="nt-icon fas"></Label>
                     <Label col="1"
+                           style="font-size: 16px;"
                            text="Naturfortællinger"
                            class="p-r-10"></Label>
                 </GridLayout>
@@ -50,8 +54,10 @@
                             (tap)="onNavItemTap('/adventure')">
                     <Label col="0"
                            text="&#xf1e5;"
+                           style="font-size: 18px;"
                            class="nt-icon fas"></Label>
                     <Label col="1"
+                           style="font-size: 16px;"
                            text="På opdagelse"
                            class="p-r-10"></Label>
                 </GridLayout>
@@ -62,8 +68,10 @@
                             (tap)="onNavItemTap('/about')">
                     <Label col="0"
                            text="&#xf059;"
+                           style="font-size: 18px;"
                            class="nt-icon far"></Label>
                     <Label col="1"
+                           style="font-size: 16px;"
                            text="Om Naturappen"
                            class="p-r-10"></Label>
                 </GridLayout>
@@ -72,15 +80,37 @@
 
                 <GridLayout columns="auto, *"
                             class="nt-drawer__list-item"
-                            [class.-selected]="isComponentSelected('/settings')"
-                            (tap)="onNavItemTap('/settings')">
+                            [class.-selected]="isComponentSelected('/terms')"
+                            (tap)="onNavItemTap('/terms')">
                     <Label col="0"
-                           text="&#xf013;"
+                           text="&#xf02d;"
+                           style="font-size: 18px;"
                            class="nt-icon fas"></Label>
                     <Label col="1"
-                           text="Instillinger"
+                           style="font-size: 16px;"
+                           text="Handelsbetingelser"
                            class="p-r-10"></Label>
                 </GridLayout>
+                <StackLayout orientation="horizontal">
+
+                    <Image src="~/assets/facebook.png"
+                           (tap)="onFacebookTap()"
+                           class="m-l-20 m-t-25"
+                           height="54">
+                    </Image>
+
+                    <Image src="~/assets/instagram.png"
+                           (tap)="onInstagramTap()"
+                           class="m-l-20 m-t-25"
+                           height="60"></Image>
+
+                    <Image src="~/assets/naturappen-logo.png"
+                           (tap)="onWebsiteTap()"
+                           class="m-l-20 m-t-25"
+                           height="60"></Image>
+
+                </StackLayout>
+
             </StackLayout>
         </ScrollView>
     </GridLayout>
