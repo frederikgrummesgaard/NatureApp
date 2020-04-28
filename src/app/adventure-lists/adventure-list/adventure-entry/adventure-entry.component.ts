@@ -15,7 +15,7 @@ export class AdventureEntryComponent implements OnInit {
 
     adventureEntry: AdventureEntry;
     adventureListEntryId: string;
-    urlArray: string[];
+    adventureListId: string;
     isLoading: boolean = false;
     isAdmin: boolean = false;
     constructor(private routerExtensions: RouterExtensions,
@@ -30,7 +30,8 @@ export class AdventureEntryComponent implements OnInit {
 
     ngOnInit(): void {
         this.isLoading = true;
-        this.urlArray = this.router.url.split('/')
+        let urlArray = this.router.url.split('/')
+        this.adventureListId = urlArray[3];
         this.pageRoute.activatedRoute
             .pipe(switchMap((activatedRoute) => activatedRoute.params))
             .forEach((params) => {
@@ -45,7 +46,7 @@ export class AdventureEntryComponent implements OnInit {
 
     toggleDiscoveredButton(): void {
         this.adventureEntry.isDiscovered = !this.adventureEntry.isDiscovered;
-        this.adventureListService.changeEntryDiscoveredState(this.adventureListEntryId,
+        this.adventureListService.changeEntryDiscoveredState(this.adventureListId, this.adventureListEntryId,
             {
                 isDiscovered: this.adventureEntry.isDiscovered
             })
@@ -53,12 +54,11 @@ export class AdventureEntryComponent implements OnInit {
 
     onBackButtonTap(): void {
         this.routerExtensions.backToPreviousPage();
-
     }
 
     onEditButtonTap(): void {
         if (this.isAdmin) {
-            this.routerExtensions.navigate(["/adventure/adventure-list/" + this.urlArray[3] + "/adventure-list-entry-crud", this.adventureListEntryId],
+            this.routerExtensions.navigate(["/adventure/adventure-list/" + this.adventureListId + "/adventure-list-entry-crud", this.adventureListEntryId],
                 {
                     animated: true,
                     transition: {

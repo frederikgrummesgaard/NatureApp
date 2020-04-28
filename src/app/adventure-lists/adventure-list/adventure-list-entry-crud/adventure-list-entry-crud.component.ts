@@ -142,9 +142,7 @@ export class AdventureListEntryCrudComponent implements OnInit {
                         name: this.adventureListEntryForm.get('name').value,
                         description: this.adventureListEntryForm.get('description').value,
                         pictureURL: imageUrl,
-                    }).then((entry) => {
-                        this.adventureListService.createEntryDiscoveredState(entry.id);
-                    });
+                    })
             } else {
                 firebase.firestore.collection('adventurelists').doc(this.adventureListId)
                     .collection('entries').doc(this.adventureListEntryId).update({

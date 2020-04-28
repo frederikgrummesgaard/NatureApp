@@ -1,14 +1,15 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AdventureList } from "~/app/shared/models/adventureList.model";
 import { RouterExtensions, PageRoute } from "nativescript-angular/router";
 import { AdventureListService } from "~/app/shared/services/adventure-list.service";
 import { switchMap } from "rxjs/operators";
 import { AdventureEntry } from "~/app/shared/models/adventureEntry.model";
 import { ListViewEventData } from "nativescript-ui-listview";
-import { Location } from '@angular/common';
 import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
 import { SnackBar } from "@nstudio/nativescript-snackbar";
 import { UserService } from "~/app/shared/services/user.service";
+import * as firebase from "nativescript-plugin-firebase";
+import { Page } from "tns-core-modules/ui/page/page";
 
 @Component({
     selector: "AdventuresList",
@@ -16,19 +17,19 @@ import { UserService } from "~/app/shared/services/user.service";
     styleUrls: ["./adventure-list.component.scss"]
 
 })
-export class AdventureListComponent implements OnInit, OnDestroy {
+export class AdventureListComponent implements OnInit {
     public isLoading: boolean = false;
     public adventureList: AdventureList;
-    public adventureEntries$: ObservableArray<AdventureEntry[]>;
+    public adventureEntries$: ObservableArray<AdventureEntry>;
     public adventureListId: string;
-    public locationSubscription: any;
     public isAdmin: boolean = false;
 
     constructor(private routerExtensions: RouterExtensions,
-        private adventureListService: AdventureListService,
         private pageRoute: PageRoute,
-        private userService: UserService,
-        private location: Location) {
+        private page: Page,
+        private adventureListService: AdventureListService,
+        private userService: UserService) {
+
         if (this.userService.user.isAdmin) {
             this.isAdmin = true;
         }
@@ -37,22 +38,9 @@ export class AdventureListComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.loadingAdventureList();
 
-        const snackbar = new SnackBar();
-
-        // This subscription updates the AdventureEntries, when the back button 
-        // is pressed in the adventure-entry-component 
-        this.locationSubscription = this.location.subscribe(() => {
-            this.adventureListService.getAdventureListEntries(this.adventureListId).then(
-                (adventureListEntries: any) => {
-                    this.adventureEntries$ = adventureListEntries;
-                    this.isAdventureListCompleted(adventureListEntries, snackbar);
-                }
-            )
-        });
-    }
-
-    ngOnDestroy(): void {
-        this.locationSubscription.unsubscribe();
+        this.page.on('loaded', () => {
+            this.getEntries();
+        })
     }
 
     loadingAdventureList() {
@@ -65,13 +53,17 @@ export class AdventureListComponent implements OnInit, OnDestroy {
                     (adventureList: AdventureList) => {
                         this.adventureList = adventureList;
                     });
-                this.adventureListService.getAdventureListEntries(this.adventureListId).then(
-                    (adventureListEntries: any) => {
-                        this.adventureEntries$ = adventureListEntries;
-                        this.isLoading = false;
-                    }
-                )
+                this.getEntries();
             });
+    }
+
+    private getEntries() {
+        this.adventureListService.getAdventureListEntries(this.adventureListId).then((adventureListEntries: any) => {
+            this.adventureEntries$ = adventureListEntries;
+            const snackbar = new SnackBar();
+            this.isAdventureListCompleted(adventureListEntries, snackbar);
+            this.isLoading = false;
+        });
     }
 
     onAdventureEntryItemTap(args: ListViewEventData): void {
@@ -125,20 +117,35 @@ export class AdventureListComponent implements OnInit, OnDestroy {
      * This method checks the entries and if all are completed, it updates the adventureList
      * and displays a snackbar congratulating the user
      */
-    private isAdventureListCompleted(adventureListEntries: any, snackbar: SnackBar) {
-        this.adventureList.isCompleted = true;
-        adventureListEntries.forEach((entry: AdventureEntry) => {
-            if (!entry.isDiscovered) {
-                this.adventureList.isCompleted = false;
-            }
-        });
-        if (this.adventureList.isCompleted) {
-            this.adventureListService.updateAdventureList(this.adventureListId, { isCompleted: true });
-            snackbar.simple('Tillykke! Du har fået banko!', '#fff', '#008000', 2, true);
-            this.locationSubscription.unsubscribe();
-        }
-        else if (!this.adventureList.isCompleted) {
-            this.adventureListService.updateAdventureList(this.adventureListId, { isCompleted: false });
-        }
+    private isAdventureListCompleted(adventureListEntries: AdventureEntry[], snackbar: SnackBar) {
+        let isAllreadyCompleted = false;
+        firebase.firestore.collection('users').doc(this.userService.user.id).collection('adventure-lists')
+            .doc(this.adventureListId).get()
+            .then((userAdventureList) => {
+                if (!userAdventureList.exists) {
+                    firebase.firestore.collection('users').doc(this.userService.user.id).collection('adventure-lists')
+                        .doc(this.adventureListId).set({
+                            isCompleted: false,
+                        })
+                }
+                if (userAdventureList.data().isCompleted) {
+                    isAllreadyCompleted = userAdventureList.data().isCompleted;
+                }
+
+            }).then(() => {
+                this.adventureList.isCompleted = true;
+                adventureListEntries.forEach((entry: AdventureEntry) => {
+                    if (!entry.isDiscovered) {
+                        this.adventureList.isCompleted = false;
+                    }
+                });
+                if (!isAllreadyCompleted && this.adventureList.isCompleted) {
+                    this.adventureListService.changeAdventureListDiscoveredState(this.adventureListId, { isCompleted: true });
+                    snackbar.simple('Tillykke! Du har fået banko!', '#fff', '#008000', 2, true);
+                }
+                else if (isAllreadyCompleted && !this.adventureList.isCompleted) {
+                    this.adventureListService.changeAdventureListDiscoveredState(this.adventureListId, { isCompleted: false });
+                }
+            })
     }
 }

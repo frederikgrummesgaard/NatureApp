@@ -4,6 +4,7 @@ import * as fs from "tns-core-modules/file-system";
 import { AdventureList } from "../models/adventureList.model";
 import { AdventureEntry } from "../models/adventureEntry.model";
 import { UserService } from "./user.service";
+import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
 
 @Injectable({
     providedIn: "root"
@@ -53,20 +54,31 @@ export class AdventureListService {
         })
     }
 
+    public changeAdventureListDiscoveredState(listId, content: Object): void {
+        this.users.doc(this.userService.user.id).collection('adventure-lists').doc(listId).set(content);
+    }
+
     updateAdventureList(id: string, content) {
         this.adventureLists.doc(id).update(content);
     }
 
     deleteAdventureList(id: string) {
         this.adventureLists.doc(id).delete();
+        this.users.get().then((users) => {
+            users.forEach(user => {
+                this.users.doc(user.id).collection('adventure-lists').doc(id).delete();
+            });
+        })
     }
+
 
     getAdventureListEntry(entryId: any) {
         return new Promise((resolve, reject) => {
             this.adventureLists.doc(this.adventureList.id).collection('entries').doc(entryId).get()
                 .then((adventureEntry: any) => {
-                    this.users.doc(this.userService.user.id).collection('adventurelist-entries')
-                        .doc(adventureEntry.id).get().then((entry) => {
+                    this.users.doc(this.userService.user.id).collection('adventure-lists').doc(this.adventureList.id)
+                        .collection('adventure-entries').doc(adventureEntry.id).get()
+                        .then((entry) => {
                             adventureEntry.data().isDiscovered = entry.data().isDiscovered;
                         })
                     resolve(adventureEntry.data());
@@ -80,21 +92,23 @@ export class AdventureListService {
     }
 
     getAdventureListEntries(id: any) {
-        let entriesToSend: AdventureEntry[] = [];
+        let entriesToSend: ObservableArray<AdventureEntry> = new ObservableArray();
         return new Promise((resolve, reject) => {
             this.adventureLists.doc(id).collection('entries').get()
                 .then((entries) => {
                     entries.forEach(entry => {
                         let dataToSave: AdventureEntry = entry.data();
                         dataToSave.id = entry.id;
-                        this.users.doc(this.userService.user.id).collection('adventurelist-entries')
-                            .doc(dataToSave.id).get().then((entry) => {
-                                dataToSave.isDiscovered = entry.data().isDiscovered;
+
+                        this.users.doc(this.userService.user.id).collection('adventure-lists').doc(id).collection('adventure-entries')
+                            .doc(entry.id).get().then((data) => {
+                                if (data.exists) {
+                                    dataToSave.isDiscovered = data.data().isDiscovered;
+                                }
+                                entriesToSend.push(dataToSave);
                             })
-                        entriesToSend.push(dataToSave);
                     });
-                    resolve(entriesToSend);
-                })
+                }).then(() => resolve(entriesToSend))
                 .catch(err => {
                     console.log(err);
                     reject(err);
@@ -102,15 +116,17 @@ export class AdventureListService {
         });
     }
 
-    /**
-     * This method creates a field on each User that stores whether or not the user has found 
-     * the animal, plant, etc. in question, based on the entryId 
-     */
-    public createEntryDiscoveredState(entryId): void {
+    private getAdventureListEntriesState(adventureListId, entries) {
+        entries.forEach(entry => {
+
+        });
+    }
+
+    public createListDiscoveredState(ListId): void {
         this.users.get().then((users) => {
             users.forEach(user => {
-                this.users.doc(user.id).collection('adventurelist-entries').doc(entryId).set({
-                    isDiscovered: false,
+                this.users.doc(user.id).collection('adventure-lists').doc(ListId).set({
+                    isCompleted: false,
                 });
             });
         })
@@ -119,13 +135,19 @@ export class AdventureListService {
     /**
      * This method changes the state of the isDiscovered field in firestore
      */
-    public changeEntryDiscoveredState(entryId: string, content: Object): void {
-        this.users.doc(this.userService.user.id).collection('adventurelist-entries')
-            .doc(entryId).update(content);
+    public changeEntryDiscoveredState(listId, entryId: string, content: Object): void {
+        this.users.doc(this.userService.user.id).collection('adventure-lists').doc(listId)
+            .collection('adventure-entries').doc(entryId).set(content);
     }
 
     public deleteEntry(listId: string, entryId: string) {
         this.adventureLists.doc(listId).collection('entries').doc(entryId).delete();
+        this.users.get().then((users) => {
+            users.forEach(user => {
+                this.users.doc(user.id).collection('adventure-lists').doc(listId)
+                    .collection('adventure-entries').doc(entryId).delete();
+            });
+        })
     }
 
     public uploadFile(localPath: string): Promise<any> {
