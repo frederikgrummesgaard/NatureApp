@@ -24,6 +24,7 @@ export class AdventureListEntryCrudComponent implements OnInit {
     public image: any;
     public imagePath: string;
     public isEditing: boolean = false;
+    public isSavePressed: boolean = false;
     public urlArray: string[];
     public title: string = 'Opret';
 
@@ -118,6 +119,7 @@ export class AdventureListEntryCrudComponent implements OnInit {
     }
 
     public onSaveButtonTap(): void {
+        this.isSavePressed = true;
         if (!this.adventureEntry.pictureURL || this.imagePath) {
             this.adventureListService.uploadFile(this.imagePath)
                 .then((uploadedFile) => {
@@ -130,6 +132,7 @@ export class AdventureListEntryCrudComponent implements OnInit {
             this.createOrUpdateAdventureListEntry(this.adventureEntry.pictureURL);
             this.onBackButtonTap();
         } else {
+            this.isSavePressed = false;
             alert('Sikre at navn, billede og beskrivelse er indtastet korrekt')
         }
     }

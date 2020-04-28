@@ -21,6 +21,7 @@ export class AdventureListCrudComponent implements OnInit {
     public image: any;
     public imagePath: string;
     public isEditing: boolean = false;
+    public isSavePressed: boolean = false;
     public title: string = 'Opret bankoplade';
 
     constructor(private pageRoute: PageRoute,
@@ -109,6 +110,7 @@ export class AdventureListCrudComponent implements OnInit {
     }
 
     public onSaveButtonTap(): void {
+        this.isSavePressed = true;
         if (!this.adventureList.pictureURL || this.imagePath) {
             this.adventureListService.uploadFile(this.imagePath)
                 .then((uploadedFile) => {
@@ -121,6 +123,7 @@ export class AdventureListCrudComponent implements OnInit {
             this.createOrUpdateAdventureList(this.adventureList.pictureURL);
             this.onBackButtonTap();
         } else {
+            this.isSavePressed = false;
             alert('Sikre at navn, billede og beskrivelse er indtastet korrekt')
         }
     }

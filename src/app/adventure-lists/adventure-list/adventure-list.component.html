@@ -13,7 +13,7 @@
            text="{{adventureList?.name}}"></Label>
     <ActionItem *ngIf="isAdmin">
         <Label text="&#xf0fe;"
-               class="nt-icon far m-r-10"
+               class="nt-icon far p-r-20"
                style="font-size: 20;"
                verticalAlignment="center"
                ios.position="right"
@@ -21,8 +21,8 @@
     </ActionItem>
     <ActionItem *ngIf="isAdmin">
         <Label text="&#xf044;"
-               class="nt-icon far"
-               style="font-size: 18;"
+               class="nt-icon far p-b-15"
+               style="font-size: 19;"
                verticalAlignment="center"
                ios.position="right"
                (tap)="onEditButtonTap()"></Label>

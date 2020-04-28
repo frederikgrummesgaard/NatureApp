@@ -15,7 +15,7 @@
                class="nt-icon far"
                style="font-size: 20;"
                verticalAlignment="center"
-               [isEnabled]="adventureListForm.valid"
+               [isEnabled]="adventureListForm.valid && !isSavePressed"
                (tap)="onSaveButtonTap()"></Label>
     </ActionItem>
 </ActionBar>
