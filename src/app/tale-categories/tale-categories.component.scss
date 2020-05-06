@@ -1,0 +1,20 @@
+@import '~@nativescript/theme/scss/variables/forest';
+
+.page-tale-categories {
+    flex-direction: column;
+}
+// Custom styles
+.tale-category,
+:host-context(.ns-dark) .tale-category {
+     &__item {
+        padding: 0 0 0 0;
+        
+        @include colorize($background-color: background-alt-10);
+
+        &-content {
+            padding: 0 0 0 0;
+            @include colorize($background-color: background);
+        }
+
+    }
+}

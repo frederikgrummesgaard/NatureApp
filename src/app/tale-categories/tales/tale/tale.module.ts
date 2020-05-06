@@ -1,16 +1,18 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
-import { TalesRoutingModule } from "./tales-routing.module";
-import { TalesComponent } from "./tales.component";
+import { TaleRoutingModule } from "./tale-routing.module";
+import { TaleComponent } from "./tale.component";
+import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
 
 @NgModule({
     imports: [
         NativeScriptCommonModule,
-        TalesRoutingModule
+        TaleRoutingModule,
+        NativeScriptUIListViewModule,
     ],
     declarations: [
-        TalesComponent
+        TaleComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

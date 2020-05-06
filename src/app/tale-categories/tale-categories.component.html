@@ -1,0 +1,47 @@
+<ActionBar class="page-header">
+
+    <NavigationButton ios:visibility="collapsed"
+                      icon="res://menu"
+                      (tap)="onDrawerButtonTap()"></NavigationButton>
+
+    <ActionItem icon="res://menu"
+                android:visibility="collapsed"
+                (tap)="onDrawerButtonTap()"
+                ios.position="left">
+    </ActionItem>
+    <Label class="h2"
+           style="color: white;"
+           text="Naturfortællinger"></Label>
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf0fe;"
+               class="nt-icon far"
+               style="font-size: 20;"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onCreateButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<FlexboxLayout class="page-tale-categories">
+    <RadListView [items]="taleCategories"
+                 (itemTap)="onCategoryItemTap($event)"
+                 style="background-color: #f2f2f2;">
+        <StackLayout>
+            <ng-template tkListItemTemplate
+                         let-taleCategory="item">
+                <StackLayout class="tale-category__item">
+                    <GridLayout class="tale-category__item-content">
+                        <Image [src]="taleCategory.pictureURL"
+                               stretch="aspectFill"
+                               height="160"></Image>
+                        <StackLayout style="padding: 80 0 0 0;">
+                            <Label [text]="taleCategory.name"
+                                   class="p-l-10"
+                                   style="font-size: 20; color: white; font-weight: 700;"></Label>
+                        </StackLayout>
+                    </GridLayout>
+                </StackLayout>
+            </ng-template>
+        </StackLayout>
+    </RadListView>
+</FlexboxLayout>

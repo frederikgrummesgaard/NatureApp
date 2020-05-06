@@ -1,0 +1,37 @@
+<ActionBar class="page-header">
+
+    <NavigationButton ios:visibility="collapsed"
+                      android.systemIcon="ic_menu_back"
+                      (tap)="onBackButtonTap()"></NavigationButton>
+
+    <ActionItem android:visibility="collapsed"
+                (tap)="onBackButtonTap()"
+                ios.position="left">
+    </ActionItem>
+    <Label class="h2"
+           style="color: white;"
+           text="{{tale?.name}}"></Label>
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf044;"
+               class="nt-icon far"
+               style="font-size: 20;"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onEditButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<GridLayout class="page__content">
+    <ScrollView>
+        <StackLayout class="">
+            <Image [src]="tale?.pictureURL"
+                   stretch="aspectFill"
+                   height="200"></Image>
+            <label text="{{tale?.description}}"
+                   textWrap=true
+                   lineHeight=5
+                   class="p-t-5 p-x-15"
+                   style="font-size: 17px;"></label>
+        </StackLayout>
+    </ScrollView>
+</GridLayout>

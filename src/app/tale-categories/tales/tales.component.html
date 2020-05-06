@@ -1,0 +1,54 @@
+<ActionBar class="page-header">
+
+    <NavigationButton ios:visibility="collapsed"
+                      android.systemIcon="ic_menu_back"
+                      (tap)="onBackButtonTap()"></NavigationButton>
+
+    <ActionItem android:visibility="collapsed"
+                (tap)="onBackButtonTap()"
+                ios.position="left">
+    </ActionItem>
+    <Label class="h2"
+           style="color: white;"
+           text="{{taleCategory?.name}}"></Label>
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf0fe;"
+               class="nt-icon far p-r-20"
+               style="font-size: 20;"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onCreateTale()"></Label>
+    </ActionItem>
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf044;"
+               class="nt-icon far p-b-15"
+               style="font-size: 19;"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onEditButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<FlexboxLayout class="page-tales">
+    <RadListView [items]="tales"
+                 (itemTap)="onTaleItemTap($event)"
+                 style="background-color: #f2f2f2;">
+        <StackLayout>
+            <ng-template tkListItemTemplate
+                         let-tale="item">
+                <StackLayout class="tales__item">
+                    <GridLayout class="tales__item-content">
+                        <Image [src]="tale.pictureURL"
+                               stretch="aspectFill"
+                               height="160"></Image>
+                        <StackLayout style="padding: 80 0 0 0;">
+                            <Label [text]="tale.name"
+                                   class="p-l-10"
+                                   style="font-size: 20; color: white; font-weight: 700;"></Label>
+                        </StackLayout>
+                    </GridLayout>
+                </StackLayout>
+            </ng-template>
+        </StackLayout>
+    </RadListView>
+</FlexboxLayout>

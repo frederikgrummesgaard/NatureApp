@@ -1,0 +1,20 @@
+@import '~@nativescript/theme/scss/variables/forest';
+
+.page-tales {
+    flex-direction: column;
+}
+// Custom styles
+.tales,
+:host-context(.ns-dark) .tales {
+     &__item {
+        padding: 0 0 0 0;
+        
+        @include colorize($background-color: background-alt-10);
+
+        &-content {
+            padding: 0 0 0 0;
+            @include colorize($background-color: background);
+        }
+
+    }
+}

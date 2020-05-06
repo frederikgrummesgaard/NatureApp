@@ -9,7 +9,7 @@ export const authProviders = [
 const routes: Routes = [
     { path: "", redirectTo: "/home", pathMatch: "full" },
     { path: "home", loadChildren: () => import("~/app/home/home.module").then((m) => m.HomeModule), canActivate: [AuthGuard] },
-    { path: "tales", loadChildren: () => import("~/app/tales/tales.module").then((m) => m.TalesModule) },
+    { path: "tale-categories", loadChildren: () => import("~/app/tale-categories/tale-categories.module").then((m) => m.TaleCategoriesModule) },
     { path: "adventure", loadChildren: () => import("~/app/adventure-lists/adventure-lists.module").then((m) => m.AdventureListsModule) },
     { path: "about", loadChildren: () => import("~/app/about/about.module").then((m) => m.AboutModule) },
     { path: "terms", loadChildren: () => import("~/app/terms/terms.module").then((m) => m.TermsModule) },
