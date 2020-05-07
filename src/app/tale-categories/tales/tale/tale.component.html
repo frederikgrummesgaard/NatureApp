@@ -24,9 +24,46 @@
 <GridLayout class="page__content">
     <ScrollView>
         <StackLayout class="">
-            <Image [src]="tale?.pictureURL"
-                   stretch="aspectFill"
-                   height="200"></Image>
+            <GridLayout class="audio">
+                <Image stretch="aspectFill"
+                       [src]="tale?.pictureURL"
+                       height="200">
+                </Image>
+                <GridLayout class="audio__start"
+                            (tap)="togglePlay()"
+                            *ngIf="!isPlaying">
+                    <Label text="&#xf144;"
+                           class="far"
+                           horizontalAlignment="center"></Label>
+                </GridLayout>
+                <GridLayout class="audio__stop"
+                            (tap)="togglePlay()"
+                            *ngIf="isPlaying">
+                    <Label text="&#xf28b;"
+                           class="far"
+                           horizontalAlignment="center"></Label>
+                </GridLayout>
+                <GridLayout colums="*,2"
+                            class="audio-slider">
+                    <label col="0"
+                           class="time"
+                           text="{{displayTime}}"></label>
+                    <Slider #slider
+                            class="slider"
+                            col="1"
+                            [value]="currentTime"
+                            (valueChange)="isSliderValueChanged(slider.value) && onCurrentTimeChanged($event)"
+                            [maxValue]="duration"
+                            backgroundColor="white"
+                            color="white"
+                            minValue="0"></Slider>
+                    <label col="2"
+                           class="time"
+                           horizontalAlignment="right"
+                           text="{{remainingTime}}"></label>
+                </GridLayout>
+            </GridLayout>
+
             <label text="{{tale?.description}}"
                    textWrap=true
                    lineHeight=5

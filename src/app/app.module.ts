@@ -10,6 +10,7 @@ import { UserService } from "./shared/services/user.service";
 import { AuthGuard } from "~/auth-guard.service";
 import { TaleService } from "./shared/services/tale.service";
 
+
 require("nativescript-plugin-firebase");
 
 @NgModule({

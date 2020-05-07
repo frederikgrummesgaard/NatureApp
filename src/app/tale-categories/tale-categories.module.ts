@@ -6,6 +6,7 @@ import { TaleCategoriesComponent } from "./tale-categories.component";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/listview-directives";
 import { TalesComponent } from "./tales/tales.component";
 import { TaleComponent } from "./tales/tale/tale.component";
+import { DatePipe } from "@angular/common";
 
 @NgModule({
     imports: [
@@ -20,6 +21,8 @@ import { TaleComponent } from "./tales/tale/tale.component";
     ],
     schemas: [
         NO_ERRORS_SCHEMA
+    ],
+    providers: [DatePipe,
     ]
 })
 export class TaleCategoriesModule { }

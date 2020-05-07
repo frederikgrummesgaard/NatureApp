@@ -31,6 +31,7 @@
         "firebase-functions": "^3.6.0",
         "firebase-tools": "^8.0.3",
         "nativescript-angular": "^8.21.0",
+        "nativescript-audio": "^5.0.5",
         "nativescript-imagepicker": "^7.1.0",
         "nativescript-plugin-firebase": "^10.5.0",
         "nativescript-ui-listview": "8.1.0",
@@ -45,7 +46,7 @@
         "@ngtools/webpack": "^9.1.0",
         "codelyzer": "5.2.1",
         "nativescript-dev-webpack": "^1.5.1",
-        "node-sass": "4.13.1",
+        "node-sass": "^4.14.1",
         "tslint": "6.0.0",
         "typescript": "~3.5.3",
         "webpack-node-externals": "^1.7.2"
