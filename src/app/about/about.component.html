@@ -15,8 +15,29 @@
 </ActionBar>
 
 <GridLayout class="page__content">
-    <Label class="page__content-icon fas"
-           text="&#xf005;"></Label>
-    <Label class="page__content-placeholder"
-           text="<!-- Page content goes here -->"></Label>
+    <ScrollView>
+        <StackLayout>
+            <Image src="~/assets/lærkeogemil2.jpg"
+                   Stretch="aspectFill"></Image>
+            <label text="Naturappen er et naturunivers lavet særligt til børn. Naturappen kan bruges ude i naturen til gå på bankojagt og derigennem lære noget om den danske natur, på en sjov måde. 
+Der er bankoplader til alle niveauer - nogle helt simple, hvor man tager på jagt efter farver i naturen eller ud efter “en gul blomst” eller et “grønt blad”. Så er der også nogle mere specifikke bankoplader, hvor man tager på jagt efter arter - det kan være alt fra svampe, sommerfugle, insekter i skovbunden, vilde planter i haven, blomster på engen osv."
+                   textWrap=true
+                   lineHeight=5
+                   class="p-y-10 p-x-20"
+                   style="font-size: 16px;"></label>
+            <label text="Den anden del af Naturappen er et lydunivers fyldt med naturfortællinger. Her finder man faglige fortællinger, skønlitterære naturfortællinger (hvor alt indhold er faktuelt korrekt) og små naturmeditationer. Alle sammen lydfortællinger der på en hyggelig måde, kan gøre hele familien, men særligt børnene, klogere på den danske natur. 
+Der bliver løbende lagt både nye bankoplader og nye naturfortællinger ind, så indholdet hele tiden vil udvides."
+                   textWrap=true
+                   lineHeight=5
+                   class=" p-y-5 p-x-20"
+                   style="font-size: 16px;"></label>
+            <Image src="~/assets/lærkeogemil1.jpg"
+                   Stretch="aspectFill"></Image>
+            <label text="Vi, Lærke og Emil, har skabt dette univers med visionen om at give flere børnefamilier gode naturoplevelser men også mere kendskab til den danske natur, så alle vores børn kan vokse op med en bedre forståelse, dybere indsigt og oprigtig taknemmelighed for naturen, så de har lyst til at passe bedre på den."
+                   textWrap=true
+                   lineHeight=5
+                   class="p-y-10 p-b-20 p-x-20"
+                   style="font-size: 16px;"></label>
+        </StackLayout>
+    </ScrollView>
 </GridLayout>
