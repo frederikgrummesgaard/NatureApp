@@ -72,10 +72,18 @@ export class TalesComponent implements OnInit {
             });
     }
     onCreateTale() {
-
-    }
-    onEditButtonTap() {
-
+        if (this.isAdmin) {
+            this.routerExtensions.navigate(["/tale-categories/tales/" + this.taleCategoryId
+                + "/tale-crud"],
+                {
+                    animated: true,
+                    transition: {
+                        name: "slide",
+                        duration: 200,
+                        curve: "ease"
+                    }
+                });
+        }
     }
 
     onBackButtonTap(): void {

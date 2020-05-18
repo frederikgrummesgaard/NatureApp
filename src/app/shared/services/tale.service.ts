@@ -74,6 +74,9 @@ export class TaleService {
                     reject(err);
                 });
         });
+    }
 
+    public deleteTale(categoryId: string, taleId: string) {
+        this.taleCategories.doc(categoryId).collection('tales').doc(taleId).delete();
     }
 }

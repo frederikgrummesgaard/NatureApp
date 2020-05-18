@@ -12,36 +12,40 @@
     <Label class="h2"
            style="color: white;"
            text="Naturfortællinger"></Label>
-    <ActionItem *ngIf="isAdmin">
-        <Label text="&#xf0fe;"
-               class="nt-icon far"
-               style="font-size: 20;"
-               verticalAlignment="center"
-               ios.position="right"
-               (tap)="onCreateButtonTap()"></Label>
-    </ActionItem>
 </ActionBar>
 
-<FlexboxLayout class="page-tale-categories">
-    <RadListView [items]="taleCategories"
-                 (itemTap)="onCategoryItemTap($event)"
-                 style="background-color: #f2f2f2;">
-        <StackLayout>
-            <ng-template tkListItemTemplate
-                         let-taleCategory="item">
-                <StackLayout class="tale-category__item">
-                    <GridLayout class="tale-category__item-content">
-                        <Image [src]="taleCategory.pictureURL"
-                               stretch="aspectFill"
-                               height="160"></Image>
-                        <StackLayout style="padding: 80 0 0 0;">
-                            <Label [text]="taleCategory.name"
-                                   class="p-l-10"
-                                   style="font-size: 20; color: white; font-weight: 700;"></Label>
-                        </StackLayout>
-                    </GridLayout>
-                </StackLayout>
-            </ng-template>
-        </StackLayout>
-    </RadListView>
-</FlexboxLayout>
+<ScrollView>
+    <StackLayout>
+        <GridLayout (tap)="onCategoryItemTap('RC0vWoVWvRPgIlETcnWO')">
+            <Image src="~/assets/Naturfortællinger.jpg"
+                   Stretch="aspectFill"></Image>
+            <GridLayout>
+                <Label horizontalAlignment="center"
+                       verticalAlignment="center"
+                       text="NATURMEDITATIONER"
+                       style="font-size: 30; color: white; font-weight: 500;"></Label>
+            </GridLayout>
+        </GridLayout>
+        <GridLayout (tap)="onCategoryItemTap('XKxCEgZJNv1b5DtMlLC4')">
+            <Image src="~/assets/På-opdagelse.jpg"
+                   Stretch="aspectFill"></Image>
+            <GridLayout>
+                <Label horizontalAlignment="center"
+                       verticalAlignment="center"
+                       text="FORTÆLLINGER"
+                       style="font-size: 30; color: white; font-weight: 500;"></Label>
+            </GridLayout>
+        </GridLayout>
+
+        <GridLayout (tap)="onCategoryItemTap('ceHSGoV9VPfE2lcNbufM')">
+            <Image src="~/assets/Om-os.jpg"
+                   Stretch="aspectFill"></Image>
+            <GridLayout>
+                <Label horizontalAlignment="center"
+                       verticalAlignment="center"
+                       text="HISTORIER"
+                       style="font-size: 30; color: white; font-weight: 500;"></Label>
+            </GridLayout>
+        </GridLayout>
+    </StackLayout>
+</ScrollView>

@@ -105,10 +105,6 @@ export class TaleComponent implements OnInit {
         return Math.round(val) !== Math.round(this.currentTime);
     }
 
-    onBackButtonTap(): void {
-        this.routerExtensions.backToPreviousPage();
-    }
-
     private _trackComplete(args: any) {
         console.log('reference back to player:', args.player);
         // iOS only: flag indicating if completed succesfully
@@ -122,4 +118,22 @@ export class TaleComponent implements OnInit {
         console.log('extra info on the error:', args.extra);
     }
 
+    onBackButtonTap(): void {
+        this.routerExtensions.backToPreviousPage();
+    }
+
+    onEditButtonTap() {
+        if (this.isAdmin) {
+            this.routerExtensions.navigate(["/tale-categories/tales/" + this.taleCategoryId
+                + "/tale-crud", this.taleId],
+                {
+                    animated: true,
+                    transition: {
+                        name: "slide",
+                        duration: 200,
+                        curve: "ease"
+                    }
+                });
+        }
+    }
 }

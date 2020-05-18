@@ -58,13 +58,18 @@
             <Label text="Lydfil"
                    class="title"></Label>
             <GridLayout height="65"
-            (tap)="addOrRemoveAudioFile()">
+                        class="sound-file-button-add"
+                        *ngIf="!isAudioFile"
+                        (tap)="addOrRemoveAudioFile()">
                 <Label text="&#xf055;"
-                       class="fas sound-file-button"
-                       *ngIf="!audioFile"></Label>
+                       class="fas"></Label>
+            </GridLayout>
+            <GridLayout height="65"
+                        class="sound-file-button-remove"
+                        *ngIf="isAudioFile"
+                        (tap)="addOrRemoveAudioFile()">
                 <Label text="&#xf2ed; {{audioFileName}}"
-                       class="far sound-file-button"
-                       *ngIf="audioFile"></Label>
+                       class="far"></Label>
             </GridLayout>
         </StackLayout>
         <StackLayout>

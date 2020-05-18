@@ -7,22 +7,30 @@ import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular/l
 import { TalesComponent } from "./tales/tales.component";
 import { TaleComponent } from "./tales/tale/tale.component";
 import { DatePipe } from "@angular/common";
+import { ReactiveFormsModule, FormBuilder } from "@angular/forms";
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
+import { TaleCrudComponent } from "./tales/tale-crud/tale-crud.component";
 
 @NgModule({
     imports: [
         NativeScriptCommonModule,
         TaleCategoriesRoutingModule,
         NativeScriptUIListViewModule,
+        ReactiveFormsModule,
+        NativeScriptFormsModule,
     ],
     declarations: [
         TaleCategoriesComponent,
         TalesComponent,
         TaleComponent,
+        TaleCrudComponent,
     ],
     schemas: [
         NO_ERRORS_SCHEMA
     ],
-    providers: [DatePipe,
+    providers: [
+        DatePipe,
+        FormBuilder,
     ]
 })
 export class TaleCategoriesModule { }

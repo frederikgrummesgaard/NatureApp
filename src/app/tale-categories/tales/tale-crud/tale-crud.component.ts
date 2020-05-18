@@ -1,10 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, NgZone } from "@angular/core";
 import { RouterExtensions, PageRoute } from "nativescript-angular/router";
 import { FormBuilder, Validators } from "@angular/forms";
 import * as imagepicker from "nativescript-imagepicker";
+import * as app from 'tns-core-modules/application';
+import { Mediafilepicker, AudioPickerOptions } from 'nativescript-mediafilepicker';
 import * as firebase from "nativescript-plugin-firebase";
 import * as enums from 'tns-core-modules/ui/enums';
 import { ImageSource } from "tns-core-modules/image-source/image-source";
+
 import { switchMap } from "rxjs/operators";
 import { Tale } from "~/app/shared/models/tale.model";
 import { TaleService } from "~/app/shared/services/tale.service";
@@ -23,9 +26,9 @@ export class TaleCrudComponent implements OnInit {
     public taleId: string;
     public image: any;
     public imagePath: string;
-    public audioPath: string;
-    public audioFile: any = true;
-    public audioFileName: string = 'aaa';
+    public audioFileName: string;
+    public audioFile: any;
+    public isAudioFile: boolean;
     public isEditing: boolean = false;
     public isSavePressed: boolean = false;
     public title: string = 'Opret fortælling';
@@ -36,6 +39,7 @@ export class TaleCrudComponent implements OnInit {
         private routerExtensions: RouterExtensions,
         private taleService: TaleService,
         private utilityService: UtilityService,
+        private ngZone: NgZone,
         private fb: FormBuilder) {
     }
 
@@ -62,6 +66,11 @@ export class TaleCrudComponent implements OnInit {
                                 this.taleForm.get('name').setValue(this.tale.name);
                                 this.taleForm.get('description').setValue(this.tale.description);
                                 this.image = this.tale.pictureURL;
+                                this.audioFile = this.tale.audioURL;
+                                this.isAudioFile = true;
+                                let array = this.tale.audioURL.split('%');
+                                array = array[1].split('?');
+                                this.audioFileName = array[0].substring(2, array[0].length)
                             });
                     }
                 })
@@ -73,10 +82,53 @@ export class TaleCrudComponent implements OnInit {
 
     }
     public addOrRemoveAudioFile() {
+        let options: AudioPickerOptions = {
+            android: {
+                isCaptureMood: false, // if true then voice recorder will open directly.
+                isNeedRecorder: false,
+                maxNumberFiles: 1,
+                isNeedFolderList: true,
+            },
+            ios: {
+                isCaptureMood: false, // if true then voice recorder will open directly.
+                maxNumberFiles: 1,
+            }
+        };
+
         if (this.audioFile) {
             this.audioFile = null;
+            this.isAudioFile = false;
             return;
         }
+
+        let mediafilepicker = new Mediafilepicker();
+        mediafilepicker.openAudioPicker(options);
+        mediafilepicker.on("getFiles", (res) => {
+            let results = res.object.get('results');
+            this.audioFile = results[0].file;
+            console.log(this.audioFile);
+            let array: string[] = this.audioFile.split('/')
+            this.audioFileName = array[array.length - 1];
+            this.isAudioFile = true;
+            console.log(this.audioFileName);
+            if (this.audioFile && app.ios && !options.ios.isCaptureMood) {
+                let fileName = "tmpFile.m4a";
+                mediafilepicker.copyMPMediaFileToAPPDirectory(this.audioFile.rawData, fileName).then((res) => {
+                    console.dir(res);
+                }).catch((err) => {
+                    console.dir(err);
+                });
+            }
+            mediafilepicker.on("error", (res) => {
+                let msg = res.object.get('msg');
+                console.log(msg);
+            });
+
+            mediafilepicker.on("cancel", (res) => {
+                let msg = res.object.get('msg');
+                console.log(msg);
+            });
+        });
     }
     public addOrRemoveImage() {
         if (this.image) {
@@ -103,14 +155,10 @@ export class TaleCrudComponent implements OnInit {
     }
     public saveImageFile(result) {
         let imageSrc = result;
-        this.imagePath = this.utilityService.documentsPath(`${this.taleForm.get('name').value}.jpeg`)
+        this.imagePath = this.utilityService.documentsPath(`${this.taleForm.get('name').value}.jpeg`);
         imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 10);
     }
-    public saveAudioFile(result) {
-        let audioSrc = result;
-        this.audioPath = this.utilityService.documentsPath(`${this.taleForm.get('name').value}.mp3`)
-        audioSrc.saveToFile(this.audioPath, enums, 10);
-    }
+
 
     public onDeleteButtonTap() {
         //Extracts the filename from firebases access token
@@ -121,6 +169,9 @@ export class TaleCrudComponent implements OnInit {
         this.taleService.deleteTale(this.taleCategoryId, this.taleId);
         firebase.storage.deleteFile({
             remoteFullPath: '/images/' + filename,
+        });
+        firebase.storage.deleteFile({
+            remoteFullPath: '/audio/' + this.audioFileName,
         });
         this.routerExtensions.navigate(["/tale-categories"],
             {
@@ -133,26 +184,47 @@ export class TaleCrudComponent implements OnInit {
             });
     }
 
-    public onSaveButtonTap(): void {
+    public async onSaveButtonTap(): Promise<void> {
         this.isSavePressed = true;
+        let imageUrl;
+        let audioUrl;
+
         if (!this.tale.pictureURL || this.imagePath) {
-            this.utilityService.uploadImageFile(this.imagePath)
-                .then((uploadedFile) => {
-                    this.utilityService.downloadUrl('/images/' + uploadedFile.name)
+            await this.utilityService.uploadImageFile(this.imagePath)
+                .then(async (uploadedFile) => {
+                    await this.utilityService.downloadUrl('/images/' + uploadedFile.name)
                         .then((downloadUrl: string) => {
-                            this.createOrUpdateTale(downloadUrl);
-                        }).then(() => this.onBackButtonTap());
-                })
-        } else if (this.tale.pictureURL) {
-            this.createOrUpdateTale(this.tale.pictureURL);
+                            imageUrl = downloadUrl;
+                        });
+                });
+        }
+        if (!this.tale.audioURL || this.audioFile) {
+            await this.utilityService.uploadAudioFile(this.audioFile).then(async (uploadedFile) => {
+                await this.utilityService.downloadUrl('/audio/' + uploadedFile.name)
+                    .then((downloadUrl: string) => {
+                        audioUrl = downloadUrl
+                    });
+            })
+        }
+        if (imageUrl && audioUrl) {
+            this.createOrUpdateTale(imageUrl, audioUrl);
+            this.onBackButtonTap();
+        } else if (this.tale.pictureURL && this.tale.audioURL && !imageUrl && !audioUrl) {
+            this.createOrUpdateTale(this.tale.pictureURL, this.tale.audioURL);
+            this.onBackButtonTap();
+        } else if (imageUrl && this.tale.audioURL) {
+            this.createOrUpdateTale(imageUrl, this.tale.audioURL);
+            this.onBackButtonTap();
+        } else if (this.tale.pictureURL && audioUrl) {
+            this.createOrUpdateTale(this.tale.pictureURL, audioUrl);
             this.onBackButtonTap();
         } else {
             this.isSavePressed = false;
-            alert('Sikre at navn, billede og beskrivelse er indtastet korrekt')
+            alert('Sikre at navn, billede, lydfil og beskrivelse er udfyldt korrekt')
         }
     }
 
-    private createOrUpdateTale(imageUrl) {
+    private createOrUpdateTale(imageUrl, audioUrl) {
         if (this.taleForm.valid) {
             if (!this.isEditing) {
                 firebase.firestore.collection('tale-categories').doc(this.taleCategoryId)
@@ -160,6 +232,7 @@ export class TaleCrudComponent implements OnInit {
                         name: this.taleForm.get('name').value,
                         description: this.taleForm.get('description').value,
                         pictureURL: imageUrl,
+                        audioURL: audioUrl
                     })
             } else {
                 firebase.firestore.collection('tale-categories').doc(this.taleCategoryId)
@@ -167,6 +240,7 @@ export class TaleCrudComponent implements OnInit {
                         name: this.taleForm.get('name').value,
                         description: this.taleForm.get('description').value,
                         pictureURL: imageUrl,
+                        audioURL: audioUrl
                     });
             }
         }
