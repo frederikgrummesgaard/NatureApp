@@ -1,0 +1,85 @@
+<ActionBar class="page-header">
+    <NavigationButton ios:visibility="collapsed"
+                      android.systemIcon="ic_menu_back"
+                      (tap)="onBackButtonTap()"></NavigationButton>
+
+    <ActionItem android:visibility="collapsed"
+                (tap)="onBackButtonTap()"
+                ios.position="left">
+    </ActionItem>
+    <Label class="h2"
+           style="color: white;"
+           text="{{title}}"></Label>
+    <ActionItem ios.position="right">
+        <Label text="&#xf14a;"
+               class="nt-icon far"
+               style="font-size: 20;"
+               verticalAlignment="center"
+               [isEnabled]="taleForm.valid && !isSavePressed"
+               (tap)="onSaveButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<FlexboxLayout class="page-tale-crud">
+    <StackLayout class="layout"
+                 [formGroup]="taleForm">
+        <StackLayout>
+            <Label text="Navn"
+                   class="title"></Label>
+            <TextField class="input form-control"
+                       ngDefaultControl
+                       [formControl]="taleForm.controls['name']"></TextField>
+        </StackLayout>
+        <StackLayout>
+            <Label text="Billede"
+                   class="title"></Label>
+            <GridLayout class="image">
+                <Image stretch="aspectFill"
+                       [src]="image"
+                       (tap)="addOrRemoveImage()">
+                </Image>
+                <GridLayout class="image__remove"
+                            *ngIf="image">
+                    <Label text="&#xf2ed;"
+                           class="far"
+                           horizontalAlignment="center"
+                           verticalAlignment="center"></Label>
+                </GridLayout>
+                <GridLayout class="image__add"
+                            *ngIf="!image">
+                    <Label text="&#xf030;"
+                           class="fas"
+                           horizontalAlignment="center"
+                           verticalAlignment="center"></Label>
+                </GridLayout>
+            </GridLayout>
+        </StackLayout>
+        <StackLayout>
+            <Label text="Lydfil"
+                   class="title"></Label>
+            <GridLayout height="65"
+            (tap)="addOrRemoveAudioFile()">
+                <Label text="&#xf055;"
+                       class="fas sound-file-button"
+                       *ngIf="!audioFile"></Label>
+                <Label text="&#xf2ed; {{audioFileName}}"
+                       class="far sound-file-button"
+                       *ngIf="audioFile"></Label>
+            </GridLayout>
+        </StackLayout>
+        <StackLayout>
+            <Label text="Beskrivelse"
+                   class="title"></Label>
+            <TextView class="input form-control"
+                      ngDefaultControl
+                      [formControl]="taleForm.controls['description']"></TextView>
+        </StackLayout>
+        <StackLayout>
+            <button class="btn -rounded-lg m-t-5"
+                    *ngIf="isEditing"
+                    text="Slet fortælling"
+                    style="background-color: red; color: white; font-size: 16px; width: 80%;"
+                    (tap)="onDeleteButtonTap()"></button>
+        </StackLayout>
+    </StackLayout>
+</FlexboxLayout>

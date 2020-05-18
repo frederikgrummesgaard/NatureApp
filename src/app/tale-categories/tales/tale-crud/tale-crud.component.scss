@@ -1,0 +1,34 @@
+.page-tale-crud {
+  align-items: center;
+  flex-direction: column;
+}
+.layout {
+  vertical-align: middle;
+}
+.title {
+    margin: 20px;
+    font-size: 18px; 
+    font-weight: 400;
+     color: green
+}
+
+.image,
+:host-context(.ns-dark) .image {
+    font-size: 25;
+    height: 30%;
+
+    &__add {
+        background-color: #d3d3d3;
+        color: #ffffff;
+    }
+
+    &__remove {
+        background-color: transparent;
+        color: #ffffff;
+    }
+}
+.sound-file-button {
+    font-size: 35;
+    margin-left: 20px;
+    color: darkgrey;
+}
