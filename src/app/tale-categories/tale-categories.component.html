@@ -1,0 +1,51 @@
+<ActionBar class="page-header">
+
+    <NavigationButton ios:visibility="collapsed"
+                      icon="res://menu"
+                      (tap)="onDrawerButtonTap()"></NavigationButton>
+
+    <ActionItem icon="res://menu"
+                android:visibility="collapsed"
+                (tap)="onDrawerButtonTap()"
+                ios.position="left">
+    </ActionItem>
+    <Label class="h2"
+           style="color: white;"
+           text="Naturfortællinger"></Label>
+</ActionBar>
+
+<ScrollView>
+    <StackLayout>
+        <GridLayout (tap)="onCategoryItemTap('RC0vWoVWvRPgIlETcnWO')">
+            <Image src="~/assets/Naturfortællinger.jpg"
+                   Stretch="aspectFill"></Image>
+            <GridLayout>
+                <Label horizontalAlignment="center"
+                       verticalAlignment="center"
+                       text="NATURMEDITATIONER"
+                       style="font-size: 30; color: white; font-weight: 500;"></Label>
+            </GridLayout>
+        </GridLayout>
+        <GridLayout (tap)="onCategoryItemTap('XKxCEgZJNv1b5DtMlLC4')">
+            <Image src="~/assets/På-opdagelse.jpg"
+                   Stretch="aspectFill"></Image>
+            <GridLayout>
+                <Label horizontalAlignment="center"
+                       verticalAlignment="center"
+                       text="FORTÆLLINGER"
+                       style="font-size: 30; color: white; font-weight: 500;"></Label>
+            </GridLayout>
+        </GridLayout>
+
+        <GridLayout (tap)="onCategoryItemTap('ceHSGoV9VPfE2lcNbufM')">
+            <Image src="~/assets/Om-os.jpg"
+                   Stretch="aspectFill"></Image>
+            <GridLayout>
+                <Label horizontalAlignment="center"
+                       verticalAlignment="center"
+                       text="HISTORIER"
+                       style="font-size: 30; color: white; font-weight: 500;"></Label>
+            </GridLayout>
+        </GridLayout>
+    </StackLayout>
+</ScrollView>

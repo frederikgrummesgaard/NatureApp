@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import * as firebase from "nativescript-plugin-firebase";
-import * as fs from "tns-core-modules/file-system";
 import { AdventureList } from "../models/adventureList.model";
 import { AdventureEntry } from "../models/adventureEntry.model";
 import { UserService } from "./user.service";
@@ -116,12 +115,6 @@ export class AdventureListService {
         });
     }
 
-    private getAdventureListEntriesState(adventureListId, entries) {
-        entries.forEach(entry => {
-
-        });
-    }
-
     public createListDiscoveredState(ListId): void {
         this.users.get().then((users) => {
             users.forEach(user => {
@@ -150,41 +143,4 @@ export class AdventureListService {
         })
     }
 
-    public uploadFile(localPath: string): Promise<any> {
-        let filename = this.getFilename(localPath);
-        let remotePath = '/images/' + `${filename}`;
-        let metadata = {
-            contentType: "image/jpeg"
-        };
-
-        return firebase.storage.uploadFile({
-            remoteFullPath: remotePath,
-            localFullPath: localPath,
-            onProgress: (status) => {
-                console.log("Uploaded fraction: " + status.fractionCompleted);
-                console.log("Percentage complete: " + status.percentageCompleted);
-            },
-            metadata
-        });
-    }
-
-    public downloadUrl(remoteFilePath: string): Promise<any> {
-        return firebase.storage.getDownloadUrl({
-            remoteFullPath: remoteFilePath
-        })
-            .then((url: string) => {
-                return url;
-            }, (error) => {
-                console.log(error);
-            });
-    }
-
-    public documentsPath(filename: string) {
-        return `${fs.knownFolders.documents().path}/${filename}`;
-    }
-
-    public getFilename(path: string) {
-        let parts = path.split('/');
-        return parts[parts.length - 1];
-    }
 }

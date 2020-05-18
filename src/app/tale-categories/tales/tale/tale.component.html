@@ -1,0 +1,74 @@
+<ActionBar class="page-header">
+
+    <NavigationButton ios:visibility="collapsed"
+                      android.systemIcon="ic_menu_back"
+                      (tap)="onBackButtonTap()"></NavigationButton>
+
+    <ActionItem android:visibility="collapsed"
+                (tap)="onBackButtonTap()"
+                ios.position="left">
+    </ActionItem>
+    <Label class="h2"
+           style="color: white;"
+           text="{{tale?.name}}"></Label>
+    <ActionItem *ngIf="isAdmin">
+        <Label text="&#xf044;"
+               class="nt-icon far"
+               style="font-size: 20;"
+               verticalAlignment="center"
+               ios.position="right"
+               (tap)="onEditButtonTap()"></Label>
+    </ActionItem>
+</ActionBar>
+
+<GridLayout class="page__content">
+    <ScrollView>
+        <StackLayout class="">
+            <GridLayout class="audio">
+                <Image stretch="aspectFill"
+                       [src]="tale?.pictureURL"
+                       height="200">
+                </Image>
+                <GridLayout class="audio__start"
+                            (tap)="togglePlay()"
+                            *ngIf="!isPlaying">
+                    <Label text="&#xf144;"
+                           class="far"
+                           horizontalAlignment="center"></Label>
+                </GridLayout>
+                <GridLayout class="audio__stop"
+                            (tap)="togglePlay()"
+                            *ngIf="isPlaying">
+                    <Label text="&#xf28b;"
+                           class="far"
+                           horizontalAlignment="center"></Label>
+                </GridLayout>
+                <GridLayout colums="*,2"
+                            class="audio-slider">
+                    <label col="0"
+                           class="time"
+                           text="{{displayTime}}"></label>
+                    <Slider #slider
+                            class="slider"
+                            col="1"
+                            [value]="currentTime"
+                            (valueChange)="isSliderValueChanged(slider.value) && onCurrentTimeChanged($event)"
+                            [maxValue]="duration"
+                            backgroundColor="white"
+                            color="white"
+                            minValue="0"></Slider>
+                    <label col="2"
+                           class="time"
+                           horizontalAlignment="right"
+                           text="{{remainingTime}}"></label>
+                </GridLayout>
+            </GridLayout>
+
+            <label text="{{tale?.description}}"
+                   textWrap=true
+                   lineHeight=5
+                   class="p-t-5 p-x-15"
+                   style="font-size: 17px;"></label>
+        </StackLayout>
+    </ScrollView>
+</GridLayout>

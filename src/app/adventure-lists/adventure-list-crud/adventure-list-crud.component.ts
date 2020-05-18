@@ -8,6 +8,7 @@ import * as enums from 'tns-core-modules/ui/enums';
 import { ImageSource } from "tns-core-modules/image-source/image-source";
 import { AdventureListService } from "~/app/shared/services/adventure-list.service";
 import { switchMap } from "rxjs/operators";
+import { UtilityService } from "~/app/shared/services/utility.service";
 
 @Component({
     selector: "AdventureListCrud",
@@ -27,6 +28,7 @@ export class AdventureListCrudComponent implements OnInit {
     constructor(private pageRoute: PageRoute,
         private routerExtensions: RouterExtensions,
         private adventureListService: AdventureListService,
+        private utilityService: UtilityService,
         private fb: FormBuilder) {
     }
 
@@ -85,7 +87,7 @@ export class AdventureListCrudComponent implements OnInit {
     }
     public saveFile(result) {
         let imageSrc = result;
-        this.imagePath = this.adventureListService.documentsPath(`${this.adventureListForm.get('name').value}.jpeg`)
+        this.imagePath = this.utilityService.documentsPath(`${this.adventureListForm.get('name').value}.jpeg`)
         imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 10);
     }
     public onDeleteButtonTap() {
@@ -112,9 +114,9 @@ export class AdventureListCrudComponent implements OnInit {
     public onSaveButtonTap(): void {
         this.isSavePressed = true;
         if (!this.adventureList.pictureURL || this.imagePath) {
-            this.adventureListService.uploadFile(this.imagePath)
+            this.utilityService.uploadImageFile(this.imagePath)
                 .then((uploadedFile) => {
-                    this.adventureListService.downloadUrl('/images/' + uploadedFile.name)
+                    this.utilityService.downloadUrl('/images/' + uploadedFile.name)
                         .then((downloadUrl: string) => {
                             this.createOrUpdateAdventureList(downloadUrl);
                         }).then(() => this.onBackButtonTap());

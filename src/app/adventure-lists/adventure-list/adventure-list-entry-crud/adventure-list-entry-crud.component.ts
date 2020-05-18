@@ -10,6 +10,7 @@ import { AdventureListService } from "~/app/shared/services/adventure-list.servi
 import { switchMap } from "rxjs/operators";
 import { AdventureEntry } from "~/app/shared/models/adventureEntry.model";
 import { Router } from "@angular/router";
+import { UtilityService } from "~/app/shared/services/utility.service";
 
 @Component({
     selector: "AdventureListEntryCrud",
@@ -32,6 +33,7 @@ export class AdventureListEntryCrudComponent implements OnInit {
         private router: Router,
         private routerExtensions: RouterExtensions,
         private adventureListService: AdventureListService,
+        private utilityService: UtilityService,
         private fb: FormBuilder) {
     }
 
@@ -94,7 +96,7 @@ export class AdventureListEntryCrudComponent implements OnInit {
     }
     public saveFile(result) {
         let imageSrc = result;
-        this.imagePath = this.adventureListService.documentsPath(`${this.adventureListEntryForm.get('name').value}.jpeg`)
+        this.imagePath = this.utilityService.documentsPath(`${this.adventureListEntryForm.get('name').value}.jpeg`)
         imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 10);
     }
     public onDeleteButtonTap() {
@@ -121,9 +123,9 @@ export class AdventureListEntryCrudComponent implements OnInit {
     public onSaveButtonTap(): void {
         this.isSavePressed = true;
         if (!this.adventureEntry.pictureURL || this.imagePath) {
-            this.adventureListService.uploadFile(this.imagePath)
+            this.utilityService.uploadImageFile(this.imagePath)
                 .then((uploadedFile) => {
-                    this.adventureListService.downloadUrl('/images/' + uploadedFile.name)
+                    this.utilityService.downloadUrl('/images/' + uploadedFile.name)
                         .then((downloadUrl: string) => {
                             this.createOrUpdateAdventureListEntry(downloadUrl);
                         }).then(() => this.onBackButtonTap());

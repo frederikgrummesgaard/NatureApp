@@ -8,6 +8,9 @@ import { AppComponent } from "./app.component";
 import { AdventureListService } from "./shared/services/adventure-list.service";
 import { UserService } from "./shared/services/user.service";
 import { AuthGuard } from "~/auth-guard.service";
+import { TaleService } from "./shared/services/tale.service";
+import { UtilityService } from "./shared/services/utility.service";
+
 
 require("nativescript-plugin-firebase");
 
@@ -26,7 +29,9 @@ require("nativescript-plugin-firebase");
     ],
     providers: [
         AdventureListService,
+        TaleService,
         UserService,
+        UtilityService,
         AuthGuard,
     ],
     schemas: [

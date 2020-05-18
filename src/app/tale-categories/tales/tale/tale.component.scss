@@ -1,0 +1,33 @@
+
+.audio,
+:host-context(.ns-dark) .audio {
+    font-size: 80;
+
+    &__start {
+        background-color: transparent;
+        color: #ffffff;
+        vertical-align: center;
+    }
+
+    &__stop {
+        background-color: transparent;
+        color: #ffffff;
+        vertical-align: center;
+    }
+}
+
+.audio-slider {
+    vertical-align: bottom;
+
+    .time {
+        vertical-align: center;
+        color: white;
+        font-size: 12px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+.slider {
+    width: 85%;
+}
