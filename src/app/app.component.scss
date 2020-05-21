@@ -1,0 +1,11 @@
+.nt-drawer__header {
+    background-color: rgb(97,125,64) !important;
+}
+
+.nt-drawer__list-item {
+
+    .-selected {
+        color: rgb(97,125,64) !important;
+        background-color: white !important;
+    }
+}

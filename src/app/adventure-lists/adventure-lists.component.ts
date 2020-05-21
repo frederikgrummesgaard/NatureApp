@@ -41,6 +41,9 @@ export class AdventureListsComponent implements OnInit {
             myList.forEach((adventureListEntry: AdventureList) => {
                 this._adventureLists.push(adventureListEntry);
             });
+            this._adventureLists.sort((list1: AdventureList, list2: AdventureList) => {
+                return list1.difficulty >= list2.difficulty ? 1 : -1
+            })
             this.isLoading = false;
         });
     }

@@ -5,12 +5,13 @@
             "version": "6.4.0"
         },
         "tns-android": {
-            "version": "6.4.1"
+            "version": "6.4.1",
+            "markingMode": "none"
         }
     },
-    "description": "An app that encourages youths and families to explore danish nature",
+    "description": "An app that encourages children and families to explore and learn about danish nature",
     "license": "",
-    "repository": "https://github.com/Leaqqq/NatureApp",
+    "repository": "https://github.com/frederikgrummesgaard/NatureApp",
     "scripts": {
         "lint": "tslint \"src/**/*.ts\""
     },
@@ -53,6 +54,6 @@
         "webpack-node-externals": "^1.7.2"
     },
     "gitHead": "d8bdf0799a219051f28f8abd7c258d2bf2fce6e1",
-    "readme": "NativeScript Application",
+    "readme": "A NativeScript/Angular app that provides a way for danish children to explore and learn about danish nature.",
     "author": "Frederik Grummesgaard"
 }

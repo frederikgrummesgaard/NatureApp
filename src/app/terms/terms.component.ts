@@ -4,7 +4,8 @@ import * as app from "tns-core-modules/application";
 
 @Component({
     selector: "Terms",
-    templateUrl: "./terms.component.html"
+    templateUrl: "./terms.component.html",
+    styleUrls: ["./terms.component.scss"]
 })
 export class TermsComponent implements OnInit {
 

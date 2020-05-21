@@ -1,5 +1,9 @@
 @import '~@nativescript/theme/scss/variables/forest';
 
+.page-header {
+    background-color: rgb(97,125,64);
+}
+
 .page-tales {
     flex-direction: column;
 }

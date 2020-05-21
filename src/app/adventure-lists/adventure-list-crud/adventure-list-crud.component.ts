@@ -34,7 +34,8 @@ export class AdventureListCrudComponent implements OnInit {
 
     public adventureListForm = this.fb.group({
         name: ['', [Validators.required]],
-        description: ['', [Validators.required]]
+        description: ['', [Validators.required]],
+        difficulty: ['', [Validators.required]],
     })
 
     ngOnInit(): void {
@@ -51,6 +52,7 @@ export class AdventureListCrudComponent implements OnInit {
                             this.adventureList = adventureList;
                             this.adventureListForm.get('name').setValue(this.adventureList.name);
                             this.adventureListForm.get('description').setValue(this.adventureList.description);
+                            this.adventureListForm.get('difficulty').setValue(this.adventureList.difficulty);
                             this.image = this.adventureList.pictureURL;
                         });
                 }
@@ -136,12 +138,14 @@ export class AdventureListCrudComponent implements OnInit {
                 firebase.firestore.collection('adventurelists').add({
                     name: this.adventureListForm.get('name').value,
                     description: this.adventureListForm.get('description').value,
+                    difficulty: this.adventureListForm.get('difficulty').value,
                     pictureURL: imageUrl,
                 })
             } else {
                 this.adventureListService.updateAdventureList(this.adventureListId, {
                     name: this.adventureListForm.get('name').value,
                     description: this.adventureListForm.get('description').value,
+                    difficulty: this.adventureListForm.get('difficulty').value,
                     pictureURL: imageUrl,
                 })
             }

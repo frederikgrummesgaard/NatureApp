@@ -26,7 +26,7 @@
     <StackLayout class="layout">
         <StackLayout *ngIf="isAdmin"
                      [formGroup]="adminForm">
-            <label style="font-size: 18px; font-weight: 400; color: green;"
+            <label style="font-size: 18px; font-weight: 400; color: rgb(116,156,67);"
                    text="Tilføj administrator"></label>
             <TextField class="input form-control"
                        [formControl]="adminForm.controls['email']"
@@ -38,20 +38,20 @@
         <StackLayout *ngIf="isAdmin">
             <Button class="btn -rounded-lg m-y-20 form-control"
                     [isEnabled]="adminForm.valid"
-                    style="background-color: green; color: white; font-size: 16px; width: 80%;"
+                    style="background-color: rgb(116,156,67); color: white; font-size: 16px; width: 80%;"
                     text="Tilføj"
                     (tap)="makeAdmin()"></Button>
         </StackLayout>
         <StackLayout class="input-field m-t-10"
                      [formGroup]="userForm">
-            <label style="font-size: 18px; font-weight: 400; color: green;"
+            <label style="font-size: 18px; font-weight: 400; color: rgb(116,156,67);"
                    text="Navn"></label>
             <TextField class="input form-control"
                        [formControl]="userForm.controls['name']"
                        ngDefaultControl></TextField>
 
             <label class="m-t-10"
-                   style="font-size: 18px; font-weight: 400; color: green;"
+                   style="font-size: 18px; font-weight: 400; color: rgb(116,156,67);"
                    text="Email"></label>
             <TextField class="input form-control"
                        [formControl]="userForm.controls['email']"
@@ -64,7 +64,7 @@
         <StackLayout>
             <button class="btn -rounded-lg m-y-20"
                     text="Log ud"
-                    style="background-color: green; color: white; font-size: 16px; width: 80%;"
+                    style="background-color: rgb(116,156,67); color: white; font-size: 16px; width: 80%;"
                     (tap)="logout()"></button>
         </StackLayout>
     </StackLayout>

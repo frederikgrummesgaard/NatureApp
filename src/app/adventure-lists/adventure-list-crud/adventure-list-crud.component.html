@@ -55,6 +55,14 @@
             </GridLayout>
         </StackLayout>
         <StackLayout>
+            <Label text="Sværhedsgrad"
+                   class="title"></Label>
+            <TextField class="input form-control"
+                       ngDefaultControl
+                       keyboardType="number"
+                       [formControl]="adventureListForm.controls['difficulty']"></TextField>
+        </StackLayout>
+        <StackLayout>
             <Label text="Beskrivelse"
                    class="title"></Label>
             <TextField class="input form-control"

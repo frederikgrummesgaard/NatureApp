@@ -54,6 +54,9 @@ export class TalesComponent implements OnInit {
             myList.forEach((tale: Tale) => {
                 this.tales.push(tale);
             });
+            this.tales.sort((tale1: Tale, tale2: Tale) => {
+                return tale1.id >= tale2.id ? 1 : -1
+            })
             this.isLoading = false;
         });
     }

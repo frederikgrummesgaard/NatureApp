@@ -1,5 +1,9 @@
 @import '~@nativescript/theme/scss/variables/forest';
 
+.page-header {
+    background-color: rgb(97,125,64);
+}
+
 .check-button-false {
     padding: 50px;
     margin-top: 20px;
@@ -14,8 +18,8 @@
     padding: 50px;
      margin-top: 20px;
     border-radius: 50%;
-    color: green; 
-    border-color: green; 
+    color: rgb(116,156,67);
+    border-color: rgb(116,156,67);
     border-width: 15px;
     margin-left: 38.5%;
     margin-right: 38.5%;

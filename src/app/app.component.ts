@@ -10,8 +10,9 @@ import { User } from "./shared/models/user.model";
 import * as utils from "tns-core-modules/utils/utils";
 
 @Component({
-    selector: "ns-app",
-    templateUrl: "app.component.html"
+    selector: "naturappen",
+    templateUrl: "app.component.html",
+    styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements OnInit {
     private _activatedUrl: string;
