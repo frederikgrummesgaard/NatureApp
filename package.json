@@ -5,8 +5,7 @@
             "version": "6.4.0"
         },
         "tns-android": {
-            "version": "6.4.1",
-            "markingMode": "none"
+            "version": "6.4.1"
         }
     },
     "description": "An app that encourages children and families to explore and learn about danish nature",
@@ -35,6 +34,7 @@
         "nativescript-audio": "^5.0.5",
         "nativescript-imagepicker": "^7.1.0",
         "nativescript-mediafilepicker": "^3.0.1",
+        "nativescript-ng-shadow": "^2.1.0",
         "nativescript-plugin-firebase": "^10.5.0",
         "nativescript-ui-listview": "8.1.0",
         "nativescript-ui-sidedrawer": "~8.0.0",

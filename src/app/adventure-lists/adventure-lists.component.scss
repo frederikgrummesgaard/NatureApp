@@ -11,9 +11,8 @@
 .adventure-lists,
 :host-context(.ns-dark) .adventure-lists {
      &__item {
-        padding: 0 0 0 0;
-        
-        @include colorize($background-color: background-alt-10);
+        padding: 6 12 6 12;
+        background-color: white;
 
         &-content {
             padding: 0 0 0 0;
@@ -21,4 +20,21 @@
         }
 
     }
+}
+
+.item-text {
+    margin-top: 60;
+    background: linear-gradient(transparent, transparent, rgb(46, 45, 45));
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+.item-difficulty {
+    background-color: white;
+    color: rgb(116,156,67);
+    margin-right: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 50%;
+    font-size: 20;
+    font-weight: 600;
 }

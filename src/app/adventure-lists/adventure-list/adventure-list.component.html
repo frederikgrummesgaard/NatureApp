@@ -32,37 +32,55 @@
 <FlexboxLayout class="page-adventure-list">
     <RadListView [items]="adventureEntries$"
                  (itemTap)="onAdventureEntryItemTap($event)"
-                 style="background-color: #f2f2f2;">
-        <StackLayout>
-            <ng-template tkListItemTemplate
-                         let-adventureEntry="item">
-                <StackLayout class="adventure-entry__item">
-                    <GridLayout rows="*"
-                                columns="*, *, *, *, *"
-                                class="adventure-entry__item-content">
-                        <Image col='0'
-                               class="p-x-5 p-y-5 m-l-5"
-                               stretch="aspectFill"
-                               [src]="adventureEntry.pictureURL"
-                               borderRadius="50%"></Image>
-                        <Label col='1'
-                               colSpan="3"
-                               [text]="adventureEntry.name"
-                               class="p-l-10"
-                               style="font-size: 20; color: black;"></Label>
+                 style="background-color: #ffffff;">
+        <ListViewGridLayout tkListViewLayout
+                            scrollDirection="Vertical"
+                            spanCount="2"></ListViewGridLayout>
+        <ng-template tkListItemTemplate
+                     let-adventureEntry="item">
+            <StackLayout class="adventure-entry__item m-8">
+                <GridLayout class="adventure-entry__item-content">
+                    <Image stretch="aspectFill"
+                           height="180"
+                           [src]="adventureEntry.pictureURL"
+                           borderRadius="20"
+                           style="
+                                border-style: solid;
+                                border-color: rgba(44, 43, 43, 0.5);
+                                border-bottom-width: 1;"></Image>
+                    <StackLayout>
                         <label *ngIf="adventureEntry.isDiscovered"
-                               col="4"
-                               textAlignment="center">
+                               horizontalAlignment="center"
+                               verticalAlignment="middle"
+                               style="border-radius: 50%;
+                               background-color: white;
+                               padding: 20px">
                             <FormattedString>
                                 <span text="&#xf00c;"
                                       class="fas"
-                                      style="font-size: 30px !important; color: green;">
+                                      style="color: rgb(116,156,67);
+                                             font-size: 30;
+                                             font-weight: 600;">
                                 </span>
                             </FormattedString>
                         </label>
-                    </GridLayout>
-                </StackLayout>
-            </ng-template>
-        </StackLayout>
+                    </StackLayout>
+                    <StackLayout class="item-text"
+                                 verticalAlignment="bottom">
+                        <Label [text]="adventureEntry.name"
+                               class="m-t-20"
+                               horizontalAlignment="center"
+                               style="font-size: 17; color: white; font-weight: 400;"></Label>
+                    </StackLayout>
+                </GridLayout>
+                <label style="background: linear-gradient(rgba(44, 43, 43, 0.5), transparent);
+                                                                      height: 3;
+                                                                      border-bottom-left-radius: 50px;
+                                                                      border-bottom-right-radius: 50px;
+                                                                      margin-right: 10%;
+                                                                      margin-left: 10%;"
+                       verticalAlignment="top"></label>
+            </StackLayout>
+        </ng-template>
     </RadListView>
 </FlexboxLayout>

@@ -38,6 +38,7 @@
         <StackLayout *ngIf="isAdmin">
             <Button class="btn -rounded-lg m-y-20 form-control"
                     [isEnabled]="adminForm.valid"
+                    shadow="8"
                     style="background-color: rgb(116,156,67); color: white; font-size: 16px; width: 80%;"
                     text="Tilføj"
                     (tap)="makeAdmin()"></Button>
@@ -64,6 +65,7 @@
         <StackLayout>
             <button class="btn -rounded-lg m-y-20"
                     text="Log ud"
+                    shadow="8"
                     style="background-color: rgb(116,156,67); color: white; font-size: 16px; width: 80%;"
                     (tap)="logout()"></button>
         </StackLayout>

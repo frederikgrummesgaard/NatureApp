@@ -32,17 +32,34 @@
                 <StackLayout class="adventure-lists__item">
                     <GridLayout class="adventure-lists__item-content">
                         <Image [src]="adventureList.pictureURL"
+                               borderRadius="10"
                                stretch="aspectFill"
-                               height="160"></Image>
-                        <StackLayout style="padding: 80 0 0 0;">
+                               height="180"
+                               style="
+                                border-style: solid;
+                                border-color: rgba(44, 43, 43, 0.5);
+                                border-bottom-width: 1;"></Image>
+                        <StackLayout class="item-text">
+                            <label [text]="adventureList.difficulty"
+                                   horizontalAlignment="right"
+                                   verticalAlignment="bottom"
+                                   class="item-difficulty"></label>
                             <Label [text]="adventureList.name"
-                                   class="p-l-10"
-                                   style="font-size: 20; color: white; font-weight: 700;"></Label>
+                                   class="p-l-5 m-t-2 p-b-0 m-b-0"
+                                   style="font-size: 19; color: white; font-weight: 500;"></Label>
+
                             <Label [text]="adventureList.description"
-                                   class="p-l-10"
-                                   style="font-size: 16; color: white; font-weight: 500;"></Label>
+                                   class="p-l-5 m-t-2 m-r-5"
+                                   style="font-size: 16; color: white; font-weight: 400;"></Label>
                         </StackLayout>
                     </GridLayout>
+                    <label style="background: linear-gradient(rgba(44, 43, 43, 0.4), transparent);
+                                                      height: 2;
+                                                      border-bottom-left-radius: 50px;
+                                                      border-bottom-right-radius: 50px;
+                                                      margin-right: 2%;
+                                                      margin-left: 2%;"
+                           verticalAlignment="top"></label>
                 </StackLayout>
             </ng-template>
         </StackLayout>

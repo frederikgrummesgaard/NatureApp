@@ -156,7 +156,7 @@ export class TaleCrudComponent implements OnInit {
     public saveImageFile(result) {
         let imageSrc = result;
         this.imagePath = this.utilityService.documentsPath(`${this.taleForm.get('name').value}.jpeg`);
-        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 10);
+        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 15);
     }
 
 
@@ -207,12 +207,14 @@ export class TaleCrudComponent implements OnInit {
             })
         }
         if (imageUrl && audioUrl) {
+            console.log("hej1")
             this.createOrUpdateTale(imageUrl, audioUrl);
             this.onBackButtonTap();
         } else if (this.tale.pictureURL && this.tale.audioURL && !imageUrl && !audioUrl) {
             this.createOrUpdateTale(this.tale.pictureURL, this.tale.audioURL);
             this.onBackButtonTap();
         } else if (imageUrl && this.tale.audioURL) {
+            console.log("hej2")
             this.createOrUpdateTale(imageUrl, this.tale.audioURL);
             this.onBackButtonTap();
         } else if (this.tale.pictureURL && audioUrl) {
