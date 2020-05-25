@@ -141,6 +141,17 @@ export class AdventureListService {
             .collection('adventure-entries').doc(entryId).set(content);
     }
 
+    public clearEntryDiscoveredState(listId): void {
+        this.users.doc(this.userService.user.id).collection('adventure-lists').doc(listId)
+            .collection('adventure-entries').get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    doc.ref.update({
+                        isDiscovered: false,
+                    });
+                });
+            });
+    }
+
     public deleteEntry(listId: string, entryId: string) {
         this.adventureLists.doc(listId).collection('entries').doc(entryId).delete();
         this.users.get().then((users) => {

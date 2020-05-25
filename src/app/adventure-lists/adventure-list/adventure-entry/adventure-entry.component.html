@@ -27,6 +27,9 @@
             <Image [src]="adventureEntry?.pictureURL"
                    stretch="aspectFill"
                    height="200"></Image>
+            <label style="background: linear-gradient(rgba(44, 43, 43, 0.5), transparent);
+                                                                                 height: 4;"
+                   verticalAlignment="top"></label>
             <label text="{{adventureEntry?.description}}"
                    textWrap=true
                    lineHeight=5
@@ -36,7 +39,6 @@
             <label (tap)="toggleDiscoveredButton()"
                    textAlignment="center"
                    class="m-b-10"
-                   shadow="8"
                    [class.check-button-true]=adventureEntry?.isDiscovered
                    [class.check-button-false]=!adventureEntry?.isDiscovered>
                 <FormattedString>

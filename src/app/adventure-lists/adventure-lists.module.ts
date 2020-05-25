@@ -10,6 +10,7 @@ import { AdventureListCrudComponent } from "./adventure-list-crud/adventure-list
 import { FormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { AdventureListEntryCrudComponent } from "./adventure-list/adventure-list-entry-crud/adventure-list-entry-crud.component";
+import { CongratulationModalComponent } from "./adventure-list/congratulation-modal/congratulation-modal.component";
 
 @NgModule({
     imports: [
@@ -25,10 +26,12 @@ import { AdventureListEntryCrudComponent } from "./adventure-list/adventure-list
         AdventureListEntryCrudComponent,
         AdventureListComponent,
         AdventureEntryComponent,
+        CongratulationModalComponent
     ],
     providers: [
         FormBuilder,
     ],
+    entryComponents: [CongratulationModalComponent],
     schemas: [
         NO_ERRORS_SCHEMA
     ]

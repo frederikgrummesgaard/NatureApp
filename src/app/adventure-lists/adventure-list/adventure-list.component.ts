@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone, ViewContainerRef } from "@angular/core";
 import { AdventureList } from "~/app/shared/models/adventureList.model";
 import { RouterExtensions, PageRoute } from "nativescript-angular/router";
 import { AdventureListService } from "~/app/shared/services/adventure-list.service";
@@ -10,6 +10,9 @@ import { SnackBar } from "@nstudio/nativescript-snackbar";
 import { UserService } from "~/app/shared/services/user.service";
 import * as firebase from "nativescript-plugin-firebase";
 import { Page } from "tns-core-modules/ui/page/page";
+import { ModalDialogOptions, ModalDialogService } from "nativescript-angular/common";
+import { CongratulationModalComponent } from "./congratulation-modal/congratulation-modal.component";
+import { ExtendedShowModalOptions } from "nativescript-windowed-modal/windowed-modal.common";
 
 @Component({
     selector: "AdventuresList",
@@ -29,6 +32,8 @@ export class AdventureListComponent implements OnInit {
         private pageRoute: PageRoute,
         private page: Page,
         private ngZone: NgZone,
+        private viewContainerRef: ViewContainerRef,
+        private modalService: ModalDialogService,
         private adventureListService: AdventureListService,
         private userService: UserService) {
 
@@ -60,6 +65,7 @@ export class AdventureListComponent implements OnInit {
                 await this.adventureListService.getAdventureList(this.adventureListId).then(
                     (adventureList: AdventureList) => {
                         this.adventureList = adventureList;
+                        this.adventureList.id = this.adventureListId;
                     });
                 this.getEntries();
             });
@@ -70,8 +76,7 @@ export class AdventureListComponent implements OnInit {
             await this.adventureListService.getAdventureListEntries(this.adventureListId).then((adventureListEntries: any) => {
                 this.adventureEntries$ = adventureListEntries;
                 this.adventureEntries$.sort((entry1: AdventureEntry, entry2: AdventureEntry) => entry1.id >= entry2.id ? 1 : -1)
-                const snackbar = new SnackBar();
-                this.isAdventureListCompleted(adventureListEntries, snackbar);
+                this.isAdventureListCompleted(adventureListEntries);
                 this.isLoading = false;
             });
         })
@@ -128,7 +133,7 @@ export class AdventureListComponent implements OnInit {
      * This method checks the entries and if all are completed, it updates the adventureList
      * and displays a snackbar congratulating the user
      */
-    private isAdventureListCompleted(adventureListEntries: AdventureEntry[], snackbar: SnackBar) {
+    private isAdventureListCompleted(adventureListEntries: AdventureEntry[]) {
         let isAllreadyCompleted = false;
         firebase.firestore.collection('users').doc(this.userService.user.id).collection('adventure-lists')
             .doc(this.adventureListId).get()
@@ -148,18 +153,28 @@ export class AdventureListComponent implements OnInit {
                     this.adventureList.isCompleted = true;
                     adventureListEntries.forEach((entry: AdventureEntry) => {
                         if (!entry.isDiscovered) {
-                            console.log(entry.isDiscovered)
                             this.adventureList.isCompleted = false;
                         }
                     });
                     if (!isAllreadyCompleted && this.adventureList.isCompleted) {
                         this.adventureListService.changeAdventureListDiscoveredState(this.adventureListId, { isCompleted: true });
-                        snackbar.simple('Tillykke! Du har fået banko!', '#fff', '#008000', 2, true);
+                        this.openContratulationModal();
                     }
                     else if (isAllreadyCompleted && !this.adventureList.isCompleted) {
                         this.adventureListService.changeAdventureListDiscoveredState(this.adventureListId, { isCompleted: false });
                     }
                 }
             })
+    }
+    private openContratulationModal() {
+        const options: ModalDialogOptions = {
+            context: this.adventureList,
+            viewContainerRef: this.viewContainerRef,
+            closeCallback: (response: string) => console.log("Modal response: " + response),
+            fullscreen: false,
+            dimAmount: 0.3,
+            stretched: true,
+        } as ExtendedShowModalOptions;
+        this.modalService.showModal(CongratulationModalComponent, options);
     }
 }

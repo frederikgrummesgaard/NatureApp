@@ -8,6 +8,10 @@ import * as firebase from "nativescript-plugin-firebase";
 import { UserService } from "./shared/services/user.service";
 import { User } from "./shared/models/user.model";
 import * as utils from "tns-core-modules/utils/utils";
+import { registerElement } from "nativescript-angular/element-registry";
+import { ExtendedShowModalOptions, ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal"
+overrideModalViewMethod();
+registerElement("ModalStack", () => ModalStack);
 
 @Component({
     selector: "naturappen",

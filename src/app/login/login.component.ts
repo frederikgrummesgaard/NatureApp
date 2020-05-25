@@ -5,6 +5,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { FormBuilder, Validators } from '@angular/forms'
 import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/common";
 import { ForgotPasswordModalComponent } from "./forgot-password-modal/forgot-password-modal.component";
+import { ExtendedShowModalOptions } from "nativescript-windowed-modal";
 
 @Component({
     selector: "Login",
@@ -68,10 +69,13 @@ export class LoginComponent implements OnInit {
     }
     openForgotPasswordModal() {
         const options: ModalDialogOptions = {
+            context: "",
             viewContainerRef: this.viewContainerRef,
+            closeCallback: (response: string) => console.log("Modal response: " + response),
             fullscreen: false,
+            dimAmount: 0.3,
             stretched: true,
-        }
+        } as ExtendedShowModalOptions;
         this.modalService.showModal(ForgotPasswordModalComponent, options);
     }
 }
