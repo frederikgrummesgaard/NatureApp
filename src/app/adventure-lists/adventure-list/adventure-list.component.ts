@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, NgZone } from "@angular/core";
 import { AdventureList } from "~/app/shared/models/adventureList.model";
 import { RouterExtensions, PageRoute } from "nativescript-angular/router";
 import { AdventureListService } from "~/app/shared/services/adventure-list.service";
@@ -23,10 +23,12 @@ export class AdventureListComponent implements OnInit {
     public adventureEntries$: ObservableArray<AdventureEntry>;
     public adventureListId: string;
     public isAdmin: boolean = false;
+    public isFirstVisit: boolean = true;
 
     constructor(private routerExtensions: RouterExtensions,
         private pageRoute: PageRoute,
         private page: Page,
+        private ngZone: NgZone,
         private adventureListService: AdventureListService,
         private userService: UserService) {
 
@@ -36,20 +38,26 @@ export class AdventureListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loadingAdventureList();
-
         this.page.on('loaded', () => {
-            this.getEntries();
+            if (!this.isFirstVisit) {
+                this.getEntries();
+
+            }
         })
+
+        if (this.isFirstVisit) {
+            this.loadingAdventureList();
+            this.isFirstVisit = false;
+        }
     }
 
-    loadingAdventureList() {
+    async loadingAdventureList() {
         this.isLoading = true;
-        this.pageRoute.activatedRoute
+        await this.pageRoute.activatedRoute
             .pipe(switchMap((activatedRoute) => activatedRoute.params))
-            .forEach((params) => {
+            .forEach(async (params) => {
                 this.adventureListId = params.id;
-                this.adventureListService.getAdventureList(this.adventureListId).then(
+                await this.adventureListService.getAdventureList(this.adventureListId).then(
                     (adventureList: AdventureList) => {
                         this.adventureList = adventureList;
                     });
@@ -57,13 +65,16 @@ export class AdventureListComponent implements OnInit {
             });
     }
 
-    private getEntries() {
-        this.adventureListService.getAdventureListEntries(this.adventureListId).then((adventureListEntries: any) => {
-            this.adventureEntries$ = adventureListEntries;
-            const snackbar = new SnackBar();
-            this.isAdventureListCompleted(adventureListEntries, snackbar);
-            this.isLoading = false;
-        });
+    private async getEntries() {
+        this.ngZone.run(async () => {
+            await this.adventureListService.getAdventureListEntries(this.adventureListId).then((adventureListEntries: any) => {
+                this.adventureEntries$ = adventureListEntries;
+                this.adventureEntries$.sort((entry1: AdventureEntry, entry2: AdventureEntry) => entry1.id >= entry2.id ? 1 : -1)
+                const snackbar = new SnackBar();
+                this.isAdventureListCompleted(adventureListEntries, snackbar);
+                this.isLoading = false;
+            });
+        })
     }
 
     onAdventureEntryItemTap(args: ListViewEventData): void {
@@ -133,18 +144,21 @@ export class AdventureListComponent implements OnInit {
                 }
 
             }).then(() => {
-                this.adventureList.isCompleted = true;
-                adventureListEntries.forEach((entry: AdventureEntry) => {
-                    if (!entry.isDiscovered) {
-                        this.adventureList.isCompleted = false;
+                if (!this.isFirstVisit) {
+                    this.adventureList.isCompleted = true;
+                    adventureListEntries.forEach((entry: AdventureEntry) => {
+                        if (!entry.isDiscovered) {
+                            console.log(entry.isDiscovered)
+                            this.adventureList.isCompleted = false;
+                        }
+                    });
+                    if (!isAllreadyCompleted && this.adventureList.isCompleted) {
+                        this.adventureListService.changeAdventureListDiscoveredState(this.adventureListId, { isCompleted: true });
+                        snackbar.simple('Tillykke! Du har fået banko!', '#fff', '#008000', 2, true);
                     }
-                });
-                if (!isAllreadyCompleted && this.adventureList.isCompleted) {
-                    this.adventureListService.changeAdventureListDiscoveredState(this.adventureListId, { isCompleted: true });
-                    snackbar.simple('Tillykke! Du har fået banko!', '#fff', '#008000', 2, true);
-                }
-                else if (isAllreadyCompleted && !this.adventureList.isCompleted) {
-                    this.adventureListService.changeAdventureListDiscoveredState(this.adventureListId, { isCompleted: false });
+                    else if (isAllreadyCompleted && !this.adventureList.isCompleted) {
+                        this.adventureListService.changeAdventureListDiscoveredState(this.adventureListId, { isCompleted: false });
+                    }
                 }
             })
     }

@@ -91,23 +91,31 @@ export class AdventureListService {
     }
 
     getAdventureListEntries(id: any) {
+        let entyLength = 0;
         let entriesToSend: ObservableArray<AdventureEntry> = new ObservableArray();
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             this.adventureLists.doc(id).collection('entries').get()
-                .then((entries) => {
-                    entries.forEach(entry => {
+                .then(async (entries) => {
+                    entyLength = entries.length;
+                    entries.forEach(async entry => {
                         let dataToSave: AdventureEntry = entry.data();
                         dataToSave.id = entry.id;
 
                         this.users.doc(this.userService.user.id).collection('adventure-lists').doc(id).collection('adventure-entries')
-                            .doc(entry.id).get().then((data) => {
+                            .doc(entry.id).get().then(async (data) => {
                                 if (data.exists) {
+                                    console.log("");
                                     dataToSave.isDiscovered = data.data().isDiscovered;
+                                    entriesToSend.push(dataToSave);
                                 }
-                                entriesToSend.push(dataToSave);
+                                console.log('discoveredState', dataToSave.isDiscovered);
                             })
                     });
-                }).then(() => resolve(entriesToSend))
+                }).then(() => {
+                    setTimeout(() => {
+                        resolve(entriesToSend)
+                    }, 1000);
+                })
                 .catch(err => {
                     console.log(err);
                     reject(err);
