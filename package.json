@@ -26,7 +26,6 @@
         "@angular/platform-browser-dynamic": "~8.2.0",
         "@angular/router": "~8.2.0",
         "@nativescript/theme": "2.3.2",
-        "@nstudio/nativescript-snackbar": "^1.1.2",
         "firebase-admin": "^8.10.0",
         "firebase-functions": "^3.6.0",
         "firebase-tools": "^8.0.3",
