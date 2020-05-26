@@ -27,6 +27,7 @@ export class TaleCrudComponent implements OnInit {
     public image: any;
     public imagePath: string;
     public audioFileName: string;
+    public audioFilePath: any;
     public audioFile: any;
     public isAudioFile: boolean;
     public isEditing: boolean = false;
@@ -66,11 +67,11 @@ export class TaleCrudComponent implements OnInit {
                                 this.taleForm.get('name').setValue(this.tale.name);
                                 this.taleForm.get('description').setValue(this.tale.description);
                                 this.image = this.tale.pictureURL;
-                                this.audioFile = this.tale.audioURL;
-                                this.isAudioFile = true;
                                 let array = this.tale.audioURL.split('%');
                                 array = array[1].split('?');
                                 this.audioFileName = array[0].substring(2, array[0].length)
+                                this.audioFile = this.tale.pictureURL;
+                                this.isAudioFile = true;
                             });
                     }
                 })
@@ -105,13 +106,11 @@ export class TaleCrudComponent implements OnInit {
         mediafilepicker.openAudioPicker(options);
         mediafilepicker.on("getFiles", (res) => {
             let results = res.object.get('results');
-            this.audioFile = results[0].file;
-            console.log(this.audioFile);
-            let array: string[] = this.audioFile.split('/')
+            this.audioFilePath = results[0].file;
+            let array: string[] = this.audioFilePath.split('/')
             this.audioFileName = array[array.length - 1];
             this.isAudioFile = true;
-            console.log(this.audioFileName);
-            if (this.audioFile && app.ios && !options.ios.isCaptureMood) {
+            if (this.audioFilePath && app.ios && !options.ios.isCaptureMood) {
                 let fileName = "tmpFile.m4a";
                 mediafilepicker.copyMPMediaFileToAPPDirectory(this.audioFile.rawData, fileName).then((res) => {
                     console.dir(res);
@@ -189,6 +188,7 @@ export class TaleCrudComponent implements OnInit {
         let imageUrl;
         let audioUrl;
 
+        console.log("hello2");
         if (!this.tale.pictureURL || this.imagePath) {
             await this.utilityService.uploadImageFile(this.imagePath)
                 .then(async (uploadedFile) => {
@@ -198,8 +198,8 @@ export class TaleCrudComponent implements OnInit {
                         });
                 });
         }
-        if (!this.tale.audioURL || this.audioFile) {
-            await this.utilityService.uploadAudioFile(this.audioFile).then(async (uploadedFile) => {
+        if (!this.audioFile || this.audioFilePath) {
+            await this.utilityService.uploadAudioFile(this.audioFilePath).then(async (uploadedFile) => {
                 await this.utilityService.downloadUrl('/audio/' + uploadedFile.name)
                     .then((downloadUrl: string) => {
                         audioUrl = downloadUrl
@@ -207,14 +207,12 @@ export class TaleCrudComponent implements OnInit {
             })
         }
         if (imageUrl && audioUrl) {
-            console.log("hej1")
             this.createOrUpdateTale(imageUrl, audioUrl);
             this.onBackButtonTap();
         } else if (this.tale.pictureURL && this.tale.audioURL && !imageUrl && !audioUrl) {
             this.createOrUpdateTale(this.tale.pictureURL, this.tale.audioURL);
             this.onBackButtonTap();
         } else if (imageUrl && this.tale.audioURL) {
-            console.log("hej2")
             this.createOrUpdateTale(imageUrl, this.tale.audioURL);
             this.onBackButtonTap();
         } else if (this.tale.pictureURL && audioUrl) {
