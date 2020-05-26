@@ -14,42 +14,43 @@
            text="Velkommen til Naturappen"></Label>
 </ActionBar>
 <ScrollView>
-    <StackLayout>
+    <StackLayout style="background-color: rgb(97,125,64)">
         <GridLayout (tap)="onTapNavigate('/tale-categories')">
             <Image src="~/assets/Naturfortællinger.jpg"
-                   Stretch="aspectFill"></Image>
-            <StackLayout>
-                <Label textAlignment="center"
-                       text="NATURFORTÆLLINGER"
-                       class="text"
-                       style="font-size: 30; color: white; font-weight: 500;"></Label>
-                <Label textAlignment="center"
-                       text="LYDFILER"
-                       style="font-size: 22; color: white; font-weight: 400"></Label>
-            </StackLayout>
+                   Stretch="aspectStretch"></Image>
+            <Label textAlignment="center"
+                   text="NATURFORTÆLLINGER"
+                   class="m-b-30"
+                   verticalAlignment="center"
+                   style="font-size: 30; color: white; font-weight: 500;"></Label>
+            <Label textAlignment="center"
+                   text="LYDFILER"
+                   verticalAlignment="center"
+                   class="text"
+                   style="font-size: 22; color: white; font-weight: 400"></Label>
         </GridLayout>
         <GridLayout (tap)="onTapNavigate('/adventure')">
-            <Image src="~/assets/På-opdagelse.jpg"
-                   Stretch="aspectFill"></Image>
-            <StackLayout>
-                <Label textAlignment="center"
-                       text="PÅ OPDAGELSE"
-                       class="text"
-                       style="font-size: 30; color: white; font-weight: 500;"></Label>
-                <Label textAlignment="center"
-                       text="BANKOPLADER"
-                       style="font-size: 22; color: white; font-weight: 400;"></Label>
-            </StackLayout>
-        </GridLayout>
+            <Image src="~/assets/på-opdagelse.jpg"
+                   Stretch="aspectStretch"></Image>
+            <Label textAlignment="center"
+                   text="PÅ OPDAGELSE"
+                   class="m-b-30"
+                   verticalAlignment="center"
+                   style="font-size: 30; color: white; font-weight: 500;"></Label>
+            <Label textAlignment="center"
+                   text="BANKOPLADER"
+                   verticalAlignment="center"
+                   class="text"
+                   style="font-size: 22; color: white; font-weight: 400;"></Label>
 
+        </GridLayout>
         <GridLayout (tap)="onTapNavigate('/about')">
-            <Image src="~/assets/Om-os.jpg"
-                   Stretch="aspectFill"></Image>
-            <StackLayout>
-                <Label textAlignment="center"
-                       text="OM OS"
-                       style="font-size: 30; color: white; font-weight: 500; padding-top: 100;"></Label>
-            </StackLayout>
+            <Image src="~/assets/om-os.jpg"
+                   Stretch="aspectStretch"></Image>
+            <Label textAlignment="center"
+                   text="OM OS"
+                   verticalAlignment="center"
+                   style="font-size: 30; color: white; font-weight: 500;"></Label>
         </GridLayout>
     </StackLayout>
 </ScrollView>
