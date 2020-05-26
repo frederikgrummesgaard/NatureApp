@@ -100,14 +100,16 @@ export class AdventureListService {
                     entries.forEach(async entry => {
                         let dataToSave: AdventureEntry = entry.data();
                         dataToSave.id = entry.id;
-
+                        if (!dataToSave.isDiscovered) {
+                            dataToSave.isDiscovered = false;
+                        }
                         this.users.doc(this.userService.user.id).collection('adventure-lists').doc(id).collection('adventure-entries')
                             .doc(entry.id).get().then(async (data) => {
                                 if (data.exists) {
                                     console.log("");
                                     dataToSave.isDiscovered = data.data().isDiscovered;
-                                    entriesToSend.push(dataToSave);
                                 }
+                                entriesToSend.push(dataToSave);
                                 console.log('discoveredState', dataToSave.isDiscovered);
                             })
                     });
