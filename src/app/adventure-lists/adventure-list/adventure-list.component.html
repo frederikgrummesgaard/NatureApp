@@ -40,16 +40,13 @@
                      let-adventureEntry="item">
             <StackLayout class="adventure-entry__item m-8">
                 <GridLayout class="adventure-entry__item-content">
-                    <Image stretch="aspectFill"
-                           height="180"
-                           [src]="adventureEntry.pictureURL"
-                           borderRadius="20"
-                           style="
-                                border-style: solid;
-                                border-color: rgba(44, 43, 43, 0.5);
-                                border-bottom-width: 1;"></Image>
+                    <WebImage stretch="fill"
+                              height="180"
+                              placeholder="~/assets/logo-placeholder.png"
+                              [src]="adventureEntry.pictureURL"></WebImage>
                     <StackLayout>
-                        <label *ngIf="adventureEntry.isDiscovered"
+                        <label *ngIf="
+                              adventureEntry.isDiscovered"
                                horizontalAlignment="center"
                                verticalAlignment="middle"
                                style="border-radius: 50%;

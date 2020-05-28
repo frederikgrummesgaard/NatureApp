@@ -6,7 +6,6 @@ import { switchMap } from "rxjs/operators";
 import { AdventureEntry } from "~/app/shared/models/adventureEntry.model";
 import { ListViewEventData } from "nativescript-ui-listview";
 import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
-import { SnackBar } from "@nstudio/nativescript-snackbar";
 import { UserService } from "~/app/shared/services/user.service";
 import * as firebase from "nativescript-plugin-firebase";
 import { Page } from "tns-core-modules/ui/page/page";
@@ -177,4 +176,5 @@ export class AdventureListComponent implements OnInit {
         } as ExtendedShowModalOptions;
         this.modalService.showModal(CongratulationModalComponent, options);
     }
+
 }

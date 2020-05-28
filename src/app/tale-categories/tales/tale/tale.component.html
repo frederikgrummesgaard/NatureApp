@@ -25,10 +25,10 @@
     <ScrollView>
         <StackLayout class="">
             <GridLayout class="audio">
-                <Image stretch="aspectFill"
-                       [src]="tale?.pictureURL"
-                       height="200">
-                </Image>
+                <WebImage [src]="tale?.pictureURL"
+                          stretch="aspectFill"
+                          placeholder="~/assets/logo-placeholder.png"
+                          height="200"></WebImage>
                 <GridLayout class="audio__start"
                             (tap)="togglePlay()"
                             *ngIf="!isPlaying">
