@@ -9,6 +9,7 @@ import { ImageSource } from "tns-core-modules/image-source/image-source";
 import { AdventureListService } from "~/app/shared/services/adventure-list.service";
 import { switchMap } from "rxjs/operators";
 import { UtilityService } from "~/app/shared/services/utility.service";
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 @Component({
     selector: "AdventureListCrud",
@@ -90,27 +91,32 @@ export class AdventureListCrudComponent implements OnInit {
     public saveFile(result) {
         let imageSrc = result;
         this.imagePath = this.utilityService.documentsPath(`${this.adventureListForm.get('name').value}.jpeg`)
-        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 15);
+        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 20);
     }
-    public onDeleteButtonTap() {
-        //Extracts the filename from firebases access token
-        let array = this.adventureList.pictureURL.split('%');
-        array = array[1].split('?');
-        let filename = array[0].substring(2, array[0].length)
 
-        this.adventureListService.deleteAdventureList(this.adventureListId);
-        firebase.storage.deleteFile({
-            remoteFullPath: '/images/' + filename,
-        });
-        this.routerExtensions.navigate(["/adventure"],
-            {
-                animated: true,
-                transition: {
-                    name: "slide",
-                    duration: 200,
-                    curve: "ease"
-                }
-            });
+    public onDeleteButtonTap() {
+        dialogs.confirm("Har du husket at slette listens indhold? Hvis ikke, gør det venligst først :-)").then((result) => {
+            if (result) {
+                //Extracts the filename from firebases access token
+                let array = this.adventureList.pictureURL.split('%');
+                array = array[1].split('?');
+                let filename = array[0].substring(2, array[0].length)
+
+                this.adventureListService.deleteAdventureList(this.adventureListId);
+                firebase.storage.deleteFile({
+                    remoteFullPath: '/images/' + filename,
+                });
+                this.routerExtensions.navigate(["/adventure"],
+                    {
+                        animated: true,
+                        transition: {
+                            name: "slide",
+                            duration: 200,
+                            curve: "ease"
+                        }
+                    });
+            }
+        })
     }
 
     public onSaveButtonTap(): void {
