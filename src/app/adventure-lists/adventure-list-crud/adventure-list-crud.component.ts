@@ -127,9 +127,9 @@ export class AdventureListCrudComponent implements OnInit {
             this.createOrUpdateAdventureList(this.adventureList.pictureURL);
             this.onBackButtonTap();
         } else {
-            this.isSavePressed = false;
             alert('Sikre at navn, billede og beskrivelse er indtastet korrekt')
         }
+        this.isSavePressed = false;
     }
 
     private createOrUpdateAdventureList(imageUrl) {

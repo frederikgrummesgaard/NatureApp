@@ -34,6 +34,7 @@ export class TalesComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.isLoading = true;
         this.pageRoute.activatedRoute
             .pipe(switchMap((activatedRoute) => activatedRoute.params))
             .forEach((params) => {
@@ -43,12 +44,12 @@ export class TalesComponent implements OnInit {
                         this.taleCategory = taleCategory;
                     });
                 this.loadTales(this.taleCategoryId);
+                this.isLoading = false;
             });
 
     }
 
     loadTales(categoryId: string) {
-        this.isLoading = true;
         this.taleService.getTales(categoryId).then(taleDB => {
             const myList = <any>taleDB;
             myList.forEach((tale: Tale) => {
@@ -57,7 +58,6 @@ export class TalesComponent implements OnInit {
             this.tales.sort((tale1: Tale, tale2: Tale) => {
                 return tale1.id >= tale2.id ? 1 : -1
             })
-            this.isLoading = false;
         });
     }
 

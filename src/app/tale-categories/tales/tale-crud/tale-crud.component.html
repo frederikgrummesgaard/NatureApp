@@ -19,7 +19,7 @@
                (tap)="onSaveButtonTap()"></Label>
     </ActionItem>
 </ActionBar>
-
+<ActivityIndicator [busy]="isSavePressed"></ActivityIndicator>
 <FlexboxLayout class="page-tale-crud">
     <StackLayout class="layout"
                  [formGroup]="taleForm">

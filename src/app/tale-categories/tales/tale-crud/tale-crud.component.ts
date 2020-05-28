@@ -188,7 +188,6 @@ export class TaleCrudComponent implements OnInit {
         let imageUrl;
         let audioUrl;
 
-        console.log("hello2");
         if (!this.tale.pictureURL || this.imagePath) {
             await this.utilityService.uploadImageFile(this.imagePath)
                 .then(async (uploadedFile) => {
@@ -219,9 +218,9 @@ export class TaleCrudComponent implements OnInit {
             this.createOrUpdateTale(this.tale.pictureURL, audioUrl);
             this.onBackButtonTap();
         } else {
-            this.isSavePressed = false;
             alert('Sikre at navn, billede, lydfil og beskrivelse er udfyldt korrekt')
         }
+        this.isSavePressed = false;
     }
 
     private createOrUpdateTale(imageUrl, audioUrl) {

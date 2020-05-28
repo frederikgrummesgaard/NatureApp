@@ -21,6 +21,7 @@
     </ActionItem>
 </ActionBar>
 
+<ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 <FlexboxLayout class="page-tales">
     <RadListView [items]="tales"
                  (itemTap)="onTaleItemTap($event)"

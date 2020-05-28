@@ -22,6 +22,7 @@
     </ActionItem>
 </ActionBar>
 
+<ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 <FlexboxLayout class="page-adventure-lists">
     <RadListView [items]="adventureLists"
                  (itemTap)="onAdventureListItemTap($event)"

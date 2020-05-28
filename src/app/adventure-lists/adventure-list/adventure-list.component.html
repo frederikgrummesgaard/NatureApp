@@ -29,6 +29,7 @@
     </ActionItem>
 </ActionBar>
 
+<ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 <FlexboxLayout class="page-adventure-list">
     <RadListView [items]="adventureEntries$"
                  (itemTap)="onAdventureEntryItemTap($event)"
@@ -46,7 +47,7 @@
                               [src]="adventureEntry.pictureURL"></WebImage>
                     <StackLayout>
                         <label *ngIf="
-                              adventureEntry.isDiscovered"
+                              adventureEntry?.isDiscovered"
                                horizontalAlignment="center"
                                verticalAlignment="middle"
                                style="border-radius: 50%;

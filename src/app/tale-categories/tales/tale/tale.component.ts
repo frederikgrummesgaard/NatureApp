@@ -43,6 +43,7 @@ export class TaleComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.isLoading = true;
         let urlArray = this.router.url.split('/')
         this.taleCategoryId = urlArray[3];
         this.pageRoute.activatedRoute
@@ -62,6 +63,7 @@ export class TaleComponent implements OnInit {
                                 this.duration = Math.floor(Number(result));
                                 this.displayTime = '00:00';
                                 this.remainingTime = this.datePipe.transform(this.duration, 'mm:ss');
+                                this.isLoading = false;
                             })
                         })
                     });

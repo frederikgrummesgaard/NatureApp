@@ -9,7 +9,6 @@ import { AdventureList } from "~/app/shared/models/adventureList.model";
 import { AdventureListService } from "../shared/services/adventure-list.service";
 import { UserService } from "../shared/services/user.service";
 
-
 @Component({
     selector: "AdventureLists",
     templateUrl: "./adventure-lists.component.html",
@@ -62,7 +61,7 @@ export class AdventureListsComponent implements OnInit {
             });
     }
     onDrawerButtonTap(): void {
-        const sideDrawer = <RadSideDrawer>app.getRootView();
+        const sideDrawer = <RadSideDrawer><unknown>app.getRootView();
         sideDrawer.showDrawer();
     }
 

@@ -8,10 +8,11 @@ import { ListViewEventData } from "nativescript-ui-listview";
 import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
 import { UserService } from "~/app/shared/services/user.service";
 import * as firebase from "nativescript-plugin-firebase";
-import { Page } from "tns-core-modules/ui/page/page";
+import { Page, EventData } from "tns-core-modules/ui/page/page";
 import { ModalDialogOptions, ModalDialogService } from "nativescript-angular/common";
 import { CongratulationModalComponent } from "./congratulation-modal/congratulation-modal.component";
 import { ExtendedShowModalOptions } from "nativescript-windowed-modal/windowed-modal.common";
+import { ActivityIndicator } from "tns-core-modules/ui/activity-indicator/activity-indicator";
 
 @Component({
     selector: "AdventuresList",
@@ -166,7 +167,7 @@ export class AdventureListComponent implements OnInit {
             })
     }
     private openContratulationModal() {
-        const options: ModalDialogOptions = {
+        const options: any = {
             context: this.adventureList,
             viewContainerRef: this.viewContainerRef,
             closeCallback: (response: string) => console.log("Modal response: " + response),
@@ -175,6 +176,10 @@ export class AdventureListComponent implements OnInit {
             stretched: true,
         } as ExtendedShowModalOptions;
         this.modalService.showModal(CongratulationModalComponent, options);
+    }
+    onLoadingChanged(args: EventData) {
+        let indicator: ActivityIndicator = <ActivityIndicator>args.object;
+        console.log("indicator.busy changed to: " + indicator.busy);
     }
 
 }
