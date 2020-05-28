@@ -24,9 +24,10 @@
            page__content">
     <ScrollView>
         <StackLayout class="">
-            <Image [src]="adventureEntry?.pictureURL"
-                   stretch="aspectFill"
-                   height="200"></Image>
+            <WebImage [src]="adventureEntry?.pictureURL"
+                      stretch="aspectFill"
+                      placeholder="~/assets/logo-placeholder.png"
+                      height="200"></WebImage>
             <label style="background: linear-gradient(rgba(44, 43, 43, 0.5), transparent);
                                                                                  height: 4;"
                    verticalAlignment="top"></label>

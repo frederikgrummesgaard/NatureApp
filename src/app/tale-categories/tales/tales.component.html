@@ -30,14 +30,10 @@
                          let-tale="item">
                 <StackLayout class="tales__item">
                     <GridLayout class="tales__item-content">
-                        <Image [src]="tale.pictureURL"
-                               stretch="aspectFill"
-                               height="180"
-                               borderRadius="10"
-                               style="
-                                border-style: solid;
-                                border-color: rgba(44, 43, 43, 0.5);
-                                border-bottom-width: 1;"></Image>
+                        <WebImage [src]="tale.pictureURL"
+                                  stretch="aspectFill"
+                                  height="180"
+                                  placeholder="~/assets/logo-placeholder.png"></WebImage>
                         <StackLayout verticalAlignment="middle">
                             <Label [text]="tale.name"
                                    horizontalAlignment="center"

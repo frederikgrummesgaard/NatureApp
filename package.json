@@ -37,6 +37,7 @@
         "nativescript-plugin-firebase": "^10.5.0",
         "nativescript-ui-listview": "8.1.0",
         "nativescript-ui-sidedrawer": "~8.0.0",
+        "nativescript-web-image-cache": "^5.0.0",
         "nativescript-windowed-modal": "^6.2.1",
         "reflect-metadata": "0.1.13",
         "rxjs": "^6.4.0",
