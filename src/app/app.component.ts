@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
     private _activatedUrl: string;
     private _sideDrawerTransition: DrawerTransitionBase;
     public user: User;
+    public isAdmin: boolean;
 
     constructor(private router: Router, private routerExtensions: RouterExtensions,
         private userService: UserService, ) {
@@ -33,11 +34,13 @@ export class AppComponent implements OnInit {
                 if (data.loggedIn) {
 
                     //Checks whether or not the user is an admin
-                    let isAdmin = false;
+                    this.isAdmin = false;
+
                     firebase.getCurrentUser().then((user) => {
+                        console.log(user);
                         user.getIdTokenResult().then((idTokenResult) => {
                             if (idTokenResult.claims.admin) {
-                                isAdmin = true;
+                                this.isAdmin = true;
                             }
                         })
                     })
@@ -52,7 +55,7 @@ export class AppComponent implements OnInit {
                             name: name,
                             email: data.user.email,
                             password: data.user.password,
-                            isAdmin: isAdmin
+                            isAdmin: this.isAdmin
                         }
                         this.userService.user = this.user
 
@@ -68,6 +71,16 @@ export class AppComponent implements OnInit {
                 console.log("firebase.init done");
             },
             error => {
+                firebase.getCurrentUser().then((user) => {
+                    this.user = {
+                        id: user.uid,
+                        name: name,
+                        email: user.email,
+                        password: "",
+                        isAdmin: this.isAdmin
+                    }
+                    this.userService.user = this.user
+                })
                 console.log(`firebase.init error: ${error}`);
             }
         );
@@ -95,7 +108,7 @@ export class AppComponent implements OnInit {
             }
         });
 
-        const sideDrawer = <RadSideDrawer>app.getRootView();
+        const sideDrawer = <RadSideDrawer><unknown>app.getRootView();
         sideDrawer.closeDrawer();
     }
     onFacebookTap() {
