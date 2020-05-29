@@ -44,7 +44,7 @@
         <Button class="btn -rounded-lg m-t-20 form-control"
                 type="submit"
                 style="background-color: rgb(116,156,67); color: white; font-size: 16px; width: 65%;"
-                [text]="isLoggingIn ? 'Log ind' : 'Opret konto'"
+                [text]="isLoggingIn ? 'Log ind' : 'Opret bruger'"
                 (tap)="submit()"></Button>
         <Label *ngIf="isLoggingIn"
                class="m-t-5"
@@ -58,8 +58,9 @@
            class="m-t-15"
            style="font-size: 15px;">
         <FormattedString>
-            <Span [text]="isLoggingIn ? 'Har du ikke en konto? ' : 'Tilbage til Login'"></Span>
-            <Span [text]="isLoggingIn ? 'Opret konto' : ''"
+            <Span [text]="isLoggingIn ? 'Har du ikke allerede en bruger? ' : 'Tilbage til Login'"></Span>
+            <Span [text]="isLoggingIn ? 'Opret bruger' : ''"
+                  textDecoration="underline"
                   class="font-weight-bold"></Span>
         </FormattedString>
     </Label>
