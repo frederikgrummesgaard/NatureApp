@@ -22,8 +22,11 @@ export class HomeComponent implements OnInit {
 
     onTapNavigate(navItemRoute: string): void {
         this.routerExtensions.navigate([navItemRoute], {
+            animated: true,
             transition: {
-                name: "fade"
+                name: "slide",
+                duration: 200,
+                curve: "ease"
             }
         });
     }

@@ -6,6 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms'
 import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/common";
 import { ForgotPasswordModalComponent } from "./forgot-password-modal/forgot-password-modal.component";
 import { ExtendedShowModalOptions } from "nativescript-windowed-modal";
+import { Page } from "tns-core-modules/ui/page";
 
 @Component({
     selector: "Login",
@@ -27,7 +28,10 @@ export class LoginComponent implements OnInit {
         private routerExtensions: RouterExtensions,
         private modalService: ModalDialogService,
         private viewContainerRef: ViewContainerRef,
-        private fb: FormBuilder) { }
+        private fb: FormBuilder,
+        private page: Page) {
+        this.page.actionBarHidden = true;
+    }
 
     ngOnInit(): void {
     }

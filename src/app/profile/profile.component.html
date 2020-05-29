@@ -14,7 +14,7 @@
            text="Profil"></Label>
     <ActionItem ios.position="right">
         <Label text="&#xf14a;"
-               class="nt-icon far"
+               class="nt-icon far p-r-10"
                style="font-size: 20;"
                verticalAlignment="center"
                (tap)="onSaveButtonTap()"
@@ -60,14 +60,13 @@
                        keyboardType="email"
                        autocorrect="false"
                        autocapitalizationType="none"></TextField>
-
         </StackLayout>
-        <StackLayout>
-            <button class="btn -rounded-lg m-y-20"
-                    text="Log ud"
-                    shadow="8"
-                    style="background-color: white; color: black; font-size: 16px; width: 50%;"
-                    (tap)="logout()"></button>
-        </StackLayout>
+    </StackLayout>
+    <StackLayout>
+        <button class="btn -rounded-lg m-y-20"
+                text="Log ud"
+                shadow="8"
+                style="background-color: white; color: black; font-size: 16px; width: 50%;"
+                (tap)="logout()"></button>
     </StackLayout>
 </FlexboxLayout>

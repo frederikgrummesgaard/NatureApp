@@ -1,10 +1,7 @@
 <ActionBar class="page-header">
-    <Label class="h2"
-           textAlignment="center"
-           text=""></Label>
 </ActionBar>
 
-<FlexboxLayout class="page-login m-y-10">
+<FlexboxLayout class="page-login">
     <Image src="~/assets/naturappen-logo.png"
            height="325"></Image>
     <StackLayout class="layout"
@@ -16,7 +13,7 @@
                        hint="Fulde navn"></TextField>
         </StackLayout>
 
-        <StackLayout class="input-field m-t-5">
+        <StackLayout class="input-field m-t-15">
             <TextField class="input form-control"
                        [formControl]="userForm.controls['email']"
                        hint="Email"
@@ -46,23 +43,23 @@
 
         <Button class="btn -rounded-lg m-t-20 form-control"
                 type="submit"
-                style="background-color: rgb(116,156,67); color: white; font-size: 16px; width: 60%;"
+                style="background-color: rgb(116,156,67); color: white; font-size: 16px; width: 65%;"
                 [text]="isLoggingIn ? 'Log ind' : 'Opret konto'"
                 (tap)="submit()"></Button>
         <Label *ngIf="isLoggingIn"
                class="m-t-5"
                textAlignment="center"
-               style="font-size: 14px;"
+               style="font-size: 15px;"
                (tap)="openForgotPasswordModal()"
                text="Glemt din adgangskode?"></Label>
     </StackLayout>
 
     <Label (tap)="toggleForm()"
            class="m-t-15"
-           style="font-size: 14px;">
+           style="font-size: 15px;">
         <FormattedString>
             <Span [text]="isLoggingIn ? 'Har du ikke en konto? ' : 'Tilbage til Login'"></Span>
-            <Span [text]="isLoggingIn ? 'Opret Konto' : ''"
+            <Span [text]="isLoggingIn ? 'Opret konto' : ''"
                   class="font-weight-bold"></Span>
         </FormattedString>
     </Label>

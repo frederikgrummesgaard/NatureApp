@@ -12,7 +12,7 @@
            text="{{title}}"></Label>
     <ActionItem ios.position="right">
         <Label text="&#xf14a;"
-               class="nt-icon far"
+               class="nt-icon far p-r-10"
                style="font-size: 20;"
                verticalAlignment="center"
                [isEnabled]="adventureListForm.valid && !isSavePressed"
@@ -79,7 +79,7 @@
                     *ngIf="isEditing"
                     shadow="8"
                     text="Slet bankoplade"
-                    style="background-color: red; color: white; font-size: 16px; width: 80%;"
+                    style="background-color: red; color: white; font-size: 16px; width: 50%;"
                     (tap)="onDeleteButtonTap()"></button>
         </StackLayout>
     </StackLayout>

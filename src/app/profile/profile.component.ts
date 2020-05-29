@@ -41,8 +41,11 @@ export class ProfileComponent implements OnInit {
     makeAdmin() {
         this.userService.createAdmin(this.adminForm.get('email').value);
         this.routerExtensions.navigate(["/home"], {
+            animated: true,
             transition: {
-                name: "fade"
+                name: "slide",
+                duration: 200,
+                curve: "ease"
             }
         });
     }
@@ -68,8 +71,11 @@ export class ProfileComponent implements OnInit {
             });
         });
         this.routerExtensions.navigate(["/home"], {
+            animated: true,
             transition: {
-                name: "fade"
+                name: "slide",
+                duration: 200,
+                curve: "ease"
             }
         });
     }
