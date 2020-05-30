@@ -96,8 +96,8 @@ export class AdventureListEntryCrudComponent implements OnInit {
     }
     public saveFile(result) {
         let imageSrc = result;
-        this.imagePath = this.utilityService.documentsPath(`${this.adventureListEntryForm.get('name').value}.jpeg`)
-        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 20);
+        this.imagePath = this.utilityService.documentsPath(`${this.adventureListEntryForm.get('name').value}.png`)
+        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.png, 20);
     }
     public onDeleteButtonTap() {
         //Extracts the filename from firebases access token
