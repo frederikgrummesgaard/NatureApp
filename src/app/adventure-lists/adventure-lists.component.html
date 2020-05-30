@@ -34,8 +34,8 @@
                     <GridLayout class="adventure-lists__item-content">
                         <WebImage [src]="adventureList.pictureURL"
                                   placeholder="~/assets/logo-placeholder.png"
-                                  stretch="fill"
-                                  height="180"></WebImage>
+                                  stretch="aspectFill"
+                                  height="190"></WebImage>
                         <StackLayout class="item-text">
                             <label [text]="adventureList.difficulty"
                                    horizontalAlignment="right"
@@ -51,11 +51,7 @@
                         </StackLayout>
                     </GridLayout>
                     <label style="background: linear-gradient(rgba(44, 43, 43, 0.4), transparent);
-                                                      height: 2;
-                                                      border-bottom-left-radius: 50px;
-                                                      border-bottom-right-radius: 50px;
-                                                      margin-right: 2%;
-                                                      margin-left: 2%;"
+                                                      height: 3;"
                            verticalAlignment="top"></label>
                 </StackLayout>
             </ng-template>

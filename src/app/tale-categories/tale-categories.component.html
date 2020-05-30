@@ -16,20 +16,20 @@
 
 <ScrollView>
     <StackLayout style="background-color: rgb(97,125,64);">
-        <GridLayout (tap)="onCategoryItemTap('RC0vWoVWvRPgIlETcnWO')">
-            <Image src="~/assets/meditationer.jpg"
-                   Stretch="aspectFill"></Image>
-            <Label horizontalAlignment="center"
-                   verticalAlignment="center"
-                   text="MEDITATIONER"
-                   style="font-size: 30; color: white; font-weight: 500;"></Label>
-        </GridLayout>
         <GridLayout (tap)="onCategoryItemTap('XKxCEgZJNv1b5DtMlLC4')">
             <Image src="~/assets/lærerigefortællinger.jpg"
                    Stretch="aspectFill"></Image>
             <Label horizontalAlignment="center"
                    verticalAlignment="center"
                    text="LÆRERIGE FORTÆLLINGER"
+                   style="font-size: 30; color: white; font-weight: 500;"></Label>
+        </GridLayout>
+        <GridLayout (tap)="onCategoryItemTap('RC0vWoVWvRPgIlETcnWO')">
+            <Image src="~/assets/meditationer.jpg"
+                   Stretch="aspectFill"></Image>
+            <Label horizontalAlignment="center"
+                   verticalAlignment="center"
+                   text="MEDITATIONER"
                    style="font-size: 30; color: white; font-weight: 500;"></Label>
         </GridLayout>
 
@@ -41,5 +41,9 @@
                    text="HISTORIER"
                    style="font-size: 30; color: white; font-weight: 500;"></Label>
         </GridLayout>
+        <Image src="~/assets/naturappen-logo-green.png"
+               class="m-y-5"
+               borderRadius="100"
+               height="100"></Image>
     </StackLayout>
 </ScrollView>
