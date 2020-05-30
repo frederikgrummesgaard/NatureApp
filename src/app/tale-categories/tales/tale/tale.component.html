@@ -32,6 +32,7 @@
                           height="200"></WebImage>
                 <GridLayout class="audio__start"
                             (tap)="togglePlay()"
+                            [isEnabled]="!isLoading"
                             *ngIf="!isPlaying">
                     <Label text="&#xf144;"
                            class="far"

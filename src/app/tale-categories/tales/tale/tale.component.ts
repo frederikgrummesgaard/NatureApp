@@ -121,6 +121,7 @@ export class TaleComponent implements OnInit {
     }
 
     onBackButtonTap(): void {
+        this._player.pause();
         this.routerExtensions.backToPreviousPage();
     }
 
