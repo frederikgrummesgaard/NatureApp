@@ -11,7 +11,7 @@
 .tales,
 :host-context(.ns-dark) .tales {
      &__item {
-        padding: 6 12 6 12;
+        padding: 0 0 8 0;
         &-content {
             padding: 0 0 0 0;
             @include colorize($background-color: background);

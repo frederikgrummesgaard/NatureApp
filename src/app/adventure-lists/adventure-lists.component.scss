@@ -11,7 +11,7 @@
 .adventure-lists,
 :host-context(.ns-dark) .adventure-lists {
      &__item {
-        padding: 6 12 6 12;
+        padding: 0 0 8 0;
         background-color: white;
 
         &-content {
@@ -23,10 +23,8 @@
 }
 
 .item-text {
-    margin-top: 60;
+    margin-top: 70;
     background: linear-gradient(transparent, transparent, rgb(46, 45, 45));
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
 }
 .item-difficulty {
     background-color: white;
