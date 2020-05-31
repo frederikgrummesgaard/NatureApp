@@ -90,8 +90,8 @@ export class AdventureListCrudComponent implements OnInit {
     }
     public saveFile(result) {
         let imageSrc = result;
-        this.imagePath = this.utilityService.documentsPath(`${this.adventureListForm.get('name').value}.png`)
-        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.png, 20);
+        this.imagePath = this.utilityService.documentsPath(`${this.adventureListForm.get('name').value}.jpeg`)
+        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 20);
     }
 
     public onDeleteButtonTap() {

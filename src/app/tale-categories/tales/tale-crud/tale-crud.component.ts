@@ -154,8 +154,8 @@ export class TaleCrudComponent implements OnInit {
     }
     public saveImageFile(result) {
         let imageSrc = result;
-        this.imagePath = this.utilityService.documentsPath(`${this.taleForm.get('name').value}.png`);
-        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.png, 20);
+        this.imagePath = this.utilityService.documentsPath(`${this.taleForm.get('name').value}.jpeg`);
+        imageSrc.saveToFile(this.imagePath, enums.ImageFormat.jpeg, 20);
     }
 
 

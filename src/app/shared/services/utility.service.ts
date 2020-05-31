@@ -32,7 +32,7 @@ export class UtilityService {
         let filename = this.getFilename(localPath);
         let remotePath = '/images/' + `${filename}`;
         let metadata = {
-            contentType: "image/png"
+            contentType: "image/jpeg"
         };
 
         return firebase.storage.uploadFile({
