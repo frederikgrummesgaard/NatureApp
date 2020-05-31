@@ -32,35 +32,7 @@ export class AppComponent implements OnInit {
             persist: true,
             onAuthStateChanged: (data: any) => {
                 if (data.loggedIn) {
-
-                    //Checks whether or not the user is an admin
-                    this.isAdmin = false;
-
-                    firebase.getCurrentUser().then((user) => {
-                        console.log(user);
-                        user.getIdTokenResult().then((idTokenResult) => {
-                            if (idTokenResult.claims.admin) {
-                                this.isAdmin = true;
-                            }
-                        })
-                    })
-
-                    //Retrieves the name of the user and creates a user object
-                    let name;
-                    firebase.firestore.collection('users').doc(data.user.uid).get().then((user) => {
-                        name = user.data().name;
-
-                        this.user = {
-                            id: data.user.uid,
-                            name: name,
-                            email: data.user.email,
-                            password: data.user.password,
-                            isAdmin: this.isAdmin
-                        }
-                        this.userService.user = this.user
-
-                    })
-                    UserService.userToken = data.user.uid;
+                    this.getUser();
                 }
                 else {
                     UserService.userToken = "";
@@ -71,16 +43,7 @@ export class AppComponent implements OnInit {
                 console.log("firebase.init done");
             },
             error => {
-                firebase.getCurrentUser().then((user) => {
-                    this.user = {
-                        id: user.uid,
-                        name: name,
-                        email: user.email,
-                        password: "",
-                        isAdmin: this.isAdmin
-                    }
-                    this.userService.user = this.user
-                })
+                this.getUser();
                 console.log(`firebase.init error: ${error}`);
             }
         );
@@ -91,6 +54,32 @@ export class AppComponent implements OnInit {
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+    }
+
+    private getUser() {
+        this.isAdmin = false;
+        firebase.getCurrentUser().then((user) => {
+            if (user) {
+                user.getIdTokenResult().then((idTokenResult) => {
+                    if (idTokenResult.claims.admin) {
+                        this.isAdmin = true;
+                    }
+                });
+                //Retrieves the name of the user and creates a user object
+                firebase.firestore.collection('users').doc(user.uid).get().then((dbUser) => {
+                    this.user = {
+                        id: user.uid,
+                        name: dbUser.data().name,
+                        email: dbUser.data().email,
+                        password: dbUser.data().password,
+                        isAdmin: this.isAdmin
+                    };
+                    this.userService.user = this.user;
+                });
+                UserService.userToken = user.uid;
+            }
+        });
+
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {
