@@ -10,6 +10,7 @@ import { AdventureListService } from "~/app/shared/services/adventure-list.servi
 import { switchMap } from "rxjs/operators";
 import { UtilityService } from "~/app/shared/services/utility.service";
 import * as dialogs from "tns-core-modules/ui/dialogs";
+import * as Toast from 'nativescript-toast';
 
 @Component({
     selector: "AdventureListCrud",
@@ -121,6 +122,7 @@ export class AdventureListCrudComponent implements OnInit {
 
     public onSaveButtonTap(): void {
         this.isSavePressed = true;
+        Toast.makeText("Gemmer...", "3").show();
         if (!this.adventureList.pictureURL || this.imagePath) {
             this.utilityService.uploadImageFile(this.imagePath)
                 .then((uploadedFile) => {

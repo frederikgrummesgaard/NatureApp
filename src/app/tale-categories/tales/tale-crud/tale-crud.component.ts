@@ -7,6 +7,7 @@ import { Mediafilepicker, AudioPickerOptions } from 'nativescript-mediafilepicke
 import * as firebase from "nativescript-plugin-firebase";
 import * as enums from 'tns-core-modules/ui/enums';
 import { ImageSource } from "tns-core-modules/image-source/image-source";
+import * as Toast from 'nativescript-toast';
 
 import { switchMap } from "rxjs/operators";
 import { Tale } from "~/app/shared/models/tale.model";
@@ -188,6 +189,7 @@ export class TaleCrudComponent implements OnInit {
         let imageUrl;
         let audioUrl;
 
+        Toast.makeText("Gemmer...", "3").show();
         if (!this.tale.pictureURL || this.imagePath) {
             await this.utilityService.uploadImageFile(this.imagePath)
                 .then(async (uploadedFile) => {
