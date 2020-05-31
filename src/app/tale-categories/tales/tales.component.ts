@@ -18,7 +18,7 @@ import { ListViewEventData } from "nativescript-ui-listview";
 })
 export class TalesComponent implements OnInit {
     public isLoading: boolean = false;
-    public isAdmin: boolean = false
+    public isAdmin: boolean;
     public tale: Tale;
     public tales: ObservableArray<Tale> = new ObservableArray<Tale>([]);
     public taleCategoryId: string;
@@ -28,8 +28,10 @@ export class TalesComponent implements OnInit {
         private taleService: TaleService,
         private pageRoute: PageRoute,
         private routerExtensions: RouterExtensions) {
-        if (this.userService.user.isAdmin) {
-            this.isAdmin = true;
+        if (this.userService.user) {
+            this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
+        } else {
+            this.isAdmin = false;
         }
     }
 

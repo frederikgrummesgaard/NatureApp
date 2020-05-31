@@ -18,7 +18,7 @@ import { DatePipe } from '@angular/common';
 })
 export class TaleComponent implements OnInit {
     public isLoading: boolean = false;
-    public isAdmin: boolean = false
+    public isAdmin: boolean;
     public tale: Tale;
     public taleId: string;
     public taleCategoryId: string;
@@ -36,10 +36,12 @@ export class TaleComponent implements OnInit {
         private routerExtensions: RouterExtensions,
         private router: Router,
     ) {
-        if (this.userService.user.isAdmin) {
-            this.isAdmin = true;
-        }
         this._player = new TNSPlayer();
+        if (this.userService.user) {
+            this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
+        } else {
+            this.isAdmin = false;
+        }
     }
 
     ngOnInit(): void {

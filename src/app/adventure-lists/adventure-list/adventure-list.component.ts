@@ -36,9 +36,10 @@ export class AdventureListComponent implements OnInit {
         private modalService: ModalDialogService,
         private adventureListService: AdventureListService,
         private userService: UserService) {
-
-        if (this.userService.user.isAdmin) {
-            this.isAdmin = true;
+        if (this.userService.user) {
+            this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
+        } else {
+            this.isAdmin = false;
         }
     }
 

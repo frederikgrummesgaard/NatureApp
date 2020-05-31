@@ -23,8 +23,10 @@ export class AdventureEntryComponent implements OnInit {
         private userService: UserService,
         private router: Router,
         private pageRoute: PageRoute) {
-        if (this.userService.user.isAdmin) {
-            this.isAdmin = true;
+        if (this.userService.user) {
+            this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
+        } else {
+            this.isAdmin = false;
         }
     }
 
