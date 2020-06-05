@@ -7,21 +7,25 @@
     <ActionItem android:visibility="collapsed"
                 (tap)="onBackButtonTap()"
                 ios.position="left">
+                <Label
+                text="&#xf060;"
+                class="nt-icon fas"
+                style="font-size: 20;"
+                >
+              </Label>
     </ActionItem>
     <Label class="h2"
            style="color: white;"
            text="{{taleCategory?.name}}"></Label>
-    <ActionItem *ngIf="isAdmin">
+    <ActionItem *ngIf="isAdmin" ios.position="right">
         <Label text="&#xf0fe;"
                class="nt-icon far p-r-20"
                style="font-size: 20;"
                verticalAlignment="center"
-               ios.position="right"
                (tap)="onCreateTale()"></Label>
     </ActionItem>
 </ActionBar>
 
-<ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 <FlexboxLayout class="page-tales">
     <RadListView [items]="tales"
                  (itemTap)="onTaleItemTap($event)"

@@ -6,17 +6,24 @@
     <ActionItem android:visibility="collapsed"
                 (tap)="onBackButtonTap()"
                 ios.position="left">
+              <Label
+                text="&#xf060;"
+                class="nt-icon fas"
+                style="font-size: 20;"
+                >
+              </Label>
     </ActionItem>
     <Label class="h2"
            style="color: white;"
            text="{{title}}"></Label>
-    <ActionItem ios.position="right">
+    <ActionItem ios.position="right"
+    (tap)="onSaveButtonTap()">
         <Label text="&#xf14a;"
                class="nt-icon far p-r-10"
                style="font-size: 20;"
                verticalAlignment="center"
                [isEnabled]="adventureListForm.valid && !isSavePressed"
-               (tap)="onSaveButtonTap()"></Label>
+              ></Label>
     </ActionItem>
 </ActionBar>
 

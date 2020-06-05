@@ -12,6 +12,7 @@ import { AdventureEntry } from "~/app/shared/models/adventureEntry.model";
 import { Router } from "@angular/router";
 import { UtilityService } from "~/app/shared/services/utility.service";
 import * as Toast from 'nativescript-toast';
+import { Toasty } from "nativescript-toasty";
 
 
 @Component({
@@ -124,7 +125,8 @@ export class AdventureListEntryCrudComponent implements OnInit {
 
     public onSaveButtonTap(): void {
         this.isSavePressed = true;
-        Toast.makeText("Gemmer...", "3").show();
+        const toast = new Toasty({ text: 'Gemmer...' });
+        toast.show();
         if (!this.adventureEntry.pictureURL || this.imagePath) {
             this.utilityService.uploadImageFile(this.imagePath)
                 .then((uploadedFile) => {

@@ -20,6 +20,7 @@ export class CongratulationModalComponent implements OnInit {
 
     constructor(private adventureListService: AdventureListService,
         private routerExtensions: RouterExtensions,
+        private modalDialog: ModalDialogParams,
         private params: ModalDialogParams) { }
 
     ngOnInit(): void {
@@ -30,10 +31,12 @@ export class CongratulationModalComponent implements OnInit {
     clearAdventureListState() {
         this.adventureListService.changeAdventureListDiscoveredState(this.adventureList.id, { isCompleted: false })
         this.adventureListService.clearEntryDiscoveredState(this.adventureList.id);
+        this.modalDialog.closeCallback();
         this.routerExtensions.backToPreviousPage();
         this.params.closeCallback();
     }
     close() {
         this.params.closeCallback();
+        this.modalDialog.closeCallback();
     }
 }

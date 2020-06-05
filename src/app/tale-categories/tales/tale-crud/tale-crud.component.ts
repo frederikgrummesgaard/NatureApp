@@ -14,6 +14,7 @@ import { Tale } from "~/app/shared/models/tale.model";
 import { TaleService } from "~/app/shared/services/tale.service";
 import { Router } from "@angular/router";
 import { UtilityService } from "~/app/shared/services/utility.service";
+import { Toasty } from "nativescript-toasty";
 
 @Component({
     selector: "TaleCrud",
@@ -189,7 +190,8 @@ export class TaleCrudComponent implements OnInit {
         let imageUrl;
         let audioUrl;
 
-        Toast.makeText("Gemmer...", "3").show();
+        const toast = new Toasty({ text: 'Gemmer...' });
+        toast.show();
         if (!this.tale.pictureURL || this.imagePath) {
             await this.utilityService.uploadImageFile(this.imagePath)
                 .then(async (uploadedFile) => {
