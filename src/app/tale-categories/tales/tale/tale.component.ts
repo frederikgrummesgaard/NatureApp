@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from "@angular/core";
 import { Tale } from "~/app/shared/models/tale.model";
 import { TaleService } from "~/app/shared/services/tale.service";
 import { UserService } from "~/app/shared/services/user.service";
@@ -16,7 +16,7 @@ import { DatePipe } from '@angular/common';
     styleUrls: ["./tale.component.scss"]
 
 })
-export class TaleComponent implements OnInit {
+export class TaleComponent implements OnInit, OnDestroy {
     public isLoading: boolean = false;
     public isAdmin: boolean;
     public tale: Tale;
@@ -72,6 +72,10 @@ export class TaleComponent implements OnInit {
             });
     }
 
+    public ngOnDestroy(): void {
+        this._player.pause();
+    }
+
     public togglePlay() {
         if (this._player.isAudioPlaying()) {
             this._player.pause();
@@ -123,7 +127,6 @@ export class TaleComponent implements OnInit {
     }
 
     onBackButtonTap(): void {
-        this._player.pause();
         this.routerExtensions.backToPreviousPage();
     }
 
