@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import * as firebase from "nativescript-plugin-firebase";
 import { TaleCategory } from "../models/taleCategory";
+import { UserService } from "./user.service";
 
 @Injectable({
     providedIn: "root"
@@ -9,7 +10,7 @@ export class TaleService {
 
     public taleCategories;
 
-    constructor() {
+    constructor(private userService: UserService) {
         this.taleCategories = firebase.firestore.collection('tale-categories');
     }
     getTaleCategories() {
@@ -53,9 +54,13 @@ export class TaleService {
                     querySnapshot.forEach(tale => {
                         let dataToSave = tale.data();
                         dataToSave.id = tale.id;
-                        tales.push(dataToSave);
+                        tales.push(dataToSave)
                     });
-                    resolve(tales);
+                    if (this.userService.user.isSubscriber) {
+                        resolve(tales);
+                    } else {
+                        resolve(tales[0]);
+                    }
                 })
                 .catch(err => {
                     console.log(err);

@@ -3,11 +3,12 @@ import * as admin from 'firebase-admin'
 admin.initializeApp();
 
 exports.addAdminRole = functions.https.onCall((data) => {
+    let claims = {
+        admin: true,
+        subscriber: true
+    }
     return admin.auth().getUserByEmail(data.email).then((user) => {
-        return admin.auth().setCustomUserClaims(user.uid, {
-            admin: true,
-            subscriber: true
-        });
+        return admin.auth().setCustomUserClaims(user.uid, claims);
     }).then(() => {
         return {
             message: `User: ${data.email} has been made an admin`
@@ -18,11 +19,12 @@ exports.addAdminRole = functions.https.onCall((data) => {
 });
 
 exports.addSubscriberRole = functions.https.onCall((data) => {
-    console.log(data.email);
+    let claims = {
+        admin: false,
+        subscriber: true
+    }
     return admin.auth().getUserByEmail(data.email).then((user) => {
-        return admin.auth().setCustomUserClaims(user.uid, {
-            subscriber: true
-        });
+        return admin.auth().setCustomUserClaims(user.uid, claims);
     }).then(() => {
         return {
             message: `User: ${data.email} has been made a subscriber`
@@ -33,10 +35,12 @@ exports.addSubscriberRole = functions.https.onCall((data) => {
 });
 
 exports.removeSubscriberRole = functions.https.onCall((data) => {
+    let claims = {
+        admin: false,
+        subscriber: false
+    }
     return admin.auth().getUserByEmail(data.email).then((user) => {
-        return admin.auth().setCustomUserClaims(user.uid, {
-            subscriber: false
-        });
+        return admin.auth().setCustomUserClaims(user.uid, claims);
     }).then(() => {
         return {
             message: `User: ${data.email} is no longer a subscriber`

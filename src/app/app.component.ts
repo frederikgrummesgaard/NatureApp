@@ -64,6 +64,7 @@ export class AppComponent implements OnInit {
 
     private getUser() {
         this.isAdmin = false;
+        this.isSubscriber = false;
         firebase.getCurrentUser().then((user) => {
             if (user) {
                 user.getIdTokenResult().then((idTokenResult) => {
@@ -71,7 +72,6 @@ export class AppComponent implements OnInit {
                         this.isAdmin = true;
                     }
                     if (idTokenResult.claims.subscriber) {
-                        console.log("hej1")
                         this.isSubscriber = true;
                     }
                 });

@@ -19,6 +19,7 @@ import { ListViewEventData } from "nativescript-ui-listview";
 export class TalesComponent implements OnInit {
     public isLoading: boolean = false;
     public isAdmin: boolean;
+    public isSubscriber: boolean;
     public tale: Tale;
     public tales: ObservableArray<Tale> = new ObservableArray<Tale>([]);
     public taleCategoryId: string;
@@ -30,6 +31,7 @@ export class TalesComponent implements OnInit {
         private routerExtensions: RouterExtensions) {
         if (this.userService.user) {
             this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
+            this.userService.user.isSubscriber ? this.isSubscriber = true : this.isSubscriber = false;
         } else {
             this.isAdmin = false;
         }
@@ -54,12 +56,17 @@ export class TalesComponent implements OnInit {
     loadTales(categoryId: string) {
         this.taleService.getTales(categoryId).then(taleDB => {
             const myList = <any>taleDB;
-            myList.forEach((tale: Tale) => {
+            if (this.isSubscriber) {
+                myList.forEach((tale: Tale) => {
+                    this.tales.push(tale);
+                });
+                this.tales.sort((tale1: Tale, tale2: Tale) => {
+                    return tale1.id >= tale2.id ? 1 : -1
+                })
+            } else {
+                const tale = <any>taleDB;
                 this.tales.push(tale);
-            });
-            this.tales.sort((tale1: Tale, tale2: Tale) => {
-                return tale1.id >= tale2.id ? 1 : -1
-            })
+            }
         });
     }
 

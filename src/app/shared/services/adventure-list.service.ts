@@ -44,7 +44,11 @@ export class AdventureListService {
                         dataToSave.id = adventureList.id;
                         adventureLists.push(dataToSave);
                     });
-                    resolve(adventureLists);
+                    if (this.userService.user.isSubscriber) {
+                        resolve(adventureLists);
+                    } else {
+                        resolve(adventureLists[0]);
+                    }
                 })
                 .catch(err => {
                     console.log(err);
