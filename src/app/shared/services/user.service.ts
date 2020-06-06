@@ -70,10 +70,29 @@ export class UserService {
         });
     }
     createAdmin(email) {
+        console.log(email)
         const addAdmin = firebase.functions.httpsCallable("addAdminRole");
         addAdmin({ email: email }).then((result) => {
             console.log(result);
             alert(email + ' er nu en administrator')
+        });
+    }
+
+    buySubscription() {
+
+        this.createSubscriber();
+    }
+
+    createSubscriber() {
+        let email = this.user.email;
+        const addSubscriber = firebase.functions.httpsCallable("addSubscriberRole");
+        addSubscriber({ email: email }).then((result) => {
+            console.log(result);
+        }).then(() => {
+            firebase.firestore.collection('users').doc(this.user.id).update({
+                isSubscriber: true
+            })
+            alert('Dit køb er gennemført! Log venligst ud og derefter ind igen, for at få adgang til vores fulde version!')
         });
     }
 }

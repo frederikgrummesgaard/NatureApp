@@ -94,4 +94,8 @@ export class TalesComponent implements OnInit {
     onBackButtonTap(): void {
         this.routerExtensions.backToPreviousPage();
     }
+
+    onSubscriptionButtonTap(): void {
+        this.userService.buySubscription();
+    }
 }

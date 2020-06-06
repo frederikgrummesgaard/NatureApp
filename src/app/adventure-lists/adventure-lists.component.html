@@ -23,6 +23,7 @@
 </ActionBar>
 
 <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+
 <FlexboxLayout class="page-adventure-lists">
     <RadListView [items]="adventureLists"
                  (itemTap)="onAdventureListItemTap($event)"
@@ -58,3 +59,12 @@
         </StackLayout>
     </RadListView>
 </FlexboxLayout>
+<StackLayout style="background-color: rgb(97,125,64);"
+             *ngIf="!isSubscriber"
+             verticalAlignment="bottom">
+    <button class="btn -rounded-lg"
+            shadow="8"
+            text="OPGRADER TIL FULD VERSION"
+            style="background-color: rgb(116,156,67); color: white; font-size: 18px; width: 75%;"
+            (tap)="onSubscriptionButtonTap()"></button>
+</StackLayout>

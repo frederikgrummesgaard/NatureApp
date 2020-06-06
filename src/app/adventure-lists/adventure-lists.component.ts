@@ -17,6 +17,7 @@ import { UserService } from "../shared/services/user.service";
 export class AdventureListsComponent implements OnInit {
     public isLoading: boolean = false;
     public isAdmin: boolean;
+    public isSubscriber: boolean;
     private _adventureLists: ObservableArray<AdventureList> = new ObservableArray<AdventureList>([]);
 
     constructor(
@@ -26,8 +27,10 @@ export class AdventureListsComponent implements OnInit {
     ) {
         if (this.userService.user) {
             this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
+            this.userService.user.isSubscriber ? this.isSubscriber = true : this.isSubscriber = false;
         } else {
             this.isAdmin = false;
+            this.isSubscriber = false;
         }
     }
 
@@ -79,6 +82,10 @@ export class AdventureListsComponent implements OnInit {
                     }
                 });
         }
+    }
+
+    onSubscriptionButtonTap(): void {
+        this.userService.buySubscription();
     }
 
     get adventureLists(): ObservableArray<AdventureList> {

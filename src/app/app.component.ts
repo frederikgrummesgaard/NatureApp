@@ -8,7 +8,7 @@ import * as firebase from "nativescript-plugin-firebase";
 import { UserService } from "./shared/services/user.service";
 import { User } from "./shared/models/user.model";
 import * as utils from "tns-core-modules/utils/utils";
-
+import * as purchase from "nativescript-purchase";
 
 
 @Component({
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
     private _sideDrawerTransition: DrawerTransitionBase;
     public user: User;
     public isAdmin: boolean;
+    public isSubscriber: boolean;
 
     constructor(private router: Router, private routerExtensions: RouterExtensions,
         private userService: UserService, ) {
@@ -54,6 +55,11 @@ export class AppComponent implements OnInit {
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+
+        purchase.init([
+            "org.nativescript.purchasesample.product1",
+            "org.nativescript.purchasesample.product2"
+        ]);
     }
 
     private getUser() {
@@ -64,6 +70,10 @@ export class AppComponent implements OnInit {
                     if (idTokenResult.claims.admin) {
                         this.isAdmin = true;
                     }
+                    if (idTokenResult.claims.subscriber) {
+                        console.log("hej1")
+                        this.isSubscriber = true;
+                    }
                 });
                 //Retrieves the name of the user and creates a user object
                 firebase.firestore.collection('users').doc(user.uid).get().then((dbUser) => {
@@ -72,7 +82,8 @@ export class AppComponent implements OnInit {
                         name: dbUser.data().name,
                         email: dbUser.data().email,
                         password: dbUser.data().password,
-                        isAdmin: this.isAdmin
+                        isAdmin: this.isAdmin,
+                        isSubscriber: this.isSubscriber
                     };
                     this.userService.user = this.user;
                 });

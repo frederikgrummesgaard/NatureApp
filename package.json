@@ -35,6 +35,7 @@
         "nativescript-mediafilepicker": "^3.0.1",
         "nativescript-ng-shadow": "^2.1.0",
         "nativescript-plugin-firebase": "^10.5.0",
+        "nativescript-purchase": "^2.0.13",
         "nativescript-toast": "^2.0.0",
         "nativescript-ui-listview": "8.1.0",
         "nativescript-ui-sidedrawer": "~8.0.0",
