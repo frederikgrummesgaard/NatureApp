@@ -57,8 +57,7 @@ export class AppComponent implements OnInit {
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
 
         purchase.init([
-            "org.nativescript.purchasesample.product1",
-            "org.nativescript.purchasesample.product2"
+            "subscription",
         ]);
     }
 

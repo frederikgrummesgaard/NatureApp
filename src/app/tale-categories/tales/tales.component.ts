@@ -34,6 +34,10 @@ export class TalesComponent implements OnInit {
             this.userService.user.isSubscriber ? this.isSubscriber = true : this.isSubscriber = false;
         } else {
             this.isAdmin = false;
+            this.isSubscriber = false;
+        }
+        if (!this.isSubscriber) {
+            this.userService.initializeInAppPayments();
         }
     }
 

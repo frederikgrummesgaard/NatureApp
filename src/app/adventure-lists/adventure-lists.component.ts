@@ -32,6 +32,9 @@ export class AdventureListsComponent implements OnInit {
             this.isAdmin = false;
             this.isSubscriber = false;
         }
+        if (!this.isSubscriber) {
+            this.userService.initializeInAppPayments();
+        }
     }
 
     ngOnInit(): void {

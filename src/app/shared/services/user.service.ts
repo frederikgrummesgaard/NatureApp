@@ -2,6 +2,10 @@ import * as firebase from "nativescript-plugin-firebase";
 import { Injectable } from "@angular/core";
 import { getString, setString } from "tns-core-modules/application-settings";
 import { User } from "../models/user.model";
+import * as applicationSettings from "tns-core-modules/application-settings";
+import * as purchase from "nativescript-purchase";
+import { Transaction, TransactionState } from "nativescript-purchase/transaction";
+import { Product } from "nativescript-purchase/product";
 
 let userToken = 'token'
 
@@ -12,6 +16,7 @@ let userToken = 'token'
 export class UserService {
 
     public user: User;
+    public product: Product;
 
     static isLoggedIn(): boolean {
         return !!getString("token");
@@ -78,8 +83,24 @@ export class UserService {
         });
     }
 
-    buySubscription() {
+    initializeInAppPayments() {
+        purchase.getProducts().then((products: Product[]) => {
+            console.log(products);
+            this.product = products[0];
+        });
 
+        purchase.on(purchase.transactionUpdatedEvent, (transaction: Transaction) => {
+            if (transaction.transactionState === TransactionState.Restored) {
+                applicationSettings.setBoolean(transaction.productIdentifier, true);
+            }
+            if (transaction.transactionState === TransactionState.Purchased) {
+                applicationSettings.setBoolean(transaction.productIdentifier, true);
+            }
+        });
+    }
+
+    buySubscription() {
+        purchase.buyProduct(this.product);
         this.createSubscriber();
     }
 
