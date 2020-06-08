@@ -73,7 +73,7 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        this._player.pause();
+        this._player.dispose();
     }
 
     public togglePlay() {
@@ -127,6 +127,7 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     onBackButtonTap(): void {
+        this._player.dispose();
         this.routerExtensions.backToPreviousPage();
     }
 
