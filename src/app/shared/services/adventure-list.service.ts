@@ -35,6 +35,7 @@ export class AdventureListService {
     }
 
     getAdventureLists() {
+        let date = new Date()
         return new Promise((resolve, reject) => {
             this.adventureLists.get()
                 .then(querySnapshot => {
@@ -44,7 +45,7 @@ export class AdventureListService {
                         dataToSave.id = adventureList.id;
                         adventureLists.push(dataToSave);
                     });
-                    if (this.userService.user.isSubscriber) {
+                    if (this.userService.user.subscriptionEnds >= date) {
                         resolve(adventureLists);
                     } else {
                         resolve(adventureLists[0]);

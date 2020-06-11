@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewContainerRef } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ListViewEventData } from "nativescript-ui-listview";
@@ -8,6 +8,9 @@ import * as app from "tns-core-modules/application";
 import { AdventureList } from "~/app/shared/models/adventureList.model";
 import { AdventureListService } from "../shared/services/adventure-list.service";
 import { UserService } from "../shared/services/user.service";
+import { ExtendedShowModalOptions } from "nativescript-windowed-modal";
+import { SubscriptionModalComponent } from "../shared/subscription-modal/subscription-modal.component";
+import { ModalDialogService } from "nativescript-angular/common";
 
 @Component({
     selector: "AdventureLists",
@@ -23,17 +26,22 @@ export class AdventureListsComponent implements OnInit {
     constructor(
         private adventureListService: AdventureListService,
         private routerExtensions: RouterExtensions,
-        private userService: UserService
+        private userService: UserService,
+        private viewContainerRef: ViewContainerRef,
+        private modalService: ModalDialogService
     ) {
+        let date = new Date()
         if (this.userService.user) {
             this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
-            this.userService.user.isSubscriber ? this.isSubscriber = true : this.isSubscriber = false;
+            if (this.userService.user.subscriptionEnds) {
+                this.userService.user.subscriptionEnds >= date ? this.isSubscriber = true : this.isSubscriber = false;
+                if (this.userService.user.subscriptionEnds < date) {
+                    this.userService.removeSubscriber();
+                }
+            }
         } else {
             this.isAdmin = false;
             this.isSubscriber = false;
-        }
-        if (!this.isSubscriber) {
-            this.userService.initializeInAppPayments();
         }
     }
 
@@ -92,8 +100,16 @@ export class AdventureListsComponent implements OnInit {
         }
     }
 
-    onSubscriptionButtonTap(): void {
-        this.userService.buySubscription();
+    onSubscriptionModalButtonTap(): void {
+        const options: any = {
+            context: "",
+            viewContainerRef: this.viewContainerRef,
+            closeCallback: (response: string) => console.log("Modal response: " + response),
+            fullscreen: false,
+            dimAmount: 0.3,
+            stretched: true,
+        } as ExtendedShowModalOptions;
+        this.modalService.showModal(SubscriptionModalComponent, options);
     }
 
     get adventureLists(): ObservableArray<AdventureList> {

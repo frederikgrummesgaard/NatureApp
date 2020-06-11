@@ -57,7 +57,8 @@ export class AppComponent implements OnInit {
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
 
         purchase.init([
-            "subscription",
+            "subscription1month",
+            "subscription3month",
         ]);
     }
 
@@ -82,7 +83,7 @@ export class AppComponent implements OnInit {
                         email: dbUser.data().email,
                         password: dbUser.data().password,
                         isAdmin: this.isAdmin,
-                        isSubscriber: this.isSubscriber
+                        subscriptionEnds: dbUser.data().subscriptionEnds ? dbUser.data().subscriptionEnds : null
                     };
                     this.userService.user = this.user;
                 });

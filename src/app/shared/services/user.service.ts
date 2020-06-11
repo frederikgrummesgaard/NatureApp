@@ -16,7 +16,7 @@ let userToken = 'token'
 export class UserService {
 
     public user: User;
-    public product: Product;
+    public products: Product[];
 
     static isLoggedIn(): boolean {
         return !!getString("token");
@@ -84,9 +84,9 @@ export class UserService {
     }
 
     initializeInAppPayments() {
-        purchase.getProducts().then((products: Product[]) => {
-            console.log(products);
-            this.product = products[0];
+        let products: Product[] = [];
+        purchase.getProducts().then((productsToImplement: Product[]) => {
+            products = productsToImplement;
         });
 
         purchase.on(purchase.transactionUpdatedEvent, (transaction: Transaction) => {
@@ -97,23 +97,42 @@ export class UserService {
                 applicationSettings.setBoolean(transaction.productIdentifier, true);
             }
         });
+        console.log("before", products)
+        return products
     }
 
-    buySubscription() {
-        purchase.buyProduct(this.product);
-        this.createSubscriber();
+    buySubscription(product, duration) {
+        this.createSubscriber(duration);
+        /* 
+          if (purchase.canMakePayments()) {
+              purchase.buyProduct(product).then(() => {
+                   this.createSubscriber(duration);
+              });
+          }
+          */
     }
 
-    createSubscriber() {
+    createSubscriber(duration) {
+        let buyDate = new Date();
         let email = this.user.email;
         const addSubscriber = firebase.functions.httpsCallable("addSubscriberRole");
         addSubscriber({ email: email }).then((result) => {
             console.log(result);
         }).then(() => {
+            let subscriptionEnds: Date = buyDate;
+            subscriptionEnds.setMonth(buyDate.getMonth() + duration);
             firebase.firestore.collection('users').doc(this.user.id).update({
-                isSubscriber: true
+                subscriptionEnds: subscriptionEnds
             })
             alert('Dit køb er gennemført! Log venligst ud og derefter ind igen, for at få adgang til vores fulde version!')
         });
+    }
+
+    removeSubscriber() {
+        let email = this.user.email;
+        const removeSubscriber = firebase.functions.httpsCallable("removeSubscriberRole");
+        removeSubscriber({ email: email }).then((result) => {
+            console.log(result);
+        })
     }
 }

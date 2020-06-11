@@ -4,5 +4,5 @@ export class User {
     email: string;
     password: string;
     isAdmin: boolean;
-    isSubscriber: boolean;
+    subscriptionEnds: Date;
 }

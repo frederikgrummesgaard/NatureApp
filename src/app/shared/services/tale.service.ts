@@ -47,6 +47,7 @@ export class TaleService {
     }
 
     getTales(CategoryId: string) {
+        let date = new Date();
         return new Promise((resolve, reject) => {
             this.taleCategories.doc(CategoryId).collection('tales').get()
                 .then(querySnapshot => {
@@ -56,7 +57,7 @@ export class TaleService {
                         dataToSave.id = tale.id;
                         tales.push(dataToSave)
                     });
-                    if (this.userService.user.isSubscriber) {
+                    if (this.userService.user.subscriptionEnds >= date) {
                         resolve(tales);
                     } else {
                         resolve(tales[0]);

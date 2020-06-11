@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { Tale } from "~/app/shared/models/tale.model";
@@ -9,6 +9,9 @@ import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { TaleCategory } from "~/app/shared/models/taleCategory";
 import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
 import { ListViewEventData } from "nativescript-ui-listview";
+import { SubscriptionModalComponent } from "~/app/shared/subscription-modal/subscription-modal.component";
+import { ExtendedShowModalOptions } from "nativescript-windowed-modal";
+import { ModalDialogService } from "nativescript-angular/common";
 
 @Component({
     selector: "Tales",
@@ -28,16 +31,21 @@ export class TalesComponent implements OnInit {
     constructor(private userService: UserService,
         private taleService: TaleService,
         private pageRoute: PageRoute,
-        private routerExtensions: RouterExtensions) {
+        private routerExtensions: RouterExtensions,
+        private viewContainerRef: ViewContainerRef,
+        private modalService: ModalDialogService, ) {
+        let date = new Date();
         if (this.userService.user) {
             this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
-            this.userService.user.isSubscriber ? this.isSubscriber = true : this.isSubscriber = false;
+            if (this.userService.user.subscriptionEnds) {
+                this.userService.user.subscriptionEnds >= date ? this.isSubscriber = true : this.isSubscriber = false;
+                if (this.userService.user.subscriptionEnds < date) {
+                    this.userService.removeSubscriber();
+                }
+            }
         } else {
             this.isAdmin = false;
             this.isSubscriber = false;
-        }
-        if (!this.isSubscriber) {
-            this.userService.initializeInAppPayments();
         }
     }
 
@@ -107,6 +115,14 @@ export class TalesComponent implements OnInit {
     }
 
     onSubscriptionButtonTap(): void {
-        this.userService.buySubscription();
+        const options: any = {
+            context: "",
+            viewContainerRef: this.viewContainerRef,
+            closeCallback: (response: string) => console.log("Modal response: " + response),
+            fullscreen: false,
+            dimAmount: 0.3,
+            stretched: true,
+        } as ExtendedShowModalOptions;
+        this.modalService.showModal(SubscriptionModalComponent, options);
     }
 }
