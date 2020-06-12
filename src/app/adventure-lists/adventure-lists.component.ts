@@ -33,7 +33,10 @@ export class AdventureListsComponent implements OnInit {
         let date = new Date()
         if (this.userService.user) {
             this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
-            if (this.userService.user.subscriptionEnds) {
+            if (this.isAdmin) {
+                this.isSubscriber = true;
+                this.userService.user.subscriptionEnds.setFullYear(2040, 1, 1);
+            } else if (this.userService.user.subscriptionEnds) {
                 this.userService.user.subscriptionEnds >= date ? this.isSubscriber = true : this.isSubscriber = false;
                 if (this.userService.user.subscriptionEnds < date) {
                     this.userService.removeSubscriber();

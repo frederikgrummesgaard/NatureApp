@@ -101,13 +101,10 @@ export class UserService {
         return products
     }
 
-    buySubscription(product, duration) {
-
-        if (purchase.canMakePayments()) {
-            purchase.buyProduct(product).then(() => {
-                this.createSubscriber(duration);
-            });
-        }
+    buySubscription(product: Product, duration) {
+        purchase.buyProduct(product).then(() => {
+            this.createSubscriber(duration);
+        });
     }
 
     createSubscriber(duration) {

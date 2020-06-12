@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
     public isSubscriber: boolean;
 
     constructor(private router: Router, private routerExtensions: RouterExtensions,
-        private userService: UserService, ) {
+        private userService: UserService,) {
     }
 
     ngOnInit(): void {
@@ -70,6 +70,7 @@ export class AppComponent implements OnInit {
                 user.getIdTokenResult().then((idTokenResult) => {
                     if (idTokenResult.claims.admin) {
                         this.isAdmin = true;
+                        this.isSubscriber = true;
                     }
                     if (idTokenResult.claims.subscriber) {
                         this.isSubscriber = true;
