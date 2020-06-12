@@ -85,9 +85,9 @@ export class UserService {
 
     initializeInAppPayments() {
         let products: Product[] = [];
-        purchase.getProducts().then((productsToImplement: Product[]) => {
+        (global as any).purchaseInitPromise.then(() => purchase.getProducts().then((productsToImplement: Array<Product>) => {
             products = productsToImplement;
-        });
+        }));
 
         purchase.on(purchase.transactionUpdatedEvent, (transaction: Transaction) => {
             if (transaction.transactionState === TransactionState.Restored) {
@@ -102,14 +102,12 @@ export class UserService {
     }
 
     buySubscription(product, duration) {
-        this.createSubscriber(duration);
-        /* 
-          if (purchase.canMakePayments()) {
-              purchase.buyProduct(product).then(() => {
-                   this.createSubscriber(duration);
-              });
-          }
-          */
+
+        if (purchase.canMakePayments()) {
+            purchase.buyProduct(product).then(() => {
+                this.createSubscriber(duration);
+            });
+        }
     }
 
     createSubscriber(duration) {
