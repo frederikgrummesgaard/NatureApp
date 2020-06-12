@@ -85,9 +85,9 @@ export class UserService {
 
     initializeInAppPayments() {
         let products: Product[] = [];
-        (global as any).purchaseInitPromise.then(() => purchase.getProducts().then((productsToImplement: Array<Product>) => {
+        purchase.getProducts().then((productsToImplement: Array<Product>) => {
             products = productsToImplement;
-        }));
+        });
 
         purchase.on(purchase.transactionUpdatedEvent, (transaction: Transaction) => {
             if (transaction.transactionState === TransactionState.Restored) {
