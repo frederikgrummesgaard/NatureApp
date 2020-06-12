@@ -16,6 +16,7 @@ let userToken = 'token'
 export class UserService {
 
     public user: User;
+    public duration: number;
     public products: Product[];
 
     static isLoggedIn(): boolean {
@@ -95,6 +96,9 @@ export class UserService {
             }
             if (transaction.transactionState === TransactionState.Purchased) {
                 applicationSettings.setBoolean(transaction.productIdentifier, true);
+                this.createSubscriber(this.duration);
+            } else if (transaction.transactionState === TransactionState.Failed) {
+                alert(`køb af ${transaction.productIdentifier} gik ikke igennem`);
             }
         });
         console.log("before", products)
@@ -102,9 +106,8 @@ export class UserService {
     }
 
     buySubscription(product: Product, duration) {
-        purchase.buyProduct(product).then(() => {
-            this.createSubscriber(duration);
-        });
+        this.duration = duration;
+        purchase.buyProduct(product);
     }
 
     createSubscriber(duration) {
