@@ -49,14 +49,14 @@ export class SubscriptionModalComponent implements OnInit {
 
     buy3MonthSubscription() {
         if (this.products[0]) {
-            this.buySubscription(this.products[0], 3);
+            this.buySubscription(this.products[0], 1);
         }
         this.params.closeCallback();
     }
 
     buy12MonthSubscription() {
         if (this.products[1]) {
-            this.buySubscription(this.products[1], 12);
+            this.buySubscription(this.products[1], 3);
         }
         this.params.closeCallback();
     }
