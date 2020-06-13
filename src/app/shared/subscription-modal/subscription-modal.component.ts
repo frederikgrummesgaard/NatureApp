@@ -35,12 +35,13 @@ export class SubscriptionModalComponent implements OnInit {
             }
             if (transaction.transactionState === TransactionState.Purchased) {
                 applicationSettings.setBoolean(transaction.productIdentifier, true);
+                purchase.consumePurchase(transaction.transactionReceipt);
                 this.userService.createSubscriber(this.duration);
             } else if (transaction.transactionState === TransactionState.Failed) {
-                alert(`køb af ${transaction.productIdentifier} gik ikke igennem`);
+                alert(`køb af produktet gik ikke igennem`);
             }
         });
-        console.log("before", this.products);
+
     }
 
     buySubscription(product: Product, duration) {
@@ -49,7 +50,6 @@ export class SubscriptionModalComponent implements OnInit {
     }
 
     buy1MonthSubscription() {
-        console.log("product:", this.products[0]);
         if (this.products[0]) {
             this.buySubscription(this.products[0], 1);
         }
@@ -57,7 +57,6 @@ export class SubscriptionModalComponent implements OnInit {
     }
 
     buy3MonthSubscription() {
-        console.log("product:", this.products[1]);
         if (this.products[1]) {
             this.buySubscription(this.products[1], 3);
         }

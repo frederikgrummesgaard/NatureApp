@@ -98,7 +98,7 @@ export class UserService {
             firebase.firestore.collection('users').doc(this.user.id).update({
                 subscriptionEnds: subscriptionEnds
             })
-            alert('Hvis du har købt et produkt: Log venligst ud og derefter ind igen, for at få adgang til vores fulde version!')
+            alert('Tillykke du har nu adgang til Naturappen! Log venligst ud og derefter ind igen, for at få adgang til vores fulde version!')
         });
     }
 
