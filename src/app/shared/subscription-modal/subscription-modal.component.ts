@@ -23,6 +23,7 @@ export class SubscriptionModalComponent implements OnInit {
         private params: ModalDialogParams) { }
 
     ngOnInit(): void {
+        let isCalled = false;
         (global as any).purchaseInitPromise.then(() => {
             purchase.getProducts().then((productsToImplement: Array<Product>) => {
                 this.products = productsToImplement;
@@ -36,7 +37,10 @@ export class SubscriptionModalComponent implements OnInit {
             if (transaction.transactionState === TransactionState.Purchased) {
                 applicationSettings.setBoolean(transaction.productIdentifier, true);
                 purchase.consumePurchase(transaction.transactionReceipt);
-                this.userService.createSubscriber(this.duration);
+                if (!isCalled) {
+                    this.userService.createSubscriber(this.duration);
+                    isCalled = true;
+                }
             }
         });
 
