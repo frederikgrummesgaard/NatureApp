@@ -6,6 +6,7 @@ import * as applicationSettings from "tns-core-modules/application-settings";
 import * as purchase from "nativescript-purchase";
 import { Transaction, TransactionState } from "nativescript-purchase/transaction";
 import { Product } from "nativescript-purchase/product";
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 let userToken = 'token'
 
@@ -80,7 +81,11 @@ export class UserService {
         const addAdmin = firebase.functions.httpsCallable("addAdminRole");
         addAdmin({ email: email }).then((result) => {
             console.log(result);
-            alert(email + ' er nu en administrator')
+            dialogs.alert({
+                title: "Tilføjet ny administrator",
+                message: email + ' er nu en administrator',
+                okButtonText: "Okay"
+            })
         });
     }
 
@@ -98,7 +103,11 @@ export class UserService {
             firebase.firestore.collection('users').doc(this.user.id).update({
                 subscriptionEnds: subscriptionEnds
             })
-            alert('Tillykke du har nu adgang til Naturappen! Log venligst ud og derefter ind igen, for at få adgang til vores fulde version!')
+            dialogs.alert({
+                title: "Tillykke!",
+                message: "Du har nu fuld adgang til Naturappen! Log venligst ud og derefter ind igen, for at se ændringerne!",
+                okButtonText: "Okay"
+            })
         });
     }
 
@@ -107,6 +116,11 @@ export class UserService {
         const removeSubscriber = firebase.functions.httpsCallable("removeSubscriberRole");
         removeSubscriber({ email: email }).then((result) => {
             console.log(result);
+            dialogs.alert({
+                title: "Dit abonnement er udløbet",
+                message: "Køb venligst et nyt abonnement for igen at få adgang til den fulde version af Naturappen",
+                okButtonText: "Okay"
+            })
         })
     }
 }

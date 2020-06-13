@@ -37,8 +37,6 @@ export class SubscriptionModalComponent implements OnInit {
                 applicationSettings.setBoolean(transaction.productIdentifier, true);
                 purchase.consumePurchase(transaction.transactionReceipt);
                 this.userService.createSubscriber(this.duration);
-            } else if (transaction.transactionState === TransactionState.Failed) {
-                alert(`køb af produktet gik ikke igennem`);
             }
         });
 
@@ -49,14 +47,14 @@ export class SubscriptionModalComponent implements OnInit {
         purchase.buyProduct(product);
     }
 
-    buy1MonthSubscription() {
+    buy3MonthSubscription() {
         if (this.products[0]) {
             this.buySubscription(this.products[0], 1);
         }
         this.params.closeCallback();
     }
 
-    buy3MonthSubscription() {
+    buy12MonthSubscription() {
         if (this.products[1]) {
             this.buySubscription(this.products[1], 3);
         }
