@@ -105,7 +105,7 @@ export class UserService {
             })
             dialogs.alert({
                 title: "Tillykke!",
-                message: "Du har nu fuld adgang til Naturappen! Log venligst ud og derefter ind igen, for at se ændringerne!",
+                message: "Du har nu fuld adgang til Naturappen! luk venligst appen helt og åben derefter den igen, for at se ændringerne!",
                 okButtonText: "Okay"
             })
         });
