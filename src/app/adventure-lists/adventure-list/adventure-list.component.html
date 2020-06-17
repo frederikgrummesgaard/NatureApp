@@ -7,35 +7,38 @@
     <ActionItem android:visibility="collapsed"
                 (tap)="onBackButtonTap()"
                 ios.position="left">
+                <Label
+                text="&#xf060;"
+                class="nt-icon fas"
+                style="font-size: 20;">
+              </Label>
     </ActionItem>
     <Label class="h2"
            style="color: white;"
            text="{{adventureList?.name}}"></Label>
-    <ActionItem *ngIf="isAdmin">
+    <ActionItem *ngIf="isAdmin"  ios.position="right">
         <Label text="&#xf0fe;"
                class="nt-icon far p-r-20"
                style="font-size: 20;"
-               verticalAlignment="center"
-               ios.position="right"
+               verticalAlignment="center"  
                (tap)="onCreateAdventureEntry()"></Label>
     </ActionItem>
-    <ActionItem *ngIf="isAdmin">
+    <ActionItem *ngIf="isAdmin" ios.position="right">
         <Label text="&#xf044;"
                class="nt-icon far p-b-15 p-r-10"
                style="font-size: 19;"
                verticalAlignment="center"
-               ios.position="right"
                (tap)="onEditButtonTap()"></Label>
     </ActionItem>
 </ActionBar>
 
-<ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 <FlexboxLayout class="page-adventure-list">
     <RadListView [items]="adventureEntries$"
                  (itemTap)="onAdventureEntryItemTap($event)"
-                 style="background-color: #ffffff;">
+                 style="background-color: #ffffff; height: 100%;">
         <ListViewGridLayout tkListViewLayout
                             scrollDirection="Vertical"
+                            itemHeight="180"
                             spanCount="2"></ListViewGridLayout>
         <ng-template tkListItemTemplate
                      let-adventureEntry="item">

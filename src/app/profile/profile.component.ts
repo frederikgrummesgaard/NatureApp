@@ -5,6 +5,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { UserService } from "../shared/services/user.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import * as firebase from "nativescript-plugin-firebase";
+import { Toasty } from "nativescript-toasty";
 
 @Component({
     selector: "Profile",
@@ -60,6 +61,8 @@ export class ProfileComponent implements OnInit {
     }
 
     onSaveButtonTap(): void {
+        const toast = new Toasty({ text: 'Gemmer...' });
+        toast.show();
         this.userService.user.name = this.userForm.get('name').value;
         this.userService.user.email = this.userForm.get('email').value;
         firebase.firestore.collection('users').doc(this.userService.user.id).update({

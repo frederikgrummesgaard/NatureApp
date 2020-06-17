@@ -6,21 +6,25 @@
     <ActionItem android:visibility="collapsed"
                 (tap)="onBackButtonTap()"
                 ios.position="left">
+                <Label
+                text="&#xf060;"
+                class="nt-icon fas"
+                style="font-size: 20;"
+                >
+              </Label>
     </ActionItem>
     <Label class="h2"
            style="color: white;"
            text="{{adventureEntry?.name}}"></Label>
-    <ActionItem *ngIf="isAdmin">
+    <ActionItem *ngIf="isAdmin" ios.position="right">
         <Label text="&#xf044;"
                class="nt-icon far p-r-10"
                style="font-size: 20;"
                verticalAlignment="center"
-               ios.position="right"
                (tap)="onEditButtonTap()"></Label>
     </ActionItem>
 </ActionBar>
 
-<ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 <GridLayout class="
            page__content">
     <ScrollView>
