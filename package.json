@@ -36,6 +36,7 @@
         "nativescript-ng-shadow": "^2.1.0",
         "nativescript-plugin-firebase": "^10.5.0",
         "nativescript-toast": "^2.0.0",
+        "nativescript-toasty": "^3.0.0-alpha.2",
         "nativescript-ui-listview": "8.1.0",
         "nativescript-ui-sidedrawer": "~8.0.0",
         "nativescript-web-image-cache": "^5.0.0",

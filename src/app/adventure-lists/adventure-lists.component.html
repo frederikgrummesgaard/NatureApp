@@ -12,21 +12,19 @@
     <Label class="h2"
            style="color: white;"
            text="På opdagelse"></Label>
-    <ActionItem *ngIf="isAdmin">
+    <ActionItem *ngIf="isAdmin" ios.position="right">
         <Label text="&#xf0fe;"
                class="nt-icon far p-r-10"
                style="font-size: 20;"
                verticalAlignment="center"
-               ios.position="right"
                (tap)="onCreateButtonTap()"></Label>
     </ActionItem>
 </ActionBar>
 
-<ActivityIndicator [busy]="isLoading"></ActivityIndicator>
 <FlexboxLayout class="page-adventure-lists">
     <RadListView [items]="adventureLists"
                  (itemTap)="onAdventureListItemTap($event)"
-                 style="background-color: #f2f2f2;">
+                 style="background-color: #f2f2f2; height: 100%;">
         <StackLayout>
             <ng-template tkListItemTemplate
                          let-adventureList="item">
