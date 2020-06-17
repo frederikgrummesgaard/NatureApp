@@ -30,7 +30,7 @@
         "firebase-functions": "^3.6.0",
         "firebase-tools": "^8.0.3",
         "nativescript-angular": "^8.21.0",
-        "nativescript-audio": "github:frederikgrummesgaard/nativescript-audio-player",
+        "nativescript-audio": "^5.0.5",
         "nativescript-imagepicker": "^7.1.0",
         "nativescript-mediafilepicker": "^3.0.1",
         "nativescript-ng-shadow": "^2.1.0",

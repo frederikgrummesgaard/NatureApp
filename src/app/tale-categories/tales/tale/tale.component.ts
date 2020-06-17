@@ -66,12 +66,9 @@ export class TaleComponent implements OnInit, OnDestroy {
                             errorCallback: this._trackError.bind(this)
                         }).then(() => {
                             this._player.getAudioTrackDuration().then((result) => {
-                                console.log(result)
                                 this.duration = Math.floor(Number(result));
-                                console.log('duration', this.duration)
                                 this.displayTime = '0:00';
-                            this.remainingTime = this.secondsToMinuteAndSenconds(this.duration);
-                                console.log(this.remainingTime);
+                                this.remainingTime = this.secondsToMinuteAndSenconds(this.duration);
                                 this.isLoading = false;
                             }).catch((err) => console.log(err));
                         })
