@@ -11,6 +11,7 @@ import { Slider } from "tns-core-modules/ui/slider/slider";
 import { DatePipe } from '@angular/common';
 import { app } from "firebase-admin";
 import { isAndroid } from "tns-core-modules/platform/platform";
+import { Toasty, ToastDuration } from "nativescript-toasty";
 
 @Component({
     selector: "Tale",
@@ -49,33 +50,35 @@ export class TaleComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.ngZone.run(() => {
-        this.isLoading = true;
-        let urlArray = this.router.url.split('/')
-        this.taleCategoryId = urlArray[3];
-        this.pageRoute.activatedRoute
-            .pipe(switchMap((activatedRoute) => activatedRoute.params))
-            .forEach((params) => {
-                this.taleId = params.id;
-                this.taleService.getTale(this.taleCategoryId, this.taleId).then(
-                    (tale: Tale) => {
-                        this.tale = tale;
-                        this._player.initFromUrl({
-                            audioFile: this.tale.audioURL,
-                            loop: false,
-                            completeCallback: this._trackComplete.bind(this),
-                            errorCallback: this._trackError.bind(this)
-                        }).then(() => {
-                            this._player.getAudioTrackDuration().then((result) => {
-                                this.duration = Math.floor(Number(result));
-                                this.displayTime = '0:00';
-                                this.remainingTime = this.secondsToMinuteAndSenconds(this.duration);
-                                this.isLoading = false;
-                            }).catch((err) => console.log(err));
-                        })
-                    });
-            });
+            const toast = new Toasty({ text: 'Henter lydfil...', duration: ToastDuration.LONG });
+            toast.show();
+            this.isLoading = true;
+            let urlArray = this.router.url.split('/')
+            this.taleCategoryId = urlArray[3];
+            this.pageRoute.activatedRoute
+                .pipe(switchMap((activatedRoute) => activatedRoute.params))
+                .forEach((params) => {
+                    this.taleId = params.id;
+                    this.taleService.getTale(this.taleCategoryId, this.taleId).then(
+                        (tale: Tale) => {
+                            this.tale = tale;
+                            this._player.initFromUrl({
+                                audioFile: this.tale.audioURL,
+                                loop: false,
+                                completeCallback: this._trackComplete.bind(this),
+                                errorCallback: this._trackError.bind(this)
+                            }).then(() => {
+                                this._player.getAudioTrackDuration().then((result) => {
+                                    this.duration = Math.floor(Number(result));
+                                    this.displayTime = '0:00';
+                                    this.remainingTime = this.secondsToMinuteAndSenconds(this.duration);
+                                    this.isLoading = false;
+                                }).catch((err) => console.log(err));
+                            })
+                        });
+                });
         })
-        }
+    }
 
     public ngOnDestroy(): void {
         this._player.dispose();
@@ -83,25 +86,25 @@ export class TaleComponent implements OnInit, OnDestroy {
 
     public togglePlay() {
         this.ngZone.run(() => {
-        if (this._player.isAudioPlaying()) {
-            this._player.pause();
-            this.isPlaying = false;
-        } else {
-            this._player.play().then(() => {
-                this.isPlaying = true;
-                timer.setInterval(() => {
-                    this.currentTime = this._player.currentTime;
-                   this.remainingTime = this.secondsToMinuteAndSenconds(this.duration - this.currentTime);
-                    this.displayTime = this.secondsToMinuteAndSenconds(this.currentTime);
-                    if (this.remainingTime === '0:00') {
-                        this._player.pause();
-                        this.isPlaying = false;
-                        this._player.seekTo(0);
-                    }
-                }, 1000);
-            }).catch((err) => {console.log(err)});
-        }
-    })
+            if (this._player.isAudioPlaying()) {
+                this._player.pause();
+                this.isPlaying = false;
+            } else {
+                this._player.play().then(() => {
+                    this.isPlaying = true;
+                    timer.setInterval(() => {
+                        this.currentTime = this._player.currentTime;
+                        this.remainingTime = this.secondsToMinuteAndSenconds(this.duration - this.currentTime);
+                        this.displayTime = this.secondsToMinuteAndSenconds(this.currentTime);
+                        if (this.remainingTime === '0:00') {
+                            this._player.pause();
+                            this.isPlaying = false;
+                            this._player.seekTo(0);
+                        }
+                    }, 1000);
+                }).catch((err) => { console.log(err) });
+            }
+        })
     }
 
     onCurrentTimeChanged(args): void {
@@ -112,7 +115,7 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     seek(moment: number): void {
-        if(isAndroid) {
+        if (isAndroid) {
             moment = moment / 1000
         }
         this._player.seekTo(moment);
@@ -156,15 +159,15 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     secondsToMinuteAndSenconds(sec) {
-        if(isAndroid) {
+        if (isAndroid) {
             sec = sec / 1000
         }
         sec = Number(sec);
         var m = Math.floor(sec % 3600 / 60);
         var s = Math.floor(sec % 3600 % 60);
-    
+
         var mDisplay = m > 0 ? m : "0";
-        var sDisplay = s > 0 ? (s.toString().length === 1 ? "0" + s: s) : "00";
-        return mDisplay + ":" + sDisplay; 
+        var sDisplay = s > 0 ? (s.toString().length === 1 ? "0" + s : s) : "00";
+        return mDisplay + ":" + sDisplay;
     }
 }
