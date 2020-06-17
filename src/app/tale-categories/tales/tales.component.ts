@@ -117,7 +117,7 @@ export class TalesComponent implements OnInit {
         this.routerExtensions.backToPreviousPage();
     }
 
-    onSubscriptionButtonTap(): void {
+    onSubscriptionModalButtonTap(): void {
         const options: any = {
             context: "",
             viewContainerRef: this.viewContainerRef,

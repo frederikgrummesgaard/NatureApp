@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, OnDestroy, NgZone } from "@angular/core";
 import { Tale } from "~/app/shared/models/tale.model";
 import { TaleService } from "~/app/shared/services/tale.service";
 import { UserService } from "~/app/shared/services/user.service";
@@ -25,7 +25,7 @@ export class TaleComponent implements OnInit, OnDestroy {
     public isPlaying: boolean;
     private _player: TNSPlayer;
     public currentTime: number;
-    public duration: number;
+    public duration: number = 0;
     public displayTime: string;
     public remainingTime: string;
 
@@ -33,6 +33,7 @@ export class TaleComponent implements OnInit, OnDestroy {
         private datePipe: DatePipe,
         private taleService: TaleService,
         private pageRoute: PageRoute,
+        private ngZone: NgZone,
         private routerExtensions: RouterExtensions,
         private router: Router,
     ) {
@@ -45,6 +46,7 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.ngZone.run(() => {
         this.isLoading = true;
         let urlArray = this.router.url.split('/')
         this.taleCategoryId = urlArray[3];
@@ -62,21 +64,26 @@ export class TaleComponent implements OnInit, OnDestroy {
                             errorCallback: this._trackError.bind(this)
                         }).then(() => {
                             this._player.getAudioTrackDuration().then((result) => {
+                                console.log(result)
                                 this.duration = Math.floor(Number(result));
-                                this.displayTime = '00:00';
-                                this.remainingTime = this.datePipe.transform(this.duration, 'mm:ss');
+                                console.log('duration', this.duration)
+                                this.displayTime = '0:00';
+                            this.remainingTime = this.secondsToMinuteAndSenconds(this.duration);
+                                console.log(this.remainingTime);
                                 this.isLoading = false;
-                            })
+                            }).catch((err) => console.log(err));
                         })
                     });
             });
-    }
+        })
+        }
 
     public ngOnDestroy(): void {
         this._player.dispose();
     }
 
     public togglePlay() {
+        this.ngZone.run(() => {
         if (this._player.isAudioPlaying()) {
             this._player.pause();
             this.isPlaying = false;
@@ -84,17 +91,18 @@ export class TaleComponent implements OnInit, OnDestroy {
             this._player.play().then(() => {
                 this.isPlaying = true;
                 timer.setInterval(() => {
-                    this.currentTime = this._player.currentTime
-                    this.remainingTime = this.datePipe.transform((this.duration - this.currentTime), 'mm:ss');
-                    this.displayTime = this.datePipe.transform(this.currentTime, 'mm:ss');
-                    if (this.remainingTime === '00:00') {
+                    this.currentTime = this._player.currentTime;
+                   this.remainingTime = this.secondsToMinuteAndSenconds(this.duration - this.currentTime);
+                    this.displayTime = this.secondsToMinuteAndSenconds(this.currentTime);
+                    if (this.remainingTime === '0:00') {
                         this._player.pause();
                         this.isPlaying = false;
                         this._player.seekTo(0);
                     }
                 }, 1000);
-            });
+            }).catch((err) => {console.log(err)});
         }
+    })
     }
 
     onCurrentTimeChanged(args): void {
@@ -105,8 +113,7 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     seek(moment: number): void {
-        let time = moment / 1000
-        this._player.seekTo(time);
+        this._player.seekTo(moment);
     }
 
     isSliderValueChanged(val: number): boolean {
@@ -144,5 +151,15 @@ export class TaleComponent implements OnInit, OnDestroy {
                     }
                 });
         }
+    }
+
+    secondsToMinuteAndSenconds(sec) {
+        sec = Number(sec);
+        var m = Math.floor(sec % 3600 / 60);
+        var s = Math.floor(sec % 3600 % 60);
+    
+        var mDisplay = m > 0 ? m : "0";
+        var sDisplay = s > 0 ? (s.toString().length === 1 ? "0" + s: s) : "00";
+        return mDisplay + ":" + sDisplay; 
     }
 }

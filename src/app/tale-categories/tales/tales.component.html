@@ -29,7 +29,7 @@
 <FlexboxLayout class="page-tales">
     <RadListView [items]="tales"
                  (itemTap)="onTaleItemTap($event)"
-                 style="color: white;">
+                 style="color: white; height: 100%;">
         <StackLayout>
             <ng-template tkListItemTemplate
                          let-tale="item">
@@ -39,10 +39,10 @@
                                   stretch="aspectFill"
                                   height="180"
                                   placeholder="~/assets/logo-placeholder.png"></WebImage>
-                        <StackLayout verticalAlignment="middle">
+                        <StackLayout class="item-text" verticalAlignment="middle">
                             <Label [text]="tale.name"
                                    horizontalAlignment="center"
-                                   style="font-size: 28; color: white; font-weight: 400"></Label>
+                                   ></Label>
                         </StackLayout>
                     </GridLayout>
                     <label style="background: linear-gradient(rgba(44, 43, 43, 0.4), transparent);
@@ -52,13 +52,13 @@
             </ng-template>
         </StackLayout>
     </RadListView>
-</FlexboxLayout>
-<StackLayout style="background-color: rgb(97,125,64);"
+    <StackLayout style="background-color: rgb(97,125,64);"
              *ngIf="!isSubscriber"
              verticalAlignment="bottom">
     <button class="btn -rounded-lg"
             shadow="8"
             text="OPGRADER TIL FULD VERSION"
-            style="background-color: rgb(116,156,67); color: white; font-size: 18px; width: 75%;"
-            (tap)="onSubscriptionButtonTap()"></button>
+            style="background-color: rgb(116,156,67); color: white; font-size: 18px; width: 75%; margin-top: 250px;"
+            (tap)="onSubscriptionModalButtonTap()"></button>
 </StackLayout>
+</FlexboxLayout>
