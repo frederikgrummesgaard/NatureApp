@@ -9,6 +9,8 @@ import { Router } from "@angular/router";
 import { TNSPlayer } from 'nativescript-audio';
 import { Slider } from "tns-core-modules/ui/slider/slider";
 import { DatePipe } from '@angular/common';
+import { app } from "firebase-admin";
+import { isAndroid } from "tns-core-modules/platform/platform";
 
 @Component({
     selector: "Tale",
@@ -113,6 +115,9 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     seek(moment: number): void {
+        if(isAndroid) {
+            moment = moment / 1000
+        }
         this._player.seekTo(moment);
     }
 
@@ -154,6 +159,9 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     secondsToMinuteAndSenconds(sec) {
+        if(isAndroid) {
+            sec = sec / 1000
+        }
         sec = Number(sec);
         var m = Math.floor(sec % 3600 / 60);
         var s = Math.floor(sec % 3600 % 60);
