@@ -96,7 +96,11 @@ export class AdventureListCrudComponent implements OnInit {
     }
 
     public onDeleteButtonTap() {
-        dialogs.confirm("Har du husket at slette listens indhold? Hvis ikke, gør det venligst først :-)").then((result) => {
+        dialogs.confirm({
+            title: "Husk!",
+            message: "Har du husket at slette listens indhold? Hvis ikke, gør det venligst først :-)",
+            okButtonText: "Okay"
+        }).then((result) => {
             if (result) {
                 //Extracts the filename from firebases access token
                 let array = this.adventureList.pictureURL.split('%');
