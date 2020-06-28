@@ -32,7 +32,7 @@ export class CongratulationModalComponent implements OnInit {
         this.adventureListService.changeAdventureListDiscoveredState(this.adventureList.id, { isCompleted: false })
         this.adventureListService.clearEntryDiscoveredState(this.adventureList.id);
         this.modalDialog.closeCallback();
-        this.routerExtensions.backToPreviousPage();
+        this.routerExtensions.backToPreviousPage(); // Needs both
         this.params.closeCallback();
     }
     close() {
