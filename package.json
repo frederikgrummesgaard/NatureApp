@@ -1,11 +1,11 @@
 {
     "nativescript": {
         "id": "natur.appen",
-        "tns-ios": {
-            "version": "6.4.0"
-        },
         "tns-android": {
             "version": "6.4.1"
+        },
+        "tns-ios": {
+            "version": "6.4.0"
         }
     },
     "description": "An app that encourages children and families to explore and learn about danish nature",

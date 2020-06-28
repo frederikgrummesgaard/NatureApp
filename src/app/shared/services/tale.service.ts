@@ -49,7 +49,7 @@ export class TaleService {
     getTales(CategoryId: string) {
         let date = new Date();
         return new Promise((resolve, reject) => {
-            this.taleCategories.doc(CategoryId).collection('tales').get()
+            this.taleCategories.doc(CategoryId).collection('tales').orderBy("name").get()
                 .then(querySnapshot => {
                     const tales = [];
                     querySnapshot.forEach(tale => {

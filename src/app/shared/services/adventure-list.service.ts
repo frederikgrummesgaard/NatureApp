@@ -37,7 +37,7 @@ export class AdventureListService {
     getAdventureLists() {
         let date = new Date()
         return new Promise((resolve, reject) => {
-            this.adventureLists.get()
+            this.adventureLists.orderBy("difficulty").get()
                 .then(querySnapshot => {
                     const adventureLists = [];
                     querySnapshot.forEach(adventureList => {
