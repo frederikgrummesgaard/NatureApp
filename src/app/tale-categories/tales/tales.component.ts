@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { Tale } from "~/app/shared/models/tale.model";
@@ -9,6 +9,9 @@ import { PageRoute, RouterExtensions } from "nativescript-angular/router";
 import { TaleCategory } from "~/app/shared/models/taleCategory";
 import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
 import { ListViewEventData } from "nativescript-ui-listview";
+import { SubscriptionModalComponent } from "~/app/shared/subscription-modal/subscription-modal.component";
+import { ExtendedShowModalOptions } from "nativescript-windowed-modal";
+import { ModalDialogService } from "nativescript-angular/common";
 
 @Component({
     selector: "Tales",
@@ -19,6 +22,7 @@ import { ListViewEventData } from "nativescript-ui-listview";
 export class TalesComponent implements OnInit {
     public isLoading: boolean = false;
     public isAdmin: boolean;
+    public isSubscriber: boolean;
     public tale: Tale;
     public tales: ObservableArray<Tale> = new ObservableArray<Tale>([]);
     public taleCategoryId: string;
@@ -27,11 +31,24 @@ export class TalesComponent implements OnInit {
     constructor(private userService: UserService,
         private taleService: TaleService,
         private pageRoute: PageRoute,
-        private routerExtensions: RouterExtensions) {
+        private routerExtensions: RouterExtensions,
+        private viewContainerRef: ViewContainerRef,
+        private modalService: ModalDialogService,) {
+        let date = new Date();
         if (this.userService.user) {
             this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
+            if (this.isAdmin) {
+                this.isSubscriber = true;
+                this.userService.user.subscriptionEnds.setFullYear(2040, 1, 1);
+            } else if (this.userService.user.subscriptionEnds) {
+                this.userService.user.subscriptionEnds >= date ? this.isSubscriber = true : this.isSubscriber = false;
+                if (this.userService.user.subscriptionEnds < date) {
+                    this.userService.removeSubscriber();
+                }
+            }
         } else {
             this.isAdmin = false;
+            this.isSubscriber = false;
         }
     }
 
@@ -54,12 +71,14 @@ export class TalesComponent implements OnInit {
     loadTales(categoryId: string) {
         this.taleService.getTales(categoryId).then(taleDB => {
             const myList = <any>taleDB;
-            myList.forEach((tale: Tale) => {
+            if (this.isSubscriber) {
+                myList.forEach((tale: Tale) => {
+                    this.tales.push(tale);
+                });
+            } else {
+                const tale = <any>taleDB;
                 this.tales.push(tale);
-            });
-            this.tales.sort((tale1: Tale, tale2: Tale) => {
-                return tale1.id >= tale2.id ? 1 : -1
-            })
+            }
         });
     }
 
@@ -93,5 +112,17 @@ export class TalesComponent implements OnInit {
 
     onBackButtonTap(): void {
         this.routerExtensions.backToPreviousPage();
+    }
+
+    onSubscriptionModalButtonTap(): void {
+        const options: any = {
+            context: "",
+            viewContainerRef: this.viewContainerRef,
+            closeCallback: (response: string) => console.log("Modal response: " + response),
+            fullscreen: false,
+            dimAmount: 0.3,
+            stretched: true,
+        } as ExtendedShowModalOptions;
+        this.modalService.showModal(SubscriptionModalComponent, options);
     }
 }
