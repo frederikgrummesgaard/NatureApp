@@ -1,11 +1,11 @@
 {
     "nativescript": {
         "id": "natur.appen",
-        "tns-android": {
-            "version": "6.4.1"
-        },
         "tns-ios": {
             "version": "6.4.0"
+        },
+        "tns-android": {
+            "version": "6.4.1"
         }
     },
     "description": "An app that encourages children and families to explore and learn about danish nature",
@@ -35,12 +35,11 @@
         "nativescript-mediafilepicker": "^3.0.1",
         "nativescript-ng-shadow": "^2.1.0",
         "nativescript-plugin-firebase": "^10.5.0",
-        "nativescript-purchase": "^2.0.13",
         "nativescript-toast": "^2.0.0",
         "nativescript-toasty": "^3.0.0-alpha.2",
         "nativescript-ui-listview": "8.1.0",
         "nativescript-ui-sidedrawer": "~8.0.0",
-        "nativescript-web-image-cache": "github:frederikgrummesgaard/nativescript-web-image-cache",
+        "nativescript-web-image-cache": "^5.0.0",
         "nativescript-windowed-modal": "^6.2.1",
         "reflect-metadata": "0.1.13",
         "rxjs": "^6.4.0",
@@ -59,5 +58,5 @@
     },
     "gitHead": "d8bdf0799a219051f28f8abd7c258d2bf2fce6e1",
     "readme": "A NativeScript/Angular app that provides a way for danish children to explore and learn about danish nature.",
-    "author": "Naturappen"
+    "author": "Frederik Grummesgaard"
 }

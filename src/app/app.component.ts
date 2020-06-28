@@ -8,7 +8,7 @@ import * as firebase from "nativescript-plugin-firebase";
 import { UserService } from "./shared/services/user.service";
 import { User } from "./shared/models/user.model";
 import * as utils from "tns-core-modules/utils/utils";
-import * as purchase from "nativescript-purchase";
+
 
 
 @Component({
@@ -21,10 +21,9 @@ export class AppComponent implements OnInit {
     private _sideDrawerTransition: DrawerTransitionBase;
     public user: User;
     public isAdmin: boolean;
-    public isSubscriber: boolean;
 
     constructor(private router: Router, private routerExtensions: RouterExtensions,
-        private userService: UserService,) {
+        private userService: UserService, ) {
     }
 
     ngOnInit(): void {
@@ -55,25 +54,15 @@ export class AppComponent implements OnInit {
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
-
-        (global as any).purchaseInitPromise = purchase.init([
-            "subscription3month",
-            "subscription12month",
-        ]);
     }
 
     private getUser() {
         this.isAdmin = false;
-        this.isSubscriber = false;
         firebase.getCurrentUser().then((user) => {
             if (user) {
                 user.getIdTokenResult().then((idTokenResult) => {
                     if (idTokenResult.claims.admin) {
                         this.isAdmin = true;
-                        this.isSubscriber = true;
-                    }
-                    if (idTokenResult.claims.subscriber) {
-                        this.isSubscriber = true;
                     }
                 });
                 //Retrieves the name of the user and creates a user object
@@ -83,8 +72,7 @@ export class AppComponent implements OnInit {
                         name: dbUser.data().name,
                         email: dbUser.data().email,
                         password: dbUser.data().password,
-                        isAdmin: this.isAdmin,
-                        subscriptionEnds: dbUser.data().subscriptionEnds ? dbUser.data().subscriptionEnds : null
+                        isAdmin: this.isAdmin
                     };
                     this.userService.user = this.user;
                 });

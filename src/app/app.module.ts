@@ -15,8 +15,6 @@ import { registerElement } from "nativescript-angular/element-registry";
 import * as application from "tns-core-modules/application";
 const imageCache = require("nativescript-web-image-cache");
 import { ExtendedShowModalOptions, ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal"
-import { SubscriptionModalComponent } from "./shared/subscription-modal/subscription-modal.component";
-import { NativeScriptCommonModule } from "nativescript-angular/common";
 overrideModalViewMethod();
 registerElement("ModalStack", () => ModalStack);
 registerElement("WebImage", () => require("nativescript-web-image-cache").WebImage);
@@ -34,17 +32,13 @@ require("nativescript-plugin-firebase");
     imports: [
         AppRoutingModule,
         NativeScriptModule,
-        NativeScriptCommonModule,
         NativeScriptUISideDrawerModule,
         NativeScriptUIListViewModule,
-        NgShadowModule,
-
+        NgShadowModule
     ],
     declarations: [
-        AppComponent,
-        SubscriptionModalComponent
+        AppComponent
     ],
-    entryComponents: [SubscriptionModalComponent],
     providers: [
         AdventureListService,
         TaleService,

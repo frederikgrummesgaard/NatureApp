@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy, NgZone } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from "@angular/core";
 import { Tale } from "~/app/shared/models/tale.model";
 import { TaleService } from "~/app/shared/services/tale.service";
 import { UserService } from "~/app/shared/services/user.service";
@@ -9,9 +9,6 @@ import { Router } from "@angular/router";
 import { TNSPlayer } from 'nativescript-audio';
 import { Slider } from "tns-core-modules/ui/slider/slider";
 import { DatePipe } from '@angular/common';
-import { app } from "firebase-admin";
-import { isAndroid } from "tns-core-modules/platform/platform";
-import { Toasty, ToastDuration } from "nativescript-toasty";
 
 @Component({
     selector: "Tale",
@@ -28,7 +25,7 @@ export class TaleComponent implements OnInit, OnDestroy {
     public isPlaying: boolean;
     private _player: TNSPlayer;
     public currentTime: number;
-    public duration: number = 0;
+    public duration: number;
     public displayTime: string;
     public remainingTime: string;
 
@@ -36,7 +33,6 @@ export class TaleComponent implements OnInit, OnDestroy {
         private datePipe: DatePipe,
         private taleService: TaleService,
         private pageRoute: PageRoute,
-        private ngZone: NgZone,
         private routerExtensions: RouterExtensions,
         private router: Router,
     ) {
@@ -49,62 +45,56 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.ngZone.run(() => {
-            const toast = new Toasty({ text: 'Henter lydfil...', duration: ToastDuration.LONG });
-            toast.show();
-            this.isLoading = true;
-            let urlArray = this.router.url.split('/')
-            this.taleCategoryId = urlArray[3];
-            this.pageRoute.activatedRoute
-                .pipe(switchMap((activatedRoute) => activatedRoute.params))
-                .forEach((params) => {
-                    this.taleId = params.id;
-                    this.taleService.getTale(this.taleCategoryId, this.taleId).then(
-                        (tale: Tale) => {
-                            this.tale = tale;
-                            this._player.initFromUrl({
-                                audioFile: this.tale.audioURL,
-                                loop: false,
-                                completeCallback: this._trackComplete.bind(this),
-                                errorCallback: this._trackError.bind(this)
-                            }).then(() => {
-                                this._player.getAudioTrackDuration().then((result) => {
-                                    this.duration = Math.floor(Number(result));
-                                    this.displayTime = '0:00';
-                                    this.remainingTime = this.secondsToMinuteAndSenconds(this.duration);
-                                    this.isLoading = false;
-                                }).catch((err) => console.log(err));
+        this.isLoading = true;
+        let urlArray = this.router.url.split('/')
+        this.taleCategoryId = urlArray[3];
+        this.pageRoute.activatedRoute
+            .pipe(switchMap((activatedRoute) => activatedRoute.params))
+            .forEach((params) => {
+                this.taleId = params.id;
+                this.taleService.getTale(this.taleCategoryId, this.taleId).then(
+                    (tale: Tale) => {
+                        this.tale = tale;
+                        this._player.initFromUrl({
+                            audioFile: this.tale.audioURL,
+                            loop: false,
+                            completeCallback: this._trackComplete.bind(this),
+                            errorCallback: this._trackError.bind(this)
+                        }).then(() => {
+                            this._player.getAudioTrackDuration().then((result) => {
+                                this.duration = Math.floor(Number(result));
+                                this.displayTime = '00:00';
+                                this.remainingTime = this.datePipe.transform(this.duration, 'mm:ss');
+                                this.isLoading = false;
                             })
-                        });
-                });
-        })
+                        })
+                    });
+            });
     }
 
     public ngOnDestroy(): void {
-        this._player.dispose();
+        this._player.pause();
     }
 
     public togglePlay() {
-        this.ngZone.run(() => {
-            if (this._player.isAudioPlaying()) {
-                this._player.pause();
-                this.isPlaying = false;
-            } else {
-                this._player.play().then(() => {
-                    this.isPlaying = true;
-                    timer.setInterval(() => {
-                        this.currentTime = this._player.currentTime;
-                        this.remainingTime = this.secondsToMinuteAndSenconds(this.duration - this.currentTime);
-                        this.displayTime = this.secondsToMinuteAndSenconds(this.currentTime);
-                        if (this.remainingTime === '0:00') {
-                            this._player.pause();
-                            this.isPlaying = false;
-                            this._player.seekTo(0);
-                        }
-                    }, 1000);
-                }).catch((err) => { console.log(err) });
-            }
-        })
+        if (this._player.isAudioPlaying()) {
+            this._player.pause();
+            this.isPlaying = false;
+        } else {
+            this._player.play().then(() => {
+                this.isPlaying = true;
+                timer.setInterval(() => {
+                    this.currentTime = this._player.currentTime
+                    this.remainingTime = this.datePipe.transform((this.duration - this.currentTime), 'mm:ss');
+                    this.displayTime = this.datePipe.transform(this.currentTime, 'mm:ss');
+                    if (this.remainingTime === '00:00') {
+                        this._player.pause();
+                        this.isPlaying = false;
+                        this._player.seekTo(0);
+                    }
+                }, 1000);
+            });
+        }
     }
 
     onCurrentTimeChanged(args): void {
@@ -115,10 +105,8 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     seek(moment: number): void {
-        if (isAndroid) {
-            moment = moment / 1000
-        }
-        this._player.seekTo(moment);
+        let time = moment / 1000
+        this._player.seekTo(time);
     }
 
     isSliderValueChanged(val: number): boolean {
@@ -139,7 +127,6 @@ export class TaleComponent implements OnInit, OnDestroy {
     }
 
     onBackButtonTap(): void {
-        this._player.dispose();
         this.routerExtensions.backToPreviousPage();
     }
 
@@ -156,18 +143,5 @@ export class TaleComponent implements OnInit, OnDestroy {
                     }
                 });
         }
-    }
-
-    secondsToMinuteAndSenconds(sec) {
-        if (isAndroid) {
-            sec = sec / 1000
-        }
-        sec = Number(sec);
-        var m = Math.floor(sec % 3600 / 60);
-        var s = Math.floor(sec % 3600 % 60);
-
-        var mDisplay = m > 0 ? m : "0";
-        var sDisplay = s > 0 ? (s.toString().length === 1 ? "0" + s : s) : "00";
-        return mDisplay + ":" + sDisplay;
     }
 }

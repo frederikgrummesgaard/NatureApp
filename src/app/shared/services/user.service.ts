@@ -2,11 +2,6 @@ import * as firebase from "nativescript-plugin-firebase";
 import { Injectable } from "@angular/core";
 import { getString, setString } from "tns-core-modules/application-settings";
 import { User } from "../models/user.model";
-import * as applicationSettings from "tns-core-modules/application-settings";
-import * as purchase from "nativescript-purchase";
-import { Transaction, TransactionState } from "nativescript-purchase/transaction";
-import { Product } from "nativescript-purchase/product";
-import * as dialogs from "tns-core-modules/ui/dialogs";
 
 let userToken = 'token'
 
@@ -17,8 +12,6 @@ let userToken = 'token'
 export class UserService {
 
     public user: User;
-    public duration: number;
-    public products: Product[];
 
     static isLoggedIn(): boolean {
         return !!getString("token");
@@ -77,50 +70,10 @@ export class UserService {
         });
     }
     createAdmin(email) {
-        console.log(email)
         const addAdmin = firebase.functions.httpsCallable("addAdminRole");
         addAdmin({ email: email }).then((result) => {
             console.log(result);
-            dialogs.alert({
-                title: "Tilføjet ny administrator",
-                message: email + ' er nu en administrator',
-                okButtonText: "Okay"
-            })
+            alert(email + ' er nu en administrator')
         });
-    }
-
-
-
-    createSubscriber(duration) {
-        let buyDate = new Date();
-        let email = this.user.email;
-        const addSubscriber = firebase.functions.httpsCallable("addSubscriberRole");
-        addSubscriber({ email: email }).then((result) => {
-            console.log(result);
-        }).then(() => {
-            let subscriptionEnds: Date = buyDate;
-            subscriptionEnds.setMonth(buyDate.getMonth() + duration);
-            firebase.firestore.collection('users').doc(this.user.id).update({
-                subscriptionEnds: subscriptionEnds
-            })
-            dialogs.alert({
-                title: "Tillykke!",
-                message: "Du har nu fuld adgang til Naturappen! luk venligst appen helt og åben derefter den igen, for at se ændringerne!",
-                okButtonText: "Okay"
-            })
-        });
-    }
-
-    removeSubscriber() {
-        let email = this.user.email;
-        const removeSubscriber = firebase.functions.httpsCallable("removeSubscriberRole");
-        removeSubscriber({ email: email }).then((result) => {
-            console.log(result);
-            dialogs.alert({
-                title: "Dit abonnement er udløbet",
-                message: "Køb venligst et nyt abonnement for igen at få adgang til den fulde version af Naturappen",
-                okButtonText: "Okay"
-            })
-        })
     }
 }
