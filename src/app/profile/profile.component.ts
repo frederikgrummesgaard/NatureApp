@@ -1,11 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
+import { isIOS } from "tns-core-modules/platform";
 import { RouterExtensions } from "nativescript-angular/router";
 import { UserService } from "../shared/services/user.service";
 import { FormBuilder, Validators } from "@angular/forms";
 import * as firebase from "nativescript-plugin-firebase";
 import { Toasty } from "nativescript-toasty";
+import * as purchase from "nativescript-purchase";
 
 @Component({
     selector: "Profile",
@@ -15,10 +17,12 @@ import { Toasty } from "nativescript-toasty";
 export class ProfileComponent implements OnInit {
 
     isAdmin: boolean;
+    isIOS: boolean;
 
     constructor(private routerExtensions: RouterExtensions,
         private fb: FormBuilder,
         private userService: UserService) {
+        this.isIOS = isIOS;
         if (this.userService.user.isAdmin) {
             this.isAdmin = true;
         } else {
@@ -81,6 +85,10 @@ export class ProfileComponent implements OnInit {
                 curve: "ease"
             }
         });
+    }
+
+    public restorePurchase(): void {
+        purchase.restorePurchases();
     }
 
     onDrawerButtonTap(): void {

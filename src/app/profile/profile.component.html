@@ -68,5 +68,14 @@
                 shadow="8"
                 style="background-color: white; color: black; font-size: 16px; width: 50%;"
                 (tap)="logout()"></button>
+        <button class="btn -rounded-lg m-y-20"
+                text="genopret dit køb"
+                shadow="8"
+                *ngIf="isIOS"
+                style="background-color: rgb(116,156,67); color: white; font-size: 16px; width: 50%;"
+                (tap)="restorePurchase()"></button>
+        <label class="m-t-5"
+               style="font-size: 12px; color:black;"
+               text="Tryk på denne knap, hvis du har købt appen, men ikke har adgang"></label>
     </StackLayout>
 </FlexboxLayout>
