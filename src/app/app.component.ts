@@ -57,8 +57,8 @@ export class AppComponent implements OnInit {
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
 
         (global as any).purchaseInitPromise = purchase.init([
-            "sub3month",
-            "sub12month",
+            "sub3months",
+            "sub12months",
         ]);
     }
 
