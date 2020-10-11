@@ -27,25 +27,24 @@ export class TalesComponent implements OnInit {
     public tales: ObservableArray<Tale> = new ObservableArray<Tale>([]);
     public taleCategoryId: string;
     public taleCategory: TaleCategory;
+    public date = new Date();
 
     constructor(private userService: UserService,
         private taleService: TaleService,
         private pageRoute: PageRoute,
         private routerExtensions: RouterExtensions,
         private viewContainerRef: ViewContainerRef,
-        private modalService: ModalDialogService,) {
-        let date = new Date();
+        private modalService: ModalDialogService) {
         if (this.userService.user) {
             this.userService.user.isAdmin ? this.isAdmin = true : this.isAdmin = false;
-            if (this.isAdmin) {
-                this.isSubscriber = true;
-                this.userService.user.subscriptionEnds.setFullYear(2040, 1, 1);
-            } else if (this.userService.user.subscriptionEnds) {
-                this.userService.user.subscriptionEnds >= date ? this.isSubscriber = true : this.isSubscriber = false;
-                if (this.userService.user.subscriptionEnds < date) {
-                    this.userService.removeSubscriber();
-                }
+        } if (this.userService.user.subscriptionEnds) {
+            this.userService.user.subscriptionEnds >= this.date ? this.isSubscriber = true : this.isSubscriber = false;
+            if (this.userService.user.subscriptionEnds < this.date) {
+                this.userService.removeSubscriber();
             }
+        } else if (this.isAdmin) {
+            this.isSubscriber = true;
+            this.userService.user.subscriptionEnds.setFullYear(2040, 1, 1);
         } else {
             this.isAdmin = false;
             this.isSubscriber = false;

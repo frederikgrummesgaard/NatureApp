@@ -17,12 +17,11 @@ import * as purchase from "nativescript-purchase";
 export class ProfileComponent implements OnInit {
 
     isAdmin: boolean;
-    isIOS: boolean;
+
 
     constructor(private routerExtensions: RouterExtensions,
         private fb: FormBuilder,
         private userService: UserService) {
-        this.isIOS = isIOS;
         if (this.userService.user.isAdmin) {
             this.isAdmin = true;
         } else {
@@ -85,10 +84,6 @@ export class ProfileComponent implements OnInit {
                 curve: "ease"
             }
         });
-    }
-
-    public restorePurchase(): void {
-        purchase.restorePurchases();
     }
 
     onDrawerButtonTap(): void {

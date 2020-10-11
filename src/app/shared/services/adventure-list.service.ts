@@ -48,7 +48,8 @@ export class AdventureListService {
                     if (this.userService.user.subscriptionEnds >= date) {
                         resolve(adventureLists);
                     } else {
-                        resolve(adventureLists[0]);
+                        let freeAdventureLists = [adventureLists[0], adventureLists[1]]
+                        resolve(freeAdventureLists);
                     }
                 })
                 .catch(err => {

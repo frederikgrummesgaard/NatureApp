@@ -2,10 +2,15 @@
             class="modal-container">
     <StackLayout class="modal">
         <label class="m-10"
-               style="font-size: 18px;"
+               style="font-size: 16px;"
                textWrap="true"
-               textAlignment="center"
-               text='Vælg venligst dit ønskede abonnement (skal aktivt fornyes)'></label>
+               textAlignment="center">
+            <FormattedString>
+                <Span text='Vælg venligst dit ønskede abonnement (skal aktivt fornyes).'></Span>
+                <Span class="font-weight-bold"
+                      text=" Luk venligst ikke appen, før dit køb er bekræftet"></Span>
+            </FormattedString>
+        </label>
         <Button class="btn -rounded-lg m-b-20"
                 style="background-color: rgb(116,156,67); color: white; font-size: 17px; width: 75%;"
                 text="3 måneder for 69 kr."
@@ -15,5 +20,17 @@
                 style="background-color: rgb(116,156,67); color: white; font-size: 17px; width: 75%;"
                 text="12 måneder for 199 kr."
                 (tap)="buy12MonthSubscription()"></Button>
+
+        <button class="btn -rounded-lg m-b-5"
+                text="Genopret dit køb"
+                *ngIf="isIOS"
+                style="background-color: rgb(116,156,67); color: white; font-size: 15px; width: 75%;"
+                (tap)="restorePurchase()"></button>
+        <label class="m-5"
+               textWrap="true"
+               *ngIf="isIOS"
+               textAlignment="center"
+               style="font-size: 12px; color:black;"
+               text="Tryk på denne knap, hvis du har købt appen, men ikke har adgang"></label>
     </StackLayout>
 </ModalStack>

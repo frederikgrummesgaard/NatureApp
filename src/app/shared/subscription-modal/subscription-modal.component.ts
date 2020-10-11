@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { UserService } from "~/app/shared/services/user.service";
 import { ModalDialogParams } from "nativescript-angular/common";
-import { RouterExtensions } from "nativescript-angular/router";
+import { isIOS } from "tns-core-modules/platform";
 import { Product } from "nativescript-purchase/product";
 import * as applicationSettings from "tns-core-modules/application-settings";
 import * as purchase from "nativescript-purchase";
@@ -17,10 +17,12 @@ export class SubscriptionModalComponent implements OnInit {
 
     public products: Product[];
     public duration: number;
+    public isIOS: boolean;
 
     constructor(private userService: UserService,
-        private routerExtensions: RouterExtensions,
-        private params: ModalDialogParams) { }
+        private params: ModalDialogParams) {
+        this.isIOS = isIOS;
+    }
 
     ngOnInit(): void {
         let isCalled = false;

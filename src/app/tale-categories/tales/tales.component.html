@@ -7,17 +7,16 @@
     <ActionItem android:visibility="collapsed"
                 (tap)="onBackButtonTap()"
                 ios.position="left">
-                <Label
-                text="&#xf060;"
-                class="nt-icon fas"
-                style="font-size: 20;"
-                >
-              </Label>
+        <Label text="&#xf060;"
+               class="nt-icon fas"
+               style="font-size: 20;">
+        </Label>
     </ActionItem>
     <Label class="h2"
            style="color: white;"
            text="{{taleCategory?.name}}"></Label>
-    <ActionItem *ngIf="isAdmin" ios.position="right">
+    <ActionItem *ngIf="isAdmin"
+                ios.position="right">
         <Label text="&#xf0fe;"
                class="nt-icon far p-r-20"
                style="font-size: 20;"
@@ -39,10 +38,10 @@
                                   stretch="aspectFill"
                                   height="180"
                                   placeholder="~/assets/logo-placeholder.png"></WebImage>
-                        <StackLayout class="item-text" verticalAlignment="middle">
+                        <StackLayout class="item-text"
+                                     verticalAlignment="middle">
                             <Label [text]="tale.name"
-                                   horizontalAlignment="center"
-                                   ></Label>
+                                   horizontalAlignment="center"></Label>
                         </StackLayout>
                     </GridLayout>
                     <label style="background: linear-gradient(rgba(44, 43, 43, 0.4), transparent);
@@ -52,13 +51,13 @@
             </ng-template>
         </StackLayout>
     </RadListView>
-    <StackLayout style="background-color: rgb(97,125,64);"
-             *ngIf="!isSubscriber"
-             verticalAlignment="bottom">
-    <button class="btn -rounded-lg"
-            shadow="8"
-            text="OPGRADER TIL FULD VERSION"
-            style="background-color: rgb(116,156,67); color: white; font-size: 18px; width: 75%; margin-top: 250px;"
-            (tap)="onSubscriptionModalButtonTap()"></button>
-</StackLayout>
+    <StackLayout style="background-color:#ffffff;"
+                 *ngIf="!isSubscriber"
+                 verticalAlignment="bottom">
+        <button class="btn -rounded-lg m-b-20"
+                shadow="8"
+                text="OPGRADER TIL FULD VERSION"
+                style="background-color: rgb(116,156,67); color: white; font-size: 18px; width: 75%; margin-top: 175px;"
+                (tap)="onSubscriptionModalButtonTap()"></button>
+    </StackLayout>
 </FlexboxLayout>
