@@ -52,7 +52,7 @@
         "@ngtools/webpack": "^9.1.0",
         "codelyzer": "5.2.1",
         "nativescript-dev-webpack": "^1.5.1",
-        "node-sass": "^4.14.1",
+        "node-sass": "^7.0.0",
         "tslint": "6.0.0",
         "typescript": "~3.5.3",
         "webpack-node-externals": "^1.7.2"
